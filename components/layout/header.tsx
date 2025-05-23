@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { useMobile } from "@/components/hooks/use-mobile"
+import { useMobile } from "@/hooks/useMobile"
 
 export function Header() {
   const isMobile = useMobile()

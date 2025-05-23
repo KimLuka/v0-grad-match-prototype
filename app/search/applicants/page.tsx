@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ApplicantCard } from "@/components/page/applicant-card"
-import { ApplicantFilters } from "@/components/page/applicant-filters"
+import { ApplicantCard } from "@/components/domain/applicant/applicant-card"
+import { ApplicantFilters } from "@/components/domain/applicant/applicant-filters"
 
 export default function ApplicantSearchPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
