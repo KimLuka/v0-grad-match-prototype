@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ApplicantCard } from "@/components/applicant-card"
-import { ApplicantFilters } from "@/components/applicant-filters"
+import { ApplicantCard } from "@/components/page/applicant-card"
+import { ApplicantFilters } from "@/components/page/applicant-filters"
 
 export default function ApplicantSearchPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
@@ -17,18 +17,15 @@ export default function ApplicantSearchPage() {
       <div className="container max-w-7xl mx-auto px-6 py-8">
         <div className="flex flex-col space-y-6">
           <div className="flex flex-col space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">Applicant Pool</h1>
-            <p className="text-muted-foreground">Browse potential graduate students for your programs</p>
-            <div className="text-sm text-red-500 mt-2">
-              Note: This section is only accessible to verified professors
-            </div>
+            <h1 className="text-3xl font-bold tracking-tight">지원자 풀</h1>
+            <p className="text-muted-foreground">한국 대학원 프로그램에 관심 있는 우수한 지원자들을 만나보세요</p>
           </div>
 
           {/* Filter Toggle Button */}
           <div className="relative">
             <Button variant="outline" className="w-fit" onClick={() => setIsFilterOpen(!isFilterOpen)}>
               <Filter className="mr-2 h-4 w-4" />
-              Filters
+              필터
             </Button>
 
             {/* Filter Modal Overlay */}
@@ -39,7 +36,7 @@ export default function ApplicantSearchPage() {
                   <Card className="shadow-lg border">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold">Filters</h3>
+                        <h3 className="text-lg font-semibold">필터</h3>
                         <Button variant="ghost" size="icon" onClick={() => setIsFilterOpen(false)}>
                           <X className="h-4 w-4" />
                         </Button>
@@ -56,14 +53,14 @@ export default function ApplicantSearchPage() {
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-white p-4 rounded-lg border">
             <div className="relative flex-1 max-w-2xl">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search by name, field, or nationality..." className="pl-10 w-full" />
+              <Input placeholder="이름, 국적, 관심분야로 검색..." className="pl-10 w-full" />
             </div>
             <div className="flex items-center gap-3">
               <Tabs defaultValue="recommended" className="w-auto">
                 <TabsList>
-                  <TabsTrigger value="recommended">Recommended</TabsTrigger>
-                  <TabsTrigger value="popular">Popular</TabsTrigger>
-                  <TabsTrigger value="latest">Latest</TabsTrigger>
+                  <TabsTrigger value="recommended">추천</TabsTrigger>
+                  <TabsTrigger value="popular">인기</TabsTrigger>
+                  <TabsTrigger value="latest">최신</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
@@ -72,76 +69,52 @@ export default function ApplicantSearchPage() {
           {/* Results Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             <ApplicantCard
-              name="Sarah Johnson"
-              nationality="United States"
-              desiredDegree="Ph.D."
-              topikLevel="Level 3"
-              interests={["Artificial Intelligence", "Machine Learning"]}
-              education="M.S. in Computer Science, University of Washington"
+              name="김지민"
+              nationality="미국"
+              desiredDegree="박사과정"
+              topikLevel="5급"
+              interests={["인공지능", "머신러닝", "컴퓨터 비전"]}
+              education="MIT 컴퓨터공학 학사"
             />
             <ApplicantCard
-              name="Ahmed Hassan"
-              nationality="Egypt"
-              desiredDegree="Ph.D."
-              topikLevel="Level 2"
-              interests={["Robotics", "Computer Vision"]}
-              education="M.S. in Electrical Engineering, Cairo University"
+              name="리웨이"
+              nationality="중국"
+              desiredDegree="석사과정"
+              topikLevel="4급"
+              interests={["경영전략", "마케팅", "국제경영"]}
+              education="베이징대학교 경영학 학사"
             />
             <ApplicantCard
-              name="Maria Rodriguez"
-              nationality="Spain"
-              desiredDegree="Master's"
-              topikLevel="Level 4"
-              interests={["International Relations", "East Asian Studies"]}
-              education="B.A. in Political Science, University of Barcelona"
+              name="존 스미스"
+              nationality="영국"
+              desiredDegree="박사과정"
+              topikLevel="3급"
+              interests={["생명공학", "분자생물학", "유전학"]}
+              education="옥스포드 대학교 생물학 학사"
             />
             <ApplicantCard
-              name="Li Wei"
-              nationality="China"
-              desiredDegree="Ph.D."
-              topikLevel="Level 5"
-              interests={["Biochemistry", "Molecular Biology"]}
-              education="M.S. in Biochemistry, Peking University"
+              name="다나카 히로시"
+              nationality="일본"
+              desiredDegree="석사과정"
+              topikLevel="6급"
+              interests={["로봇공학", "자동화", "제어시스템"]}
+              education="도쿄대학교 기계공학 학사"
             />
             <ApplicantCard
-              name="Raj Patel"
-              nationality="India"
-              desiredDegree="Master's"
-              topikLevel="Level 2"
-              interests={["Business Administration", "Finance"]}
-              education="B.Com in Commerce, University of Delhi"
+              name="응우옌 티 란"
+              nationality="베트남"
+              desiredDegree="박사과정"
+              topikLevel="4급"
+              interests={["국제관계", "동아시아학", "정치학"]}
+              education="하노이국립대학교 정치학 학사"
             />
             <ApplicantCard
-              name="Olga Ivanova"
-              nationality="Russia"
-              desiredDegree="Ph.D."
-              topikLevel="Level 3"
-              interests={["Linguistics", "Korean Language"]}
-              education="M.A. in Linguistics, Moscow State University"
-            />
-            <ApplicantCard
-              name="John Smith"
-              nationality="Canada"
-              desiredDegree="Master's"
-              topikLevel="Level 1"
-              interests={["Environmental Science", "Sustainability"]}
-              education="B.S. in Environmental Science, University of Toronto"
-            />
-            <ApplicantCard
-              name="Fatima Al-Farsi"
-              nationality="Saudi Arabia"
-              desiredDegree="Ph.D."
-              topikLevel="Level 3"
-              interests={["Chemical Engineering", "Materials Science"]}
-              education="M.S. in Chemical Engineering, King Saud University"
-            />
-            <ApplicantCard
-              name="Chen Ming"
-              nationality="Taiwan"
-              desiredDegree="Ph.D."
-              topikLevel="Level 4"
-              interests={["Physics", "Quantum Computing"]}
-              education="M.S. in Physics, National Taiwan University"
+              name="마리아 가르시아"
+              nationality="스페인"
+              desiredDegree="석사과정"
+              topikLevel="3급"
+              interests={["화학공학", "나노소재", "에너지"]}
+              education="마드리드 공과대학교 화학공학 학사"
             />
           </div>
 
@@ -163,7 +136,7 @@ export default function ApplicantSearchPage() {
                 >
                   <path d="m15 18-6-6 6-6" />
                 </svg>
-                <span className="sr-only">Previous page</span>
+                <span className="sr-only">이전 페이지</span>
               </Button>
               <Button variant="outline" size="sm" className="font-medium">
                 1
@@ -195,7 +168,7 @@ export default function ApplicantSearchPage() {
                 >
                   <path d="m9 18 6-6-6-6" />
                 </svg>
-                <span className="sr-only">Next page</span>
+                <span className="sr-only">다음 페이지</span>
               </Button>
             </nav>
           </div>

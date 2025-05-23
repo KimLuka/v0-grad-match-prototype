@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { useMobile } from "@/hooks/use-mobile"
+import { useMobile } from "@/components/hooks/use-mobile"
 
 export function Header() {
   const isMobile = useMobile()
@@ -27,15 +27,15 @@ export function Header() {
         <div className="flex items-center gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <GraduationCapIcon className="h-6 w-6" />
-            <span className="font-bold inline-block">Grad Match</span>
+            <span className="font-bold inline-block">대학원 매칭</span>
           </Link>
           {!isMobile && (
             <nav className="flex gap-6">
               <Link href="/search/recruitments" className="text-sm font-medium transition-colors hover:text-primary">
-                Recruitments
+                모집공고
               </Link>
               <Link href="/search/applicants" className="text-sm font-medium transition-colors hover:text-primary">
-                Applicant Pool
+                지원자 풀
               </Link>
             </nav>
           )}
@@ -45,32 +45,32 @@ export function Header() {
             <>
               <Button variant="outline" size="icon">
                 <Bell className="h-4 w-4" />
-                <span className="sr-only">Notifications</span>
+                <span className="sr-only">알림</span>
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="icon">
                     <User className="h-4 w-4" />
-                    <span className="sr-only">User menu</span>
+                    <span className="sr-only">사용자 메뉴</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuLabel>내 계정</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href="/profile">Profile</Link>
+                    <Link href="/profile">프로필</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/applications">Applications</Link>
+                    <Link href="/applications">지원현황</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/saved">Saved</Link>
+                    <Link href="/saved">저장됨</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/settings">Settings</Link>
+                    <Link href="/settings">설정</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Log out</DropdownMenuItem>
+                  <DropdownMenuItem>로그아웃</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </>
@@ -78,11 +78,11 @@ export function Header() {
             <>
               {!isMobile && (
                 <Button variant="outline" asChild>
-                  <Link href="/auth/login">Log in</Link>
+                  <Link href="/auth/login">로그인</Link>
                 </Button>
               )}
               <Button asChild>
-                <Link href="/auth/register">Sign up</Link>
+                <Link href="/auth/register">회원가입</Link>
               </Button>
             </>
           )}
@@ -92,7 +92,7 @@ export function Header() {
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
                   <Menu className="h-4 w-4" />
-                  <span className="sr-only">Toggle menu</span>
+                  <span className="sr-only">메뉴 토글</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
@@ -103,40 +103,40 @@ export function Header() {
                     onClick={() => document.body.classList.remove("overflow-hidden")}
                   >
                     <GraduationCapIcon className="h-6 w-6" />
-                    <span className="font-bold">Grad Match</span>
+                    <span className="font-bold">대학원 매칭</span>
                   </Link>
                   <div className="grid gap-2">
                     <Link href="/search/recruitments" className="flex w-full items-center py-2 text-lg font-semibold">
-                      Recruitments
+                      모집공고
                     </Link>
                     <Link href="/search/applicants" className="flex w-full items-center py-2 text-lg font-semibold">
-                      Applicant Pool
+                      지원자 풀
                     </Link>
                   </div>
                   {!isLoggedIn ? (
                     <div className="grid gap-2">
                       <Button asChild variant="outline">
-                        <Link href="/auth/login">Log in</Link>
+                        <Link href="/auth/login">로그인</Link>
                       </Button>
                       <Button asChild>
-                        <Link href="/auth/register">Sign up</Link>
+                        <Link href="/auth/register">회원가입</Link>
                       </Button>
                     </div>
                   ) : (
                     <div className="grid gap-2">
                       <Link href="/profile" className="flex w-full items-center py-2 text-lg font-semibold">
-                        Profile
+                        프로필
                       </Link>
                       <Link href="/applications" className="flex w-full items-center py-2 text-lg font-semibold">
-                        Applications
+                        지원현황
                       </Link>
                       <Link href="/saved" className="flex w-full items-center py-2 text-lg font-semibold">
-                        Saved
+                        저장됨
                       </Link>
                       <Link href="/settings" className="flex w-full items-center py-2 text-lg font-semibold">
-                        Settings
+                        설정
                       </Link>
-                      <Button variant="outline">Log out</Button>
+                      <Button variant="outline">로그아웃</Button>
                     </div>
                   )}
                 </div>

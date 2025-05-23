@@ -45,69 +45,69 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
   // Mock applicant data
   const applicant = {
     id: params.id,
-    name: "Sarah Johnson",
-    nationality: "United States",
+    name: "김사라",
+    nationality: "미국",
     birthYear: "1998",
-    email: "sarah.johnson@example.com",
-    topikLevel: "Level 3",
+    email: "sarah.kim@example.com",
+    topikLevel: "3급",
     stAlliance: true,
-    desiredDegree: "Ph.D.",
-    interests: ["Artificial Intelligence", "Machine Learning", "Computer Vision"],
+    desiredDegree: "박사과정",
+    interests: ["인공지능", "머신러닝", "컴퓨터 비전"],
     introduction:
-      "I am a computer science graduate with a strong interest in artificial intelligence and machine learning. I am seeking to pursue a Ph.D. in Computer Science at a Korean university to further my research in these areas.",
+      "저는 인공지능과 머신러닝에 강한 관심을 가진 컴퓨터공학 졸업생입니다. 한국 대학교에서 컴퓨터공학 박사과정을 통해 이 분야의 연구를 더욱 발전시키고자 합니다.",
     studyPlan:
-      "My research plan focuses on developing novel deep learning architectures for computer vision applications, particularly in the areas of object detection and image segmentation. I am interested in exploring how these techniques can be applied to real-world problems such as medical imaging and autonomous driving.",
+      "제 연구 계획은 컴퓨터 비전 응용을 위한 새로운 딥러닝 아키텍처 개발에 중점을 두고 있으며, 특히 객체 탐지와 이미지 분할 분야에 관심이 있습니다. 이러한 기술들이 의료 영상과 자율주행과 같은 실제 문제에 어떻게 적용될 수 있는지 탐구하고 싶습니다.",
     education: [
       {
-        degree: "Master of Science in Computer Science",
-        institution: "University of Washington",
+        degree: "컴퓨터공학 석사",
+        institution: "워싱턴 대학교",
         year: "2020-2022",
         gpa: "3.8/4.0",
       },
       {
-        degree: "Bachelor of Science in Computer Science",
-        institution: "University of Oregon",
+        degree: "컴퓨터공학 학사",
+        institution: "오레곤 대학교",
         year: "2016-2020",
         gpa: "3.7/4.0",
       },
     ],
     experience: [
       {
-        title: "Research Assistant",
-        company: "University of Washington AI Lab",
+        title: "연구조교",
+        company: "워싱턴 대학교 AI 연구실",
         year: "2021-2022",
-        description: "Conducted research on deep learning models for computer vision applications.",
+        description: "컴퓨터 비전 응용을 위한 딥러닝 모델 연구를 수행했습니다.",
       },
       {
-        title: "Software Engineering Intern",
-        company: "Tech Solutions Inc.",
+        title: "소프트웨어 엔지니어 인턴",
+        company: "테크솔루션즈",
         year: "2020",
-        description: "Developed and maintained web applications using React and Node.js.",
+        description: "React와 Node.js를 사용하여 웹 애플리케이션을 개발하고 유지보수했습니다.",
       },
     ],
     publications: [
       {
-        title: "A Novel Approach to Image Recognition Using Deep Learning",
-        journal: "International Journal of Computer Vision",
+        title: "딥러닝을 이용한 이미지 인식의 새로운 접근법",
+        journal: "국제 컴퓨터 비전 저널",
         year: "2022",
       },
     ],
     projects: [
       {
-        title: "Automated Image Classification System",
-        description: "Developed a system that automatically classifies images using deep learning techniques.",
+        title: "자동 이미지 분류 시스템",
+        description: "딥러닝 기법을 사용하여 이미지를 자동으로 분류하는 시스템을 개발했습니다.",
         year: "2021",
       },
       {
-        title: "Natural Language Processing Toolkit",
-        description: "Created a toolkit for processing and analyzing natural language data.",
+        title: "자연어 처리 툴킷",
+        description: "자연어 데이터를 처리하고 분석하기 위한 툴킷을 제작했습니다.",
         year: "2020",
       },
     ],
     documents: [
-      { name: "Resume_Sarah_Johnson.pdf", type: "Resume", uploadDate: "2023-10-15" },
-      { name: "Research_Proposal_AI.pdf", type: "Research Proposal", uploadDate: "2023-10-20" },
-      { name: "TOPIK_Certificate.pdf", type: "Certificate", uploadDate: "2023-09-05" },
+      { name: "이력서_김사라.pdf", type: "이력서", uploadDate: "2023-10-15" },
+      { name: "연구계획서_AI.pdf", type: "연구계획서", uploadDate: "2023-10-20" },
+      { name: "TOPIK_증명서.pdf", type: "증명서", uploadDate: "2023-09-05" },
     ],
   }
 
@@ -123,35 +123,34 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
       <Dialog open={showAuthModal} onOpenChange={setShowAuthModal}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Professor Verification Required</DialogTitle>
+            <DialogTitle>교수 인증 필요</DialogTitle>
             <DialogDescription>
-              Access to applicant profiles is restricted to verified university professors. Please provide your
-              verification details.
+              지원자 프로필은 인증된 대학 교수만 접근할 수 있습니다. 인증 정보를 입력해주세요.
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleAuthSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="university">University</Label>
-              <Input id="university" placeholder="Enter your university" required />
+              <Label htmlFor="university">대학교</Label>
+              <Input id="university" placeholder="소속 대학교를 입력하세요" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="department">Department</Label>
-              <Input id="department" placeholder="Enter your department" required />
+              <Label htmlFor="department">학과</Label>
+              <Input id="department" placeholder="소속 학과를 입력하세요" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="employee-id">Employee ID</Label>
-              <Input id="employee-id" placeholder="Enter your employee ID" required />
+              <Label htmlFor="employee-id">교직원 ID</Label>
+              <Input id="employee-id" placeholder="교직원 ID를 입력하세요" required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="verification-code">Verification Code</Label>
-              <Input id="verification-code" placeholder="Enter verification code" required />
+              <Label htmlFor="verification-code">인증 코드</Label>
+              <Input id="verification-code" placeholder="인증 코드를 입력하세요" required />
             </div>
             <div className="flex gap-2">
               <Button type="submit" className="flex-1">
-                Verify & Access
+                인증 및 접근
               </Button>
               <Button type="button" variant="outline" onClick={() => setShowAuthModal(false)}>
-                Cancel
+                취소
               </Button>
             </div>
           </form>
@@ -168,7 +167,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
             <Button variant="ghost" size="icon" asChild>
               <Link href="/search/applicants">
                 <ArrowLeft className="h-4 w-4" />
-                <span className="sr-only">Back</span>
+                <span className="sr-only">뒤로</span>
               </Link>
             </Button>
             <div>
@@ -202,7 +201,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                           </div>
                           <div className="flex items-center">
                             <Calendar className="mr-1 h-4 w-4" />
-                            <span>Born {applicant.birthYear}</span>
+                            <span>{applicant.birthYear}년생</span>
                           </div>
                           <div className="flex items-center">
                             <Mail className="mr-1 h-4 w-4" />
@@ -213,17 +212,17 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                       <div className="flex flex-wrap gap-2">
                         <Badge variant="secondary">{applicant.desiredDegree}</Badge>
                         <Badge variant="outline">TOPIK {applicant.topikLevel}</Badge>
-                        {applicant.stAlliance && <Badge className="bg-blue-500">ST Alliance</Badge>}
+                        {applicant.stAlliance && <Badge className="bg-blue-500">ST 얼라이언스</Badge>}
                       </div>
                     </div>
                     <div className="flex space-x-2">
                       <Button variant="outline" size="icon">
                         <Heart className="h-4 w-4" />
-                        <span className="sr-only">Save</span>
+                        <span className="sr-only">저장</span>
                       </Button>
                       <Button variant="outline" size="icon">
                         <Share2 className="h-4 w-4" />
-                        <span className="sr-only">Share</span>
+                        <span className="sr-only">공유</span>
                       </Button>
                     </div>
                   </div>
@@ -236,7 +235,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Introduction */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Introduction</CardTitle>
+                  <CardTitle>소개</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{applicant.introduction}</p>
@@ -246,7 +245,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Study Plan */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Study Plan</CardTitle>
+                  <CardTitle>학업 계획</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{applicant.studyPlan}</p>
@@ -256,7 +255,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Research Interests */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Research Interests</CardTitle>
+                  <CardTitle>연구 관심 분야</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2">
@@ -272,7 +271,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Education */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Education</CardTitle>
+                  <CardTitle>학력</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -304,7 +303,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Experience */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Work Experience</CardTitle>
+                  <CardTitle>경력</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -334,7 +333,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Publications */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Publications</CardTitle>
+                  <CardTitle>논문</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -363,7 +362,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Projects */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Projects</CardTitle>
+                  <CardTitle>프로젝트</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -392,13 +391,13 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Contact */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Contact</CardTitle>
+                  <CardTitle className="text-lg">연락처</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Button className="w-full" asChild>
                     <Link href={`mailto:${applicant.email}`}>
                       <Mail className="mr-2 h-4 w-4" />
-                      Send Message
+                      메시지 보내기
                     </Link>
                   </Button>
                 </CardContent>
@@ -407,7 +406,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Documents */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Documents</CardTitle>
+                  <CardTitle className="text-lg">서류</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {applicant.documents.map((doc, index) => (
@@ -417,7 +416,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                         <div>
                           <p className="text-sm font-medium">{doc.type}</p>
                           <p className="text-xs text-muted-foreground">
-                            Uploaded {new Date(doc.uploadDate).toLocaleDateString()}
+                            {new Date(doc.uploadDate).toLocaleDateString("ko-KR")}에 업로드됨
                           </p>
                         </div>
                       </div>
@@ -432,27 +431,27 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
               {/* Quick Stats */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Quick Stats</CardTitle>
+                  <CardTitle className="text-lg">요약 정보</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Desired Degree</span>
+                    <span className="text-sm text-muted-foreground">희망 학위</span>
                     <span className="text-sm font-medium">{applicant.desiredDegree}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">TOPIK Level</span>
+                    <span className="text-sm text-muted-foreground">토픽 레벨</span>
                     <span className="text-sm font-medium">{applicant.topikLevel}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">ST Alliance</span>
-                    <span className="text-sm font-medium">{applicant.stAlliance ? "Yes" : "No"}</span>
+                    <span className="text-sm text-muted-foreground">ST 얼라이언스</span>
+                    <span className="text-sm font-medium">{applicant.stAlliance ? "예" : "아니오"}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Publications</span>
+                    <span className="text-sm text-muted-foreground">논문</span>
                     <span className="text-sm font-medium">{applicant.publications.length}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Projects</span>
+                    <span className="text-sm text-muted-foreground">프로젝트</span>
                     <span className="text-sm font-medium">{applicant.projects.length}</span>
                   </div>
                 </CardContent>

@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { RecruitmentCard } from "@/components/recruitment-card"
-import { SearchFilters } from "@/components/search-filters"
+import { RecruitmentCard } from "@/components/page/recruitment-card"
+import { SearchFilters } from "@/components/page/search-filters"
 
 export default function RecruitmentSearchPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
@@ -17,15 +17,15 @@ export default function RecruitmentSearchPage() {
       <div className="container max-w-7xl mx-auto px-6 py-8">
         <div className="flex flex-col space-y-6">
           <div className="flex flex-col space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">Recruitment Posts</h1>
-            <p className="text-muted-foreground">Browse graduate program recruitment posts from Korean universities</p>
+            <h1 className="text-3xl font-bold tracking-tight">모집공고</h1>
+            <p className="text-muted-foreground">한국 대학교의 대학원 프로그램 모집공고를 둘러보세요</p>
           </div>
 
           {/* Filter Toggle Button */}
           <div className="relative">
             <Button variant="outline" className="w-fit" onClick={() => setIsFilterOpen(!isFilterOpen)}>
               <Filter className="mr-2 h-4 w-4" />
-              Filters
+              필터
             </Button>
 
             {/* Filter Modal Overlay */}
@@ -36,7 +36,7 @@ export default function RecruitmentSearchPage() {
                   <Card className="shadow-lg border">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-semibold">Filters</h3>
+                        <h3 className="text-lg font-semibold">필터</h3>
                         <Button variant="ghost" size="icon" onClick={() => setIsFilterOpen(false)}>
                           <X className="h-4 w-4" />
                         </Button>
@@ -53,14 +53,14 @@ export default function RecruitmentSearchPage() {
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-white p-4 rounded-lg border">
             <div className="relative flex-1 max-w-2xl">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search by university, professor, or field..." className="pl-10 w-full" />
+              <Input placeholder="연구실, 교수, 분야로 검색..." className="pl-10 w-full" />
             </div>
             <div className="flex items-center gap-3">
               <Tabs defaultValue="recommended" className="w-auto">
                 <TabsList>
-                  <TabsTrigger value="recommended">Recommended</TabsTrigger>
-                  <TabsTrigger value="popular">Popular</TabsTrigger>
-                  <TabsTrigger value="latest">Latest</TabsTrigger>
+                  <TabsTrigger value="recommended">추천</TabsTrigger>
+                  <TabsTrigger value="popular">인기</TabsTrigger>
+                  <TabsTrigger value="latest">최신</TabsTrigger>
                 </TabsList>
               </Tabs>
             </div>
@@ -69,76 +69,76 @@ export default function RecruitmentSearchPage() {
           {/* Results Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             <RecruitmentCard
-              university="Seoul National University"
-              department="Computer Science"
-              professor="Dr. Kim Minho"
+              lab="인공지능 연구실"
+              university="서울대학교"
+              professor="김민호 교수"
               deadline="2023-12-31"
               scholarshipAvailable={true}
-              fieldOfStudy="Engineering"
+              fieldOfStudy="공학"
             />
             <RecruitmentCard
-              university="Korea University"
-              department="Business Administration"
-              professor="Dr. Park Jiwon"
+              lab="경영전략 연구실"
+              university="고려대학교"
+              professor="박지원 교수"
               deadline="2023-11-30"
               scholarshipAvailable={true}
-              fieldOfStudy="Business"
+              fieldOfStudy="경영학"
             />
             <RecruitmentCard
+              lab="머신러닝 연구실"
               university="KAIST"
-              department="Artificial Intelligence"
-              professor="Dr. Lee Sunghoon"
+              professor="이성훈 교수"
               deadline="2023-12-15"
               scholarshipAvailable={true}
-              fieldOfStudy="Engineering"
+              fieldOfStudy="공학"
             />
             <RecruitmentCard
-              university="Yonsei University"
-              department="International Studies"
-              professor="Dr. Choi Jiyoung"
+              lab="국제관계 연구실"
+              university="연세대학교"
+              professor="최지영 교수"
               deadline="2023-11-15"
               scholarshipAvailable={true}
-              fieldOfStudy="Social Sciences"
+              fieldOfStudy="사회과학"
             />
             <RecruitmentCard
+              lab="로봇공학 연구실"
               university="POSTECH"
-              department="Mechanical Engineering"
-              professor="Dr. Kang Hyunjin"
+              professor="강현진 교수"
               deadline="2023-12-01"
               scholarshipAvailable={false}
-              fieldOfStudy="Engineering"
+              fieldOfStudy="공학"
             />
             <RecruitmentCard
-              university="Hanyang University"
-              department="Biomedical Engineering"
-              professor="Dr. Jung Minseo"
+              lab="바이오메디컬 연구실"
+              university="한양대학교"
+              professor="정민서 교수"
               deadline="2023-12-10"
               scholarshipAvailable={true}
-              fieldOfStudy="Life Sciences"
+              fieldOfStudy="생명과학"
             />
             <RecruitmentCard
-              university="Seoul National University"
-              department="Economics"
-              professor="Dr. Lee Jihoon"
+              lab="계량경제학 연구실"
+              university="서울대학교"
+              professor="이지훈 교수"
               deadline="2023-12-20"
               scholarshipAvailable={true}
-              fieldOfStudy="Social Sciences"
+              fieldOfStudy="사회과학"
             />
             <RecruitmentCard
-              university="Korea University"
-              department="Chemistry"
-              professor="Dr. Kim Soomin"
+              lab="유기화학 연구실"
+              university="고려대학교"
+              professor="김수민 교수"
               deadline="2023-11-25"
               scholarshipAvailable={false}
-              fieldOfStudy="Natural Sciences"
+              fieldOfStudy="자연과학"
             />
             <RecruitmentCard
-              university="Sungkyunkwan University"
-              department="Materials Science"
-              professor="Dr. Park Hyesung"
+              lab="나노소재 연구실"
+              university="성균관대학교"
+              professor="박혜성 교수"
               deadline="2023-12-05"
               scholarshipAvailable={true}
-              fieldOfStudy="Engineering"
+              fieldOfStudy="공학"
             />
           </div>
 
@@ -160,7 +160,7 @@ export default function RecruitmentSearchPage() {
                 >
                   <path d="m15 18-6-6 6-6" />
                 </svg>
-                <span className="sr-only">Previous page</span>
+                <span className="sr-only">이전 페이지</span>
               </Button>
               <Button variant="outline" size="sm" className="font-medium">
                 1
@@ -192,7 +192,7 @@ export default function RecruitmentSearchPage() {
                 >
                   <path d="m9 18 6-6-6-6" />
                 </svg>
-                <span className="sr-only">Next page</span>
+                <span className="sr-only">다음 페이지</span>
               </Button>
             </nav>
           </div>
