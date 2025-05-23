@@ -16,6 +16,8 @@ export default [
       'public',
       'assets',
       '*.config.js',
+      '*.config.ts',
+      '*.config.mjs',
       '.next',
       'build',
       'node_modules',
@@ -27,12 +29,12 @@ export default [
     files: ['**/*.{js,jsx,ts,tsx}'],
     plugins: {
       '@typescript-eslint': typescript,
-      'react': react,
+      react: react,
       'react-hooks': reactHooks,
       'unused-imports': unusedImports,
       'simple-import-sort': simpleImportSort,
-      'import': importPlugin,
-      'prettier': prettier,
+      import: importPlugin,
+      prettier: prettier,
     },
     languageOptions: {
       parser: typescriptParser,
@@ -55,7 +57,7 @@ export default [
       'no-var': 'error', // var 금지
       'no-multiple-empty-lines': 'error', // 여러 줄 공백 금지
       'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
-      'eqeqeq': 'error', // 일치 연산자 강제
+      eqeqeq: 'error', // 일치 연산자 강제
       'dot-notation': 'warn', // 점 표기법 강제
       'no-unused-vars': 'off', // 사용되지 않는 변수 금지
       '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '_' }], // 사용되지 않는 변수 금지 (변수명 앞에 _ 붙이면 무시)
@@ -78,4 +80,4 @@ export default [
       'prettier/prettier': 'error',
     },
   },
-] 
+]
