@@ -1,7 +1,5 @@
-"use client"
+'use client'
 
-import { useEffect } from "react"
-import Link from "next/link"
 import {
   ArrowLeft,
   BookOpen,
@@ -16,12 +14,15 @@ import {
   MapPin,
   Share2,
   Users,
-} from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+} from 'lucide-react'
+import Link from 'next/link'
+import { useEffect } from 'react'
+
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function RecruitmentDetailPage({ params }: { params: { id: string } }) {
   // Scroll to top when component mounts
@@ -33,88 +34,92 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
   // For this example, we'll use mock data
   const recruitment = {
     id: params.id,
-    lab: "인공지능 연구실",
-    university: "서울대학교",
-    professor: "김민호 교수",
-    deadline: "2023-12-31",
+    lab: '인공지능 연구실',
+    university: '서울대학교',
+    professor: '김민호 교수',
+    deadline: '2023-12-31',
     scholarshipAvailable: true,
-    fieldOfStudy: "공학",
+    fieldOfStudy: '공학',
     description:
-      "서울대학교 인공지능 연구실에서는 다가오는 학년도에 의욕적인 대학원생을 모집합니다. 저희 연구실은 인공지능, 머신러닝, 컴퓨터 비전 등 최첨단 연구 기회를 제공합니다.",
+      '서울대학교 인공지능 연구실에서는 다가오는 학년도에 의욕적인 대학원생을 모집합니다. 저희 연구실은 인공지능, 머신러닝, 컴퓨터 비전 등 최첨단 연구 기회를 제공합니다.',
     requirements: [
-      "컴퓨터공학 또는 관련 분야 학사 학위",
-      "강한 프로그래밍 능력 (Python, Java, C++)",
-      "GPA 3.5 이상",
-      "TOPIK 3급 이상 (우대)",
-      "연구 경험 (우대)",
+      '컴퓨터공학 또는 관련 분야 학사 학위',
+      '강한 프로그래밍 능력 (Python, Java, C++)',
+      'GPA 3.5 이상',
+      'TOPIK 3급 이상 (우대)',
+      '연구 경험 (우대)',
     ],
     benefits: [
-      "자격을 갖춘 지원자에게 전액 장학금 제공",
-      "월 120만원 연구비 지원",
-      "교내 기숙사 이용 가능",
-      "연구조교 기회 제공",
-      "학회 참석 지원",
+      '자격을 갖춘 지원자에게 전액 장학금 제공',
+      '월 120만원 연구비 지원',
+      '교내 기숙사 이용 가능',
+      '연구조교 기회 제공',
+      '학회 참석 지원',
     ],
     professorInfo: {
-      name: "김민호 교수",
-      title: "컴퓨터공학과 교수",
-      education: ["스탠포드 대학교 컴퓨터공학 박사", "KAIST 컴퓨터공학 석사", "서울대학교 컴퓨터공학 학사"],
-      researchInterests: ["인공지능", "머신러닝", "컴퓨터 비전", "자연어 처리"],
+      name: '김민호 교수',
+      title: '컴퓨터공학과 교수',
+      education: [
+        '스탠포드 대학교 컴퓨터공학 박사',
+        'KAIST 컴퓨터공학 석사',
+        '서울대학교 컴퓨터공학 학사',
+      ],
+      researchInterests: ['인공지능', '머신러닝', '컴퓨터 비전', '자연어 처리'],
       publications: [
         '김민호 외 (2022). "컴퓨터 비전을 위한 고급 딥러닝 기법." IEEE 패턴 분석 및 머신 인텔리전스 논문집.',
         '김민호 외 (2021). "자연어 이해를 위한 새로운 접근법." ACL 2021 논문집.',
         '김민호 외 (2020). "엣지 디바이스를 위한 효율적인 신경망 구조." CVPR 2020 논문집.',
       ],
-      email: "minho.kim@snu.ac.kr",
+      email: 'minho.kim@snu.ac.kr',
     },
     universityInfo: {
-      name: "서울대학교",
-      location: "서울, 대한민국",
-      ranking: "세계 50위권",
-      established: "1946",
-      studentsCount: "28,000+",
-      internationalStudents: "2,000+",
+      name: '서울대학교',
+      location: '서울, 대한민국',
+      ranking: '세계 50위권',
+      established: '1946',
+      studentsCount: '28,000+',
+      internationalStudents: '2,000+',
       facilities: [
-        "최첨단 연구 실험실",
-        "광범위한 디지털 자료를 보유한 현대적 도서관",
-        "유학생을 위한 교내 기숙사",
-        "체육관, 수영장, 테니스장을 포함한 스포츠 시설",
-        "학생 식당 및 다양한 식사 옵션",
+        '최첨단 연구 실험실',
+        '광범위한 디지털 자료를 보유한 현대적 도서관',
+        '유학생을 위한 교내 기숙사',
+        '체육관, 수영장, 테니스장을 포함한 스포츠 시설',
+        '학생 식당 및 다양한 식사 옵션',
       ],
       surroundings: [
-        "서울 관악구에 위치",
-        "대중교통 접근성 우수",
-        "레스토랑, 카페, 상점이 있는 활기찬 동네",
-        "문화 명소 및 엔터테인먼트 시설과 인접",
+        '서울 관악구에 위치',
+        '대중교통 접근성 우수',
+        '레스토랑, 카페, 상점이 있는 활기찬 동네',
+        '문화 명소 및 엔터테인먼트 시설과 인접',
       ],
     },
     curriculum: [
       {
-        name: "핵심 과목",
-        courses: ["고급 알고리즘", "머신러닝", "컴퓨터 시스템 구조", "데이터베이스 시스템"],
+        name: '핵심 과목',
+        courses: ['고급 알고리즘', '머신러닝', '컴퓨터 시스템 구조', '데이터베이스 시스템'],
       },
       {
-        name: "선택 과목",
-        courses: ["인공지능", "컴퓨터 비전", "자연어 처리", "분산 시스템", "클라우드 컴퓨팅"],
+        name: '선택 과목',
+        courses: ['인공지능', '컴퓨터 비전', '자연어 처리', '분산 시스템', '클라우드 컴퓨팅'],
       },
       {
-        name: "연구 세미나",
-        courses: ["AI 최신 동향", "연구 방법론", "컴퓨팅 윤리"],
+        name: '연구 세미나',
+        courses: ['AI 최신 동향', '연구 방법론', '컴퓨팅 윤리'],
       },
     ],
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return new Date(dateString).toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     })
   }
 
   return (
     <div className="bg-gray-50 py-10">
-      <div className="container max-w-7xl mx-auto px-6 sm:px-8">
+      <div className="container mx-auto max-w-7xl px-6 sm:px-8">
         <div className="flex flex-col space-y-8">
           <div className="flex items-center space-x-4">
             <Button variant="ghost" size="icon" asChild>
@@ -129,11 +134,11 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="md:col-span-2 space-y-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="space-y-8 md:col-span-2">
               <Card>
                 <CardHeader>
-                  <div className="flex justify-between items-start">
+                  <div className="flex items-start justify-between">
                     <div>
                       <CardTitle>{recruitment.lab}</CardTitle>
                       <CardDescription>{recruitment.university}</CardDescription>
@@ -163,7 +168,7 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                   </div>
 
                   <div>
-                    <h3 className="font-medium mb-2">설명</h3>
+                    <h3 className="mb-2 font-medium">설명</h3>
                     <p className="text-muted-foreground">{recruitment.description}</p>
                   </div>
 
@@ -175,7 +180,7 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                       <TabsTrigger value="costs">비용</TabsTrigger>
                     </TabsList>
                     <TabsContent value="requirements" className="space-y-4">
-                      <h3 className="font-medium mt-4">자격 요건</h3>
+                      <h3 className="mt-4 font-medium">자격 요건</h3>
                       <ul className="space-y-2">
                         {recruitment.requirements.map((requirement, index) => (
                           <li key={index} className="flex items-start">
@@ -186,7 +191,7 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                       </ul>
                     </TabsContent>
                     <TabsContent value="benefits" className="space-y-4">
-                      <h3 className="font-medium mt-4">장학금 및 혜택</h3>
+                      <h3 className="mt-4 font-medium">장학금 및 혜택</h3>
                       <ul className="space-y-2">
                         {recruitment.benefits.map((benefit, index) => (
                           <li key={index} className="flex items-start">
@@ -197,12 +202,12 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                       </ul>
                     </TabsContent>
                     <TabsContent value="curriculum" className="space-y-4">
-                      <h3 className="font-medium mt-4">프로그램 교과 과정</h3>
+                      <h3 className="mt-4 font-medium">프로그램 교과 과정</h3>
                       <div className="space-y-4">
                         {recruitment.curriculum.map((category, index) => (
                           <div key={index}>
-                            <h4 className="font-medium text-sm">{category.name}</h4>
-                            <ul className="space-y-2 mt-2">
+                            <h4 className="text-sm font-medium">{category.name}</h4>
+                            <ul className="mt-2 space-y-2">
                               {category.courses.map((course, courseIndex) => (
                                 <li key={courseIndex} className="flex items-start">
                                   <div className="mr-2 mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
@@ -215,7 +220,7 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                       </div>
                     </TabsContent>
                     <TabsContent value="costs" className="space-y-4">
-                      <h3 className="font-medium mt-4">예상 비용</h3>
+                      <h3 className="mt-4 font-medium">예상 비용</h3>
                       <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
@@ -235,9 +240,9 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                             <p className="text-muted-foreground">600,000 - 1,000,000원</p>
                           </div>
                         </div>
-                        <div className="p-4 bg-muted rounded-lg">
-                          <h4 className="text-sm font-medium mb-2">비용 계산기</h4>
-                          <p className="text-xs text-muted-foreground mb-4">
+                        <div className="rounded-lg bg-muted p-4">
+                          <h4 className="mb-2 text-sm font-medium">비용 계산기</h4>
+                          <p className="mb-4 text-xs text-muted-foreground">
                             프로그램 기간과 생활 방식에 따른 총 비용을 예상해보세요.
                           </p>
                           <Button size="sm">계산기 열기</Button>
@@ -247,8 +252,8 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                   </Tabs>
 
                   <div>
-                    <h3 className="font-medium mb-2">대학교 정보</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <h3 className="mb-2 font-medium">대학교 정보</h3>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                       <div className="space-y-2">
                         <div className="flex items-center text-sm">
                           <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
@@ -282,9 +287,9 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <h3 className="font-medium mb-2">시설</h3>
+                      <h3 className="mb-2 font-medium">시설</h3>
                       <ul className="space-y-2">
                         {recruitment.universityInfo.facilities.map((facility, index) => (
                           <li key={index} className="flex items-start">
@@ -295,7 +300,7 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                       </ul>
                     </div>
                     <div>
-                      <h3 className="font-medium mb-2">주변 환경</h3>
+                      <h3 className="mb-2 font-medium">주변 환경</h3>
                       <ul className="space-y-2">
                         {recruitment.universityInfo.surroundings.map((surrounding, index) => (
                           <li key={index} className="flex items-start">
@@ -323,17 +328,19 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mb-2">
+                    <div className="mb-2 flex h-24 w-24 items-center justify-center rounded-full bg-muted">
                       <Users className="h-12 w-12 text-muted-foreground" />
                     </div>
                     <h3 className="font-medium">{recruitment.professorInfo.name}</h3>
-                    <p className="text-sm text-muted-foreground">{recruitment.professorInfo.title}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {recruitment.professorInfo.title}
+                    </p>
                   </div>
 
                   <Separator />
 
                   <div>
-                    <h4 className="text-sm font-medium mb-2">학력</h4>
+                    <h4 className="mb-2 text-sm font-medium">학력</h4>
                     <ul className="space-y-1">
                       {recruitment.professorInfo.education.map((edu, index) => (
                         <li key={index} className="text-sm text-muted-foreground">
@@ -344,7 +351,7 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium mb-2">연구 관심 분야</h4>
+                    <h4 className="mb-2 text-sm font-medium">연구 관심 분야</h4>
                     <div className="flex flex-wrap gap-2">
                       {recruitment.professorInfo.researchInterests.map((interest, index) => (
                         <Badge key={index} variant="outline">
@@ -355,7 +362,7 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-medium mb-2">주요 논문</h4>
+                    <h4 className="mb-2 text-sm font-medium">주요 논문</h4>
                     <ul className="space-y-2">
                       {recruitment.professorInfo.publications.map((pub, index) => (
                         <li key={index} className="text-sm text-muted-foreground">
@@ -420,35 +427,37 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
                 <CardContent>
                   <ul className="space-y-4">
                     <li className="flex items-start">
-                      <Clock className="mr-2 h-4 w-4 text-muted-foreground mt-0.5" />
+                      <Clock className="mr-2 mt-0.5 h-4 w-4 text-muted-foreground" />
                       <div>
                         <p className="text-sm font-medium">지원 마감일</p>
-                        <p className="text-sm text-muted-foreground">{formatDate(recruitment.deadline)}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {formatDate(recruitment.deadline)}
+                        </p>
                       </div>
                     </li>
                     <li className="flex items-start">
-                      <Clock className="mr-2 h-4 w-4 text-muted-foreground mt-0.5" />
+                      <Clock className="mr-2 mt-0.5 h-4 w-4 text-muted-foreground" />
                       <div>
                         <p className="text-sm font-medium">서류 심사</p>
                         <p className="text-sm text-muted-foreground">2024년 1월 15일</p>
                       </div>
                     </li>
                     <li className="flex items-start">
-                      <Clock className="mr-2 h-4 w-4 text-muted-foreground mt-0.5" />
+                      <Clock className="mr-2 mt-0.5 h-4 w-4 text-muted-foreground" />
                       <div>
                         <p className="text-sm font-medium">면접 기간</p>
                         <p className="text-sm text-muted-foreground">2024년 1월 20일-30일</p>
                       </div>
                     </li>
                     <li className="flex items-start">
-                      <Clock className="mr-2 h-4 w-4 text-muted-foreground mt-0.5" />
+                      <Clock className="mr-2 mt-0.5 h-4 w-4 text-muted-foreground" />
                       <div>
                         <p className="text-sm font-medium">최종 결과</p>
                         <p className="text-sm text-muted-foreground">2024년 2월 15일</p>
                       </div>
                     </li>
                     <li className="flex items-start">
-                      <Clock className="mr-2 h-4 w-4 text-muted-foreground mt-0.5" />
+                      <Clock className="mr-2 mt-0.5 h-4 w-4 text-muted-foreground" />
                       <div>
                         <p className="text-sm font-medium">프로그램 시작</p>
                         <p className="text-sm text-muted-foreground">2024년 3월 2일</p>

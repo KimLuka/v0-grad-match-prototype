@@ -1,9 +1,5 @@
-"use client"
+'use client'
 
-import type React from "react"
-
-import { useEffect, useState } from "react"
-import Link from "next/link"
 import {
   ArrowLeft,
   BookOpen,
@@ -15,14 +11,24 @@ import {
   Mail,
   MapPin,
   Share2,
-} from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from 'lucide-react'
+import Link from 'next/link'
+import type React from 'react'
+import { useEffect, useState } from 'react'
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 export default function ApplicantDetailPage({ params }: { params: { id: string } }) {
   const [showAuthModal, setShowAuthModal] = useState(false)
@@ -45,69 +51,69 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
   // Mock applicant data
   const applicant = {
     id: params.id,
-    name: "김사라",
-    nationality: "미국",
-    birthYear: "1998",
-    email: "sarah.kim@example.com",
-    topikLevel: "3급",
+    name: '김사라',
+    nationality: '미국',
+    birthYear: '1998',
+    email: 'sarah.kim@example.com',
+    topikLevel: '3급',
     stAlliance: true,
-    desiredDegree: "박사과정",
-    interests: ["인공지능", "머신러닝", "컴퓨터 비전"],
+    desiredDegree: '박사과정',
+    interests: ['인공지능', '머신러닝', '컴퓨터 비전'],
     introduction:
-      "저는 인공지능과 머신러닝에 강한 관심을 가진 컴퓨터공학 졸업생입니다. 한국 대학교에서 컴퓨터공학 박사과정을 통해 이 분야의 연구를 더욱 발전시키고자 합니다.",
+      '저는 인공지능과 머신러닝에 강한 관심을 가진 컴퓨터공학 졸업생입니다. 한국 대학교에서 컴퓨터공학 박사과정을 통해 이 분야의 연구를 더욱 발전시키고자 합니다.',
     studyPlan:
-      "제 연구 계획은 컴퓨터 비전 응용을 위한 새로운 딥러닝 아키텍처 개발에 중점을 두고 있으며, 특히 객체 탐지와 이미지 분할 분야에 관심이 있습니다. 이러한 기술들이 의료 영상과 자율주행과 같은 실제 문제에 어떻게 적용될 수 있는지 탐구하고 싶습니다.",
+      '제 연구 계획은 컴퓨터 비전 응용을 위한 새로운 딥러닝 아키텍처 개발에 중점을 두고 있으며, 특히 객체 탐지와 이미지 분할 분야에 관심이 있습니다. 이러한 기술들이 의료 영상과 자율주행과 같은 실제 문제에 어떻게 적용될 수 있는지 탐구하고 싶습니다.',
     education: [
       {
-        degree: "컴퓨터공학 석사",
-        institution: "워싱턴 대학교",
-        year: "2020-2022",
-        gpa: "3.8/4.0",
+        degree: '컴퓨터공학 석사',
+        institution: '워싱턴 대학교',
+        year: '2020-2022',
+        gpa: '3.8/4.0',
       },
       {
-        degree: "컴퓨터공학 학사",
-        institution: "오레곤 대학교",
-        year: "2016-2020",
-        gpa: "3.7/4.0",
+        degree: '컴퓨터공학 학사',
+        institution: '오레곤 대학교',
+        year: '2016-2020',
+        gpa: '3.7/4.0',
       },
     ],
     experience: [
       {
-        title: "연구조교",
-        company: "워싱턴 대학교 AI 연구실",
-        year: "2021-2022",
-        description: "컴퓨터 비전 응용을 위한 딥러닝 모델 연구를 수행했습니다.",
+        title: '연구조교',
+        company: '워싱턴 대학교 AI 연구실',
+        year: '2021-2022',
+        description: '컴퓨터 비전 응용을 위한 딥러닝 모델 연구를 수행했습니다.',
       },
       {
-        title: "소프트웨어 엔지니어 인턴",
-        company: "테크솔루션즈",
-        year: "2020",
-        description: "React와 Node.js를 사용하여 웹 애플리케이션을 개발하고 유지보수했습니다.",
+        title: '소프트웨어 엔지니어 인턴',
+        company: '테크솔루션즈',
+        year: '2020',
+        description: 'React와 Node.js를 사용하여 웹 애플리케이션을 개발하고 유지보수했습니다.',
       },
     ],
     publications: [
       {
-        title: "딥러닝을 이용한 이미지 인식의 새로운 접근법",
-        journal: "국제 컴퓨터 비전 저널",
-        year: "2022",
+        title: '딥러닝을 이용한 이미지 인식의 새로운 접근법',
+        journal: '국제 컴퓨터 비전 저널',
+        year: '2022',
       },
     ],
     projects: [
       {
-        title: "자동 이미지 분류 시스템",
-        description: "딥러닝 기법을 사용하여 이미지를 자동으로 분류하는 시스템을 개발했습니다.",
-        year: "2021",
+        title: '자동 이미지 분류 시스템',
+        description: '딥러닝 기법을 사용하여 이미지를 자동으로 분류하는 시스템을 개발했습니다.',
+        year: '2021',
       },
       {
-        title: "자연어 처리 툴킷",
-        description: "자연어 데이터를 처리하고 분석하기 위한 툴킷을 제작했습니다.",
-        year: "2020",
+        title: '자연어 처리 툴킷',
+        description: '자연어 데이터를 처리하고 분석하기 위한 툴킷을 제작했습니다.',
+        year: '2020',
       },
     ],
     documents: [
-      { name: "이력서_김사라.pdf", type: "이력서", uploadDate: "2023-10-15" },
-      { name: "연구계획서_AI.pdf", type: "연구계획서", uploadDate: "2023-10-20" },
-      { name: "TOPIK_증명서.pdf", type: "증명서", uploadDate: "2023-09-05" },
+      { name: '이력서_김사라.pdf', type: '이력서', uploadDate: '2023-10-15' },
+      { name: '연구계획서_AI.pdf', type: '연구계획서', uploadDate: '2023-10-20' },
+      { name: 'TOPIK_증명서.pdf', type: '증명서', uploadDate: '2023-09-05' },
     ],
   }
 
@@ -161,7 +167,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
 
   return (
     <div className="bg-gray-50 py-10">
-      <div className="container max-w-7xl mx-auto px-6 sm:px-8">
+      <div className="container mx-auto max-w-7xl px-6 sm:px-8">
         <div className="flex flex-col space-y-8">
           <div className="flex items-center space-x-4">
             <Button variant="ghost" size="icon" asChild>
@@ -176,25 +182,25 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
             {/* Profile Header */}
             <div className="lg:col-span-4">
               <Card>
                 <CardContent className="p-6">
-                  <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+                  <div className="flex flex-col items-start gap-6 md:flex-row md:items-center">
                     <Avatar className="h-24 w-24">
                       <AvatarImage src="/placeholder.svg" alt={applicant.name} />
                       <AvatarFallback>
                         {applicant.name
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
+                          .split(' ')
+                          .map(n => n[0])
+                          .join('')}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 space-y-4">
                       <div>
                         <h2 className="text-2xl font-bold">{applicant.name}</h2>
-                        <div className="flex flex-wrap gap-4 mt-2 text-sm text-muted-foreground">
+                        <div className="mt-2 flex flex-wrap gap-4 text-sm text-muted-foreground">
                           <div className="flex items-center">
                             <MapPin className="mr-1 h-4 w-4" />
                             <span>{applicant.nationality}</span>
@@ -212,7 +218,9 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                       <div className="flex flex-wrap gap-2">
                         <Badge variant="secondary">{applicant.desiredDegree}</Badge>
                         <Badge variant="outline">TOPIK {applicant.topikLevel}</Badge>
-                        {applicant.stAlliance && <Badge className="bg-blue-500">ST 얼라이언스</Badge>}
+                        {applicant.stAlliance && (
+                          <Badge className="bg-blue-500">ST 얼라이언스</Badge>
+                        )}
                       </div>
                     </div>
                     <div className="flex space-x-2">
@@ -231,7 +239,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
             </div>
 
             {/* Main Content */}
-            <div className="lg:col-span-3 space-y-8">
+            <div className="space-y-8 lg:col-span-3">
               {/* Introduction */}
               <Card>
                 <CardHeader>
@@ -322,7 +330,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                             <Calendar className="mr-1 h-3 w-3" />
                             <span>{exp.year}</span>
                           </div>
-                          <p className="text-sm text-muted-foreground pt-1">{exp.description}</p>
+                          <p className="pt-1 text-sm text-muted-foreground">{exp.description}</p>
                         </div>
                       </div>
                     ))}
@@ -377,7 +385,9 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                             <Calendar className="mr-1 h-3 w-3" />
                             <span>{project.year}</span>
                           </div>
-                          <p className="text-sm text-muted-foreground pt-1">{project.description}</p>
+                          <p className="pt-1 text-sm text-muted-foreground">
+                            {project.description}
+                          </p>
                         </div>
                       </div>
                     ))}
@@ -387,7 +397,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
             </div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-1 space-y-6">
+            <div className="space-y-6 lg:col-span-1">
               {/* Contact */}
               <Card>
                 <CardHeader>
@@ -416,7 +426,7 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                         <div>
                           <p className="text-sm font-medium">{doc.type}</p>
                           <p className="text-xs text-muted-foreground">
-                            {new Date(doc.uploadDate).toLocaleDateString("ko-KR")}에 업로드됨
+                            {new Date(doc.uploadDate).toLocaleDateString('ko-KR')}에 업로드됨
                           </p>
                         </div>
                       </div>
@@ -444,7 +454,9 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">ST 얼라이언스</span>
-                    <span className="text-sm font-medium">{applicant.stAlliance ? "예" : "아니오"}</span>
+                    <span className="text-sm font-medium">
+                      {applicant.stAlliance ? '예' : '아니오'}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">논문</span>

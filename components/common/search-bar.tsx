@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import type React from "react"
+import { Search } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import type React from 'react'
+import { useState } from 'react'
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 export function SearchBar() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()
 
   const handleSearch = (e: React.FormEvent) => {
@@ -28,7 +28,7 @@ export function SearchBar() {
           placeholder="Search universities, programs..."
           className="pl-8"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={e => setSearchQuery(e.target.value)}
         />
       </div>
       <Button type="submit">Search</Button>

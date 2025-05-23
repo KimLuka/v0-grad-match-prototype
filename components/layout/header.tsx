@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import type React from "react"
+import { Bell, Menu, User } from 'lucide-react'
+import Link from 'next/link'
+import type React from 'react'
+import { useState } from 'react'
 
-import Link from "next/link"
-import { useState } from "react"
-import { Bell, Menu, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,28 +13,34 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { useMobile } from "@/hooks/useMobile"
+} from '@/components/ui/dropdown-menu'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { useMobile } from '@/hooks/useMobile'
 
 export function Header() {
   const isMobile = useMobile()
-  const [isLoggedIn, setIsLoggedIn] = useState(false) // This would be replaced with actual auth state
+  const [isLoggedIn, _setIsLoggedIn] = useState(false) // This would be replaced with actual auth state
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
-      <div className="container max-w-7xl mx-auto flex h-16 items-center justify-between">
+      <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between">
         <div className="flex items-center gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <GraduationCapIcon className="h-6 w-6" />
-            <span className="font-bold inline-block">대학원 매칭</span>
+            <span className="inline-block font-bold">대학원 매칭</span>
           </Link>
           {!isMobile && (
             <nav className="flex gap-6">
-              <Link href="/search/recruitments" className="text-sm font-medium transition-colors hover:text-primary">
+              <Link
+                href="/search/recruitments"
+                className="text-sm font-medium transition-colors hover:text-primary"
+              >
                 모집공고
               </Link>
-              <Link href="/search/applicants" className="text-sm font-medium transition-colors hover:text-primary">
+              <Link
+                href="/search/applicants"
+                className="text-sm font-medium transition-colors hover:text-primary"
+              >
                 지원자 풀
               </Link>
             </nav>
@@ -100,16 +106,22 @@ export function Header() {
                   <Link
                     href="/"
                     className="flex items-center space-x-2"
-                    onClick={() => document.body.classList.remove("overflow-hidden")}
+                    onClick={() => document.body.classList.remove('overflow-hidden')}
                   >
                     <GraduationCapIcon className="h-6 w-6" />
                     <span className="font-bold">대학원 매칭</span>
                   </Link>
                   <div className="grid gap-2">
-                    <Link href="/search/recruitments" className="flex w-full items-center py-2 text-lg font-semibold">
+                    <Link
+                      href="/search/recruitments"
+                      className="flex w-full items-center py-2 text-lg font-semibold"
+                    >
                       모집공고
                     </Link>
-                    <Link href="/search/applicants" className="flex w-full items-center py-2 text-lg font-semibold">
+                    <Link
+                      href="/search/applicants"
+                      className="flex w-full items-center py-2 text-lg font-semibold"
+                    >
                       지원자 풀
                     </Link>
                   </div>
@@ -124,16 +136,28 @@ export function Header() {
                     </div>
                   ) : (
                     <div className="grid gap-2">
-                      <Link href="/profile" className="flex w-full items-center py-2 text-lg font-semibold">
+                      <Link
+                        href="/profile"
+                        className="flex w-full items-center py-2 text-lg font-semibold"
+                      >
                         프로필
                       </Link>
-                      <Link href="/applications" className="flex w-full items-center py-2 text-lg font-semibold">
+                      <Link
+                        href="/applications"
+                        className="flex w-full items-center py-2 text-lg font-semibold"
+                      >
                         지원현황
                       </Link>
-                      <Link href="/saved" className="flex w-full items-center py-2 text-lg font-semibold">
+                      <Link
+                        href="/saved"
+                        className="flex w-full items-center py-2 text-lg font-semibold"
+                      >
                         저장됨
                       </Link>
-                      <Link href="/settings" className="flex w-full items-center py-2 text-lg font-semibold">
+                      <Link
+                        href="/settings"
+                        className="flex w-full items-center py-2 text-lg font-semibold"
+                      >
                         설정
                       </Link>
                       <Button variant="outline">로그아웃</Button>

@@ -1,25 +1,39 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { useState } from 'react'
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export function SearchFilters() {
   const [selectedUniversities, setSelectedUniversities] = useState<string[]>([])
   const [selectedFields, setSelectedFields] = useState<string[]>([])
 
   const handleUniversityChange = (university: string) => {
-    setSelectedUniversities((prev) =>
-      prev.includes(university) ? prev.filter((u) => u !== university) : [...prev, university],
+    setSelectedUniversities(prev =>
+      prev.includes(university) ? prev.filter(u => u !== university) : [...prev, university]
     )
   }
 
   const handleFieldChange = (field: string) => {
-    setSelectedFields((prev) => (prev.includes(field) ? prev.filter((f) => f !== field) : [...prev, field]))
+    setSelectedFields(prev =>
+      prev.includes(field) ? prev.filter(f => f !== field) : [...prev, field]
+    )
   }
 
   return (
@@ -48,8 +62,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="snu"
-                    checked={selectedUniversities.includes("snu")}
-                    onCheckedChange={() => handleUniversityChange("snu")}
+                    checked={selectedUniversities.includes('snu')}
+                    onCheckedChange={() => handleUniversityChange('snu')}
                   />
                   <Label htmlFor="snu" className="text-sm font-normal">
                     Seoul National University
@@ -58,8 +72,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="kaist"
-                    checked={selectedUniversities.includes("kaist")}
-                    onCheckedChange={() => handleUniversityChange("kaist")}
+                    checked={selectedUniversities.includes('kaist')}
+                    onCheckedChange={() => handleUniversityChange('kaist')}
                   />
                   <Label htmlFor="kaist" className="text-sm font-normal">
                     KAIST
@@ -68,8 +82,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="yonsei"
-                    checked={selectedUniversities.includes("yonsei")}
-                    onCheckedChange={() => handleUniversityChange("yonsei")}
+                    checked={selectedUniversities.includes('yonsei')}
+                    onCheckedChange={() => handleUniversityChange('yonsei')}
                   />
                   <Label htmlFor="yonsei" className="text-sm font-normal">
                     Yonsei University
@@ -78,8 +92,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="korea"
-                    checked={selectedUniversities.includes("korea")}
-                    onCheckedChange={() => handleUniversityChange("korea")}
+                    checked={selectedUniversities.includes('korea')}
+                    onCheckedChange={() => handleUniversityChange('korea')}
                   />
                   <Label htmlFor="korea" className="text-sm font-normal">
                     Korea University
@@ -88,8 +102,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="postech"
-                    checked={selectedUniversities.includes("postech")}
-                    onCheckedChange={() => handleUniversityChange("postech")}
+                    checked={selectedUniversities.includes('postech')}
+                    onCheckedChange={() => handleUniversityChange('postech')}
                   />
                   <Label htmlFor="postech" className="text-sm font-normal">
                     POSTECH
@@ -106,8 +120,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="engineering"
-                    checked={selectedFields.includes("engineering")}
-                    onCheckedChange={() => handleFieldChange("engineering")}
+                    checked={selectedFields.includes('engineering')}
+                    onCheckedChange={() => handleFieldChange('engineering')}
                   />
                   <Label htmlFor="engineering" className="text-sm font-normal">
                     Engineering
@@ -116,8 +130,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="natural-sciences"
-                    checked={selectedFields.includes("natural-sciences")}
-                    onCheckedChange={() => handleFieldChange("natural-sciences")}
+                    checked={selectedFields.includes('natural-sciences')}
+                    onCheckedChange={() => handleFieldChange('natural-sciences')}
                   />
                   <Label htmlFor="natural-sciences" className="text-sm font-normal">
                     Natural Sciences
@@ -126,8 +140,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="social-sciences"
-                    checked={selectedFields.includes("social-sciences")}
-                    onCheckedChange={() => handleFieldChange("social-sciences")}
+                    checked={selectedFields.includes('social-sciences')}
+                    onCheckedChange={() => handleFieldChange('social-sciences')}
                   />
                   <Label htmlFor="social-sciences" className="text-sm font-normal">
                     Social Sciences
@@ -136,8 +150,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="business"
-                    checked={selectedFields.includes("business")}
-                    onCheckedChange={() => handleFieldChange("business")}
+                    checked={selectedFields.includes('business')}
+                    onCheckedChange={() => handleFieldChange('business')}
                   />
                   <Label htmlFor="business" className="text-sm font-normal">
                     Business
@@ -146,8 +160,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="humanities"
-                    checked={selectedFields.includes("humanities")}
-                    onCheckedChange={() => handleFieldChange("humanities")}
+                    checked={selectedFields.includes('humanities')}
+                    onCheckedChange={() => handleFieldChange('humanities')}
                   />
                   <Label htmlFor="humanities" className="text-sm font-normal">
                     Humanities
@@ -156,8 +170,8 @@ export function SearchFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="life-sciences"
-                    checked={selectedFields.includes("life-sciences")}
-                    onCheckedChange={() => handleFieldChange("life-sciences")}
+                    checked={selectedFields.includes('life-sciences')}
+                    onCheckedChange={() => handleFieldChange('life-sciences')}
                   />
                   <Label htmlFor="life-sciences" className="text-sm font-normal">
                     Life Sciences

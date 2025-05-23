@@ -9,6 +9,12 @@
 
 # production
 /build
+/dist
+
+# misc
+.DS_Store
+*.pem
+Thumbs.db
 
 # debug
 npm-debug.log*
@@ -16,8 +22,12 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
-.env*
+# local env files
+.env
+.env*.local
+
+# Optional eslint cache
+.eslintcache
 
 # vercel
 .vercel

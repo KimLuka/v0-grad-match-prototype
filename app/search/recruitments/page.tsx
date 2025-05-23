@@ -1,29 +1,36 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Filter, Search, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { RecruitmentCard } from "@/components/domain/recruitment/recruitment-card"
-import { SearchFilters } from "@/components/domain/recruitment/search-filters"
+import { Filter, Search, X } from 'lucide-react'
+import { useState } from 'react'
+
+import { RecruitmentCard } from '@/components/domain/recruitment/recruitment-card'
+import { SearchFilters } from '@/components/domain/recruitment/search-filters'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function RecruitmentSearchPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container max-w-7xl mx-auto px-6 py-8">
+      <div className="container mx-auto max-w-7xl px-6 py-8">
         <div className="flex flex-col space-y-6">
           <div className="flex flex-col space-y-2">
             <h1 className="text-3xl font-bold tracking-tight">모집공고</h1>
-            <p className="text-muted-foreground">한국 대학교의 대학원 프로그램 모집공고를 둘러보세요</p>
+            <p className="text-muted-foreground">
+              한국 대학교의 대학원 프로그램 모집공고를 둘러보세요
+            </p>
           </div>
 
           {/* Filter Toggle Button */}
           <div className="relative">
-            <Button variant="outline" className="w-fit" onClick={() => setIsFilterOpen(!isFilterOpen)}>
+            <Button
+              variant="outline"
+              className="w-fit"
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+            >
               <Filter className="mr-2 h-4 w-4" />
               필터
             </Button>
@@ -31,11 +38,14 @@ export default function RecruitmentSearchPage() {
             {/* Filter Modal Overlay */}
             {isFilterOpen && (
               <>
-                <div className="fixed inset-0 bg-black/20 z-40" onClick={() => setIsFilterOpen(false)} />
-                <div className="absolute top-12 left-0 z-50 w-full max-w-md">
-                  <Card className="shadow-lg border">
+                <div
+                  className="fixed inset-0 z-40 bg-black/20"
+                  onClick={() => setIsFilterOpen(false)}
+                />
+                <div className="absolute left-0 top-12 z-50 w-full max-w-md">
+                  <Card className="border shadow-lg">
                     <CardContent className="p-6">
-                      <div className="flex items-center justify-between mb-4">
+                      <div className="mb-4 flex items-center justify-between">
                         <h3 className="text-lg font-semibold">필터</h3>
                         <Button variant="ghost" size="icon" onClick={() => setIsFilterOpen(false)}>
                           <X className="h-4 w-4" />
@@ -50,10 +60,10 @@ export default function RecruitmentSearchPage() {
           </div>
 
           {/* Search and Sort Controls */}
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-white p-4 rounded-lg border">
-            <div className="relative flex-1 max-w-2xl">
+          <div className="flex flex-col items-start justify-between gap-4 rounded-lg border bg-white p-4 sm:flex-row sm:items-center">
+            <div className="relative max-w-2xl flex-1">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="연구실, 교수, 분야로 검색..." className="pl-10 w-full" />
+              <Input placeholder="연구실, 교수, 분야로 검색..." className="w-full pl-10" />
             </div>
             <div className="flex items-center gap-3">
               <Tabs defaultValue="recommended" className="w-auto">
@@ -67,7 +77,7 @@ export default function RecruitmentSearchPage() {
           </div>
 
           {/* Results Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             <RecruitmentCard
               lab="인공지능 연구실"
               university="서울대학교"

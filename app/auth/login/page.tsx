@@ -1,36 +1,45 @@
-"use client"
+'use client'
 
-import type React from "react"
+import { Eye, EyeOff, Mail } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import type React from 'react'
+import { useState } from 'react'
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Eye, EyeOff, Mail } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const router = useRouter()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // In a real app, you would handle authentication here
-    console.log("Login attempt with:", { email, password })
-    router.push("/")
+    console.info('Login attempt with:', { email, password })
+    router.push('/')
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen flex items-center justify-center">
-      <div className="container max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="container mx-auto flex max-w-7xl items-center justify-center px-6 sm:px-8">
         <Card className="mx-auto max-w-sm">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold">Login</CardTitle>
-            <CardDescription>Enter your email and password to sign in to your account</CardDescription>
+            <CardDescription>
+              Enter your email and password to sign in to your account
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
@@ -74,7 +83,7 @@ export default function LoginPage() {
                       placeholder="m@example.com"
                       className="pl-9"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={e => setEmail(e.target.value)}
                       required
                     />
                   </div>
@@ -92,10 +101,10 @@ export default function LoginPage() {
                   <div className="relative">
                     <Input
                       id="password"
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="••••••••"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={e => setPassword(e.target.value)}
                       required
                     />
                     <Button
@@ -110,7 +119,9 @@ export default function LoginPage() {
                       ) : (
                         <Eye className="h-4 w-4 text-muted-foreground" />
                       )}
-                      <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
+                      <span className="sr-only">
+                        {showPassword ? 'Hide password' : 'Show password'}
+                      </span>
                     </Button>
                   </div>
                 </div>
@@ -122,8 +133,11 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <Link href="/auth/register" className="text-primary underline-offset-4 hover:underline">
+              Don&apos;t have an account?{' '}
+              <Link
+                href="/auth/register"
+                className="text-primary underline-offset-4 hover:underline"
+              >
                 Sign up
               </Link>
             </div>

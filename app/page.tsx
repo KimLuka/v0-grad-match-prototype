@@ -1,32 +1,33 @@
-import { Banner } from "@/components/domain/home/banner"
-import { SearchBar } from "@/components/common/search-bar"
-import { TrustBadges } from "@/components/domain/home/trust-badges"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, GraduationCap, Users } from "lucide-react"
-import Link from "next/link"
+import { BookOpen, GraduationCap, Users } from 'lucide-react'
+import Link from 'next/link'
+
+import { SearchBar } from '@/components/common/search-bar'
+import { Banner } from '@/components/domain/home/banner'
+import { TrustBadges } from '@/components/domain/home/trust-badges'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="container max-w-7xl mx-auto px-6 py-16">
+    <div className="flex min-h-screen flex-col">
+      <div className="container mx-auto max-w-7xl px-6 py-16">
         <Banner />
 
-        <div className="text-center space-y-6 mb-16">
+        <div className="mb-16 space-y-6 text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
             한국 대학원 프로그램을 <br />
             <span className="text-primary">쉽게 찾아보세요</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            한국의 최고 대학교들과 연결되어 완벽한 대학원 프로그램을 찾아보세요. 장학금 기회부터 연구 기회까지 모든 것을
-            한 곳에서.
+          <p className="mx-auto max-w-2xl text-xl text-muted-foreground">
+            한국의 최고 대학교들과 연결되어 완벽한 대학원 프로그램을 찾아보세요. 장학금 기회부터
+            연구 기회까지 모든 것을 한 곳에서.
           </p>
           <div className="flex justify-center">
             <SearchBar />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="mb-16 grid grid-cols-1 gap-8 md:grid-cols-3">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">

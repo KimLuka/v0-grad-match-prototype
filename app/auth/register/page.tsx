@@ -1,47 +1,56 @@
-"use client"
+'use client'
 
-import type React from "react"
+import { Eye, EyeOff, Mail, User } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import type React from 'react'
+import { useState } from 'react'
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Eye, EyeOff, Mail, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    userType: "applicant",
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    userType: 'applicant',
   })
   const router = useRouter()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    setFormData(prev => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // In a real app, you would handle registration here
-    console.log("Registration data:", formData)
-    router.push("/")
+    console.info('Registration data:', formData)
+    router.push('/')
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen flex items-center justify-center">
-      <div className="container max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="container mx-auto flex max-w-7xl items-center justify-center px-6 sm:px-8">
         <Card className="mx-auto max-w-sm">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-            <CardDescription>Enter your information to create your Grad Match account</CardDescription>
+            <CardDescription>
+              Enter your information to create your Grad Match account
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
@@ -127,7 +136,7 @@ export default function RegisterPage() {
                     <Input
                       id="password"
                       name="password"
-                      type={showPassword ? "text" : "password"}
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="••••••••"
                       value={formData.password}
                       onChange={handleChange}
@@ -145,7 +154,9 @@ export default function RegisterPage() {
                       ) : (
                         <Eye className="h-4 w-4 text-muted-foreground" />
                       )}
-                      <span className="sr-only">{showPassword ? "Hide password" : "Show password"}</span>
+                      <span className="sr-only">
+                        {showPassword ? 'Hide password' : 'Show password'}
+                      </span>
                     </Button>
                   </div>
                 </div>
@@ -155,7 +166,7 @@ export default function RegisterPage() {
                   <RadioGroup
                     defaultValue="applicant"
                     className="flex"
-                    onValueChange={(value) => setFormData((prev) => ({ ...prev, userType: value }))}
+                    onValueChange={value => setFormData(prev => ({ ...prev, userType: value }))}
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="applicant" id="applicant" />
@@ -163,7 +174,7 @@ export default function RegisterPage() {
                         Student/Applicant
                       </Label>
                     </div>
-                    <div className="flex items-center space-x-2 ml-4">
+                    <div className="ml-4 flex items-center space-x-2">
                       <RadioGroupItem value="professor" id="professor" />
                       <Label htmlFor="professor" className="font-normal">
                         Professor
@@ -180,7 +191,7 @@ export default function RegisterPage() {
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="text-center text-sm">
-              Already have an account?{" "}
+              Already have an account?{' '}
               <Link href="/auth/login" className="text-primary underline-offset-4 hover:underline">
                 Sign in
               </Link>

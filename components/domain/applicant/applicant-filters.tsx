@@ -1,24 +1,38 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { useState } from 'react'
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export function ApplicantFilters() {
   const [selectedNationalities, setSelectedNationalities] = useState<string[]>([])
   const [selectedDegrees, setSelectedDegrees] = useState<string[]>([])
 
   const handleNationalityChange = (nationality: string) => {
-    setSelectedNationalities((prev) =>
-      prev.includes(nationality) ? prev.filter((n) => n !== nationality) : [...prev, nationality],
+    setSelectedNationalities(prev =>
+      prev.includes(nationality) ? prev.filter(n => n !== nationality) : [...prev, nationality]
     )
   }
 
   const handleDegreeChange = (degree: string) => {
-    setSelectedDegrees((prev) => (prev.includes(degree) ? prev.filter((d) => d !== degree) : [...prev, degree]))
+    setSelectedDegrees(prev =>
+      prev.includes(degree) ? prev.filter(d => d !== degree) : [...prev, degree]
+    )
   }
 
   return (
@@ -65,8 +79,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="usa"
-                    checked={selectedNationalities.includes("usa")}
-                    onCheckedChange={() => handleNationalityChange("usa")}
+                    checked={selectedNationalities.includes('usa')}
+                    onCheckedChange={() => handleNationalityChange('usa')}
                   />
                   <Label htmlFor="usa" className="text-sm font-normal">
                     United States
@@ -75,8 +89,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="china"
-                    checked={selectedNationalities.includes("china")}
-                    onCheckedChange={() => handleNationalityChange("china")}
+                    checked={selectedNationalities.includes('china')}
+                    onCheckedChange={() => handleNationalityChange('china')}
                   />
                   <Label htmlFor="china" className="text-sm font-normal">
                     China
@@ -85,8 +99,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="india"
-                    checked={selectedNationalities.includes("india")}
-                    onCheckedChange={() => handleNationalityChange("india")}
+                    checked={selectedNationalities.includes('india')}
+                    onCheckedChange={() => handleNationalityChange('india')}
                   />
                   <Label htmlFor="india" className="text-sm font-normal">
                     India
@@ -95,8 +109,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="japan"
-                    checked={selectedNationalities.includes("japan")}
-                    onCheckedChange={() => handleNationalityChange("japan")}
+                    checked={selectedNationalities.includes('japan')}
+                    onCheckedChange={() => handleNationalityChange('japan')}
                   />
                   <Label htmlFor="japan" className="text-sm font-normal">
                     Japan
@@ -105,8 +119,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="vietnam"
-                    checked={selectedNationalities.includes("vietnam")}
-                    onCheckedChange={() => handleNationalityChange("vietnam")}
+                    checked={selectedNationalities.includes('vietnam')}
+                    onCheckedChange={() => handleNationalityChange('vietnam')}
                   />
                   <Label htmlFor="vietnam" className="text-sm font-normal">
                     Vietnam
@@ -123,8 +137,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="engineering"
-                    checked={selectedDegrees.includes("engineering")}
-                    onCheckedChange={() => handleDegreeChange("engineering")}
+                    checked={selectedDegrees.includes('engineering')}
+                    onCheckedChange={() => handleDegreeChange('engineering')}
                   />
                   <Label htmlFor="engineering" className="text-sm font-normal">
                     Engineering
@@ -133,8 +147,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="natural-sciences"
-                    checked={selectedDegrees.includes("natural-sciences")}
-                    onCheckedChange={() => handleDegreeChange("natural-sciences")}
+                    checked={selectedDegrees.includes('natural-sciences')}
+                    onCheckedChange={() => handleDegreeChange('natural-sciences')}
                   />
                   <Label htmlFor="natural-sciences" className="text-sm font-normal">
                     Natural Sciences
@@ -143,8 +157,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="social-sciences"
-                    checked={selectedDegrees.includes("social-sciences")}
-                    onCheckedChange={() => handleDegreeChange("social-sciences")}
+                    checked={selectedDegrees.includes('social-sciences')}
+                    onCheckedChange={() => handleDegreeChange('social-sciences')}
                   />
                   <Label htmlFor="social-sciences" className="text-sm font-normal">
                     Social Sciences
@@ -153,8 +167,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="business"
-                    checked={selectedDegrees.includes("business")}
-                    onCheckedChange={() => handleDegreeChange("business")}
+                    checked={selectedDegrees.includes('business')}
+                    onCheckedChange={() => handleDegreeChange('business')}
                   />
                   <Label htmlFor="business" className="text-sm font-normal">
                     Business
@@ -163,8 +177,8 @@ export function ApplicantFilters() {
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="humanities"
-                    checked={selectedDegrees.includes("humanities")}
-                    onCheckedChange={() => handleDegreeChange("humanities")}
+                    checked={selectedDegrees.includes('humanities')}
+                    onCheckedChange={() => handleDegreeChange('humanities')}
                   />
                   <Label htmlFor="humanities" className="text-sm font-normal">
                     Humanities

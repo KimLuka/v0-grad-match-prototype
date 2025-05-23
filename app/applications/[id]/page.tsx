@@ -1,11 +1,10 @@
-"use client"
+'use client'
 
-import { useEffect } from "react"
-import Link from "next/link"
 import {
   ArrowLeft,
   Calendar,
   Check,
+  ClipboardList,
   Clock,
   Download,
   Eye,
@@ -13,14 +12,16 @@ import {
   GraduationCap,
   MapPin,
   User,
-  ClipboardList,
-} from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+} from 'lucide-react'
+import Link from 'next/link'
+import { useEffect } from 'react'
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function ApplicationDetailPage({ params }: { params: { id: string } }) {
   // Scroll to top when component mounts
@@ -32,128 +33,128 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
   // For this example, we'll use mock data
   const application = {
     id: params.id,
-    university: "Seoul National University",
-    department: "Computer Science",
-    professor: "Dr. Kim Minho",
-    position: "Ph.D. Student",
-    status: "under_review",
-    appliedDate: "2023-10-15",
-    deadline: "2023-12-31",
+    university: 'Seoul National University',
+    department: 'Computer Science',
+    professor: 'Dr. Kim Minho',
+    position: 'Ph.D. Student',
+    status: 'under_review',
+    appliedDate: '2023-10-15',
+    deadline: '2023-12-31',
     applicationDocuments: [
       {
-        name: "CV_Sarah_Johnson.pdf",
-        type: "Resume/CV",
-        uploadDate: "2023-10-15",
-        size: "2.4 MB",
+        name: 'CV_Sarah_Johnson.pdf',
+        type: 'Resume/CV',
+        uploadDate: '2023-10-15',
+        size: '2.4 MB',
       },
       {
-        name: "Research_Proposal_AI.pdf",
-        type: "Research Proposal",
-        uploadDate: "2023-10-15",
-        size: "1.8 MB",
+        name: 'Research_Proposal_AI.pdf',
+        type: 'Research Proposal',
+        uploadDate: '2023-10-15',
+        size: '1.8 MB',
       },
       {
-        name: "TOPIK_Certificate.pdf",
-        type: "Certificate",
-        uploadDate: "2023-10-15",
-        size: "1.2 MB",
+        name: 'TOPIK_Certificate.pdf',
+        type: 'Certificate',
+        uploadDate: '2023-10-15',
+        size: '1.2 MB',
       },
       {
-        name: "Recommendation_Letter_1.pdf",
-        type: "Recommendation Letter",
-        uploadDate: "2023-10-15",
-        size: "0.9 MB",
+        name: 'Recommendation_Letter_1.pdf',
+        type: 'Recommendation Letter',
+        uploadDate: '2023-10-15',
+        size: '0.9 MB',
       },
       {
-        name: "Transcript.pdf",
-        type: "Academic Transcript",
-        uploadDate: "2023-10-15",
-        size: "1.5 MB",
+        name: 'Transcript.pdf',
+        type: 'Academic Transcript',
+        uploadDate: '2023-10-15',
+        size: '1.5 MB',
       },
     ],
     statusHistory: [
       {
-        status: "pending",
-        date: "2023-10-15",
-        description: "Application submitted",
+        status: 'pending',
+        date: '2023-10-15',
+        description: 'Application submitted',
       },
       {
-        status: "under_review",
-        date: "2023-10-25",
-        description: "Application under review by the department",
+        status: 'under_review',
+        date: '2023-10-25',
+        description: 'Application under review by the department',
       },
     ],
     recruitment: {
-      id: "rec-1",
-      university: "Seoul National University",
-      department: "Computer Science",
-      professor: "Dr. Kim Minho",
-      deadline: "2023-12-31",
+      id: 'rec-1',
+      university: 'Seoul National University',
+      department: 'Computer Science',
+      professor: 'Dr. Kim Minho',
+      deadline: '2023-12-31',
       scholarshipAvailable: true,
-      fieldOfStudy: "Engineering",
+      fieldOfStudy: 'Engineering',
       description:
-        "The Computer Science Department at Seoul National University is seeking motivated graduate students for the upcoming academic year. Our department offers cutting-edge research opportunities in artificial intelligence, machine learning, computer vision, and more.",
+        'The Computer Science Department at Seoul National University is seeking motivated graduate students for the upcoming academic year. Our department offers cutting-edge research opportunities in artificial intelligence, machine learning, computer vision, and more.',
       requirements: [
         "Bachelor's degree in Computer Science or related field",
-        "Strong programming skills (Python, Java, C++)",
-        "GPA of 3.5 or higher",
-        "TOPIK level 3 or higher (preferred)",
-        "Research experience (preferred)",
+        'Strong programming skills (Python, Java, C++)',
+        'GPA of 3.5 or higher',
+        'TOPIK level 3 or higher (preferred)',
+        'Research experience (preferred)',
       ],
       benefits: [
-        "Full tuition scholarship for qualified applicants",
-        "Monthly stipend of 1,200,000 KRW",
-        "On-campus housing available",
-        "Research assistant opportunities",
-        "Conference travel support",
+        'Full tuition scholarship for qualified applicants',
+        'Monthly stipend of 1,200,000 KRW',
+        'On-campus housing available',
+        'Research assistant opportunities',
+        'Conference travel support',
       ],
     },
     applicant: {
-      id: "applicant-1",
-      name: "Sarah Johnson",
-      nationality: "United States",
-      email: "sarah.johnson@example.com",
+      id: 'applicant-1',
+      name: 'Sarah Johnson',
+      nationality: 'United States',
+      email: 'sarah.johnson@example.com',
     },
     evaluations: [
       {
-        id: "eval-1",
-        date: "2023-10-28",
-        evaluator: "Dr. Kim Minho",
+        id: 'eval-1',
+        date: '2023-10-28',
+        evaluator: 'Dr. Kim Minho',
         academicFit: 4,
         researchPotential: 5,
         technicalSkills: 4,
         communication: 3,
         overallRating: 4,
         notes:
-          "Strong academic background and research potential. Technical skills are excellent, particularly in machine learning. Communication skills could be improved, but overall a very promising candidate.",
-        status: "under_review",
+          'Strong academic background and research potential. Technical skills are excellent, particularly in machine learning. Communication skills could be improved, but overall a very promising candidate.',
+        status: 'under_review',
       },
     ],
   }
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "pending":
+      case 'pending':
         return (
-          <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+          <Badge variant="outline" className="border-yellow-200 bg-yellow-50 text-yellow-700">
             Pending
           </Badge>
         )
-      case "under_review":
+      case 'under_review':
         return (
-          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+          <Badge variant="outline" className="border-blue-200 bg-blue-50 text-blue-700">
             Under Review
           </Badge>
         )
-      case "under_interview":
+      case 'under_interview':
         return (
-          <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+          <Badge variant="outline" className="border-purple-200 bg-purple-50 text-purple-700">
             Under Interview
           </Badge>
         )
-      case "accepted":
+      case 'accepted':
         return (
-          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+          <Badge variant="outline" className="border-green-200 bg-green-50 text-green-700">
             Accepted
           </Badge>
         )
@@ -164,13 +165,13 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "pending":
+      case 'pending':
         return <Clock className="h-5 w-5 text-yellow-500" />
-      case "under_review":
+      case 'under_review':
         return <Eye className="h-5 w-5 text-blue-500" />
-      case "under_interview":
+      case 'under_interview':
         return <User className="h-5 w-5 text-purple-500" />
-      case "accepted":
+      case 'accepted':
         return <Check className="h-5 w-5 text-green-500" />
       default:
         return null
@@ -178,16 +179,16 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     })
   }
 
   return (
     <div className="bg-gray-50 py-10">
-      <div className="container max-w-7xl mx-auto px-6 sm:px-8">
+      <div className="container mx-auto max-w-7xl px-6 sm:px-8">
         <div className="flex flex-col space-y-8">
           <div className="flex items-center space-x-4">
             <Button variant="ghost" size="icon" asChild>
@@ -204,9 +205,9 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8">
+            <div className="space-y-8 lg:col-span-2">
               {/* Application Overview */}
               <Card>
                 <CardHeader>
@@ -245,18 +246,22 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                     </div>
                     <div>
                       <p className="text-sm font-medium">Applied Date</p>
-                      <p className="text-sm text-muted-foreground">{formatDate(application.appliedDate)}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {formatDate(application.appliedDate)}
+                      </p>
                     </div>
                     <div>
                       <p className="text-sm font-medium">Application Deadline</p>
-                      <p className="text-sm text-muted-foreground">{formatDate(application.deadline)}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {formatDate(application.deadline)}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex justify-end gap-2">
                     <Button variant="outline" size="sm" asChild>
                       <Link
-                        href={`/recruitment/${application.recruitment.university.toLowerCase().replace(/\s+/g, "-")}`}
+                        href={`/recruitment/${application.recruitment.university.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         View Recruitment
                       </Link>
@@ -280,14 +285,19 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                 <CardContent>
                   <div className="space-y-4">
                     {application.applicationDocuments.map((doc, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 border rounded-md">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between rounded-md border p-3"
+                      >
                         <div className="flex items-center space-x-3">
                           <FileText className="h-5 w-5 text-muted-foreground" />
                           <div>
                             <p className="font-medium">{doc.name}</p>
                             <div className="flex items-center space-x-4 text-xs text-muted-foreground">
                               <span>{doc.type}</span>
-                              <span>Uploaded on {new Date(doc.uploadDate).toLocaleDateString()}</span>
+                              <span>
+                                Uploaded on {new Date(doc.uploadDate).toLocaleDateString()}
+                              </span>
                               <span>{doc.size}</span>
                             </div>
                           </div>
@@ -306,7 +316,9 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
               <Card>
                 <CardHeader>
                   <CardTitle>Recruitment Details</CardTitle>
-                  <CardDescription>Information about the recruitment you applied to</CardDescription>
+                  <CardDescription>
+                    Information about the recruitment you applied to
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Tabs defaultValue="overview">
@@ -318,7 +330,9 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                     <TabsContent value="overview" className="space-y-4 pt-4">
                       <div className="flex items-center space-x-2">
                         {application.recruitment.scholarshipAvailable && (
-                          <Badge className="bg-green-500 hover:bg-green-600">Scholarship Available</Badge>
+                          <Badge className="bg-green-500 hover:bg-green-600">
+                            Scholarship Available
+                          </Badge>
                         )}
                         <Badge variant="outline">{application.recruitment.fieldOfStudy}</Badge>
                       </div>
@@ -326,7 +340,7 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                       <div className="flex justify-end">
                         <Button variant="outline" asChild>
                           <Link
-                            href={`/recruitment/${application.recruitment.university.toLowerCase().replace(/\s+/g, "-")}`}
+                            href={`/recruitment/${application.recruitment.university.toLowerCase().replace(/\s+/g, '-')}`}
                           >
                             View Full Recruitment
                           </Link>
@@ -374,7 +388,7 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                       <div>
                         <p className="font-medium">Current Status</p>
                         <p className="text-sm text-muted-foreground">
-                          Your application is {application.status.replace("_", " ")}
+                          Your application is {application.status.replace('_', ' ')}
                         </p>
                       </div>
                     </div>
@@ -388,8 +402,8 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                           <div key={index} className="flex items-start space-x-3">
                             <div className="relative">
                               <div
-                                className={`h-6 w-6 rounded-full flex items-center justify-center ${
-                                  index === 0 ? "bg-green-100" : "bg-blue-100"
+                                className={`flex h-6 w-6 items-center justify-center rounded-full ${
+                                  index === 0 ? 'bg-green-100' : 'bg-blue-100'
                                 }`}
                               >
                                 {index === 0 ? (
@@ -399,13 +413,17 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                                 )}
                               </div>
                               {index < application.statusHistory.length - 1 && (
-                                <div className="absolute top-6 left-1/2 w-px h-10 -translate-x-1/2 bg-gray-200" />
+                                <div className="absolute left-1/2 top-6 h-10 w-px -translate-x-1/2 bg-gray-200" />
                               )}
                             </div>
                             <div>
-                              <p className="font-medium">{status.status.replace("_", " ")}</p>
-                              <p className="text-xs text-muted-foreground">{formatDate(status.date)}</p>
-                              <p className="text-sm text-muted-foreground mt-1">{status.description}</p>
+                              <p className="font-medium">{status.status.replace('_', ' ')}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {formatDate(status.date)}
+                              </p>
+                              <p className="mt-1 text-sm text-muted-foreground">
+                                {status.description}
+                              </p>
                             </div>
                           </div>
                         ))}
@@ -431,7 +449,9 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                               <ClipboardList className="h-4 w-4 text-muted-foreground" />
                               <p className="text-sm font-medium">{evaluation.evaluator}</p>
                             </div>
-                            <p className="text-xs text-muted-foreground">{formatDate(evaluation.date)}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {formatDate(evaluation.date)}
+                            </p>
                           </div>
                           <div className="grid grid-cols-2 gap-2 text-sm">
                             <div>
@@ -452,18 +472,18 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                             </div>
                           </div>
                           <div>
-                            <p className="text-muted-foreground text-sm">Overall Rating:</p>
+                            <p className="text-sm text-muted-foreground">Overall Rating:</p>
                             <p className="font-medium">{evaluation.overallRating}/5</p>
                           </div>
                           <div>
-                            <p className="text-muted-foreground text-sm">Notes:</p>
+                            <p className="text-sm text-muted-foreground">Notes:</p>
                             <p className="text-sm">{evaluation.notes}</p>
                           </div>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-4">
+                    <div className="py-4 text-center">
                       <p className="text-muted-foreground">No evaluation notes available yet.</p>
                     </div>
                   )}
@@ -489,7 +509,11 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
                     <p className="text-sm">Established 1946</p>
                   </div>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link href="https://www.snu.ac.kr/index.html" target="_blank" rel="noopener noreferrer">
+                    <Link
+                      href="https://www.snu.ac.kr/index.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       Visit University Website
                     </Link>
                   </Button>
