@@ -1,6 +1,7 @@
 'use client'
 
-import { Eye, EyeOff, Mail } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -14,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import GoogleIcon from '@/components/ui/icons/google-icon'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -43,43 +45,30 @@ export default function LoginPage() {
           <CardContent>
             <div className="grid gap-4">
               <Button variant="outline" className="w-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="mr-2 h-4 w-4"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <circle cx="12" cy="12" r="4" />
-                  <line x1="21.17" x2="12" y1="8" y2="8" />
-                  <line x1="3.95" x2="8.54" y1="6.06" y2="14" />
-                  <line x1="10.88" x2="15.46" y1="21.94" y2="14" />
-                </svg>
-                Sign in with Google
+                <GoogleIcon />
+                구글 계정으로 로그인
+              </Button>
+              <Button variant="outline" className="w-full">
+                <Image src="/images/facebook.png" alt="facebook" width={20} height={20} />
+                페이스북 계정으로 로그인
               </Button>
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                  <span className="bg-background px-2 text-muted-foreground">또는</span>
                 </div>
               </div>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">이메일</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="email"
                       type="email"
-                      placeholder="m@example.com"
+                      placeholder="이메일"
                       className="pl-9"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
@@ -89,19 +78,15 @@ export default function LoginPage() {
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
-                    <Link
-                      href="/forgot-password"
-                      className="text-sm text-primary underline-offset-4 hover:underline"
-                    >
-                      Forgot password?
-                    </Link>
+                    <Label htmlFor="password">비밀번호</Label>
                   </div>
                   <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="password"
                       type={showPassword ? 'text' : 'password'}
-                      placeholder="••••••••"
+                      placeholder="비밀번호"
+                      className="pl-9"
                       value={password}
                       onChange={e => setPassword(e.target.value)}
                       required
@@ -125,15 +110,22 @@ export default function LoginPage() {
                   </div>
                 </div>
                 <Button type="submit" className="w-full">
-                  Sign In
+                  로그인
                 </Button>
               </form>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
-            <div className="text-center text-sm">
-              <Link href="/register" className="text-primary underline-offset-4 hover:underline">
+            <div className="flex gap-2 text-center text-sm">
+              <Link href="/signup" className="text-primary underline-offset-4 hover:underline">
                 회원가입
+              </Link>
+              <span className="text-muted-foreground">|</span>
+              <Link
+                href="/reset-password"
+                className="text-primary underline-offset-4 hover:underline"
+              >
+                비밀번호 찾기
               </Link>
             </div>
           </CardFooter>
