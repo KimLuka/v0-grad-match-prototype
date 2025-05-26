@@ -1,7 +1,8 @@
 'use client'
 
 import * as TabsPrimitive from '@radix-ui/react-tabs'
-import * as React from 'react'
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+import { createContext } from 'react'
 
 import { cn } from '@/utils/cn'
 
@@ -10,10 +11,10 @@ type TabsContextValue = {
   onValueChange: (value: string) => void
 }
 
-const TabsContext = React.createContext<TabsContextValue | undefined>(undefined)
+const TabsContext = createContext<TabsContextValue | undefined>(undefined)
 
-interface TabsProps extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root> {
-  children?: React.ReactNode
+interface TabsProps extends ComponentPropsWithoutRef<typeof TabsPrimitive.Root> {
+  children?: ReactNode
 }
 
 const Tabs = ({ children, ...props }: TabsProps) => {

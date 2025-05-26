@@ -1,12 +1,12 @@
 'use client'
 
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
-import * as React from 'react'
+import { createContext, useState } from 'react'
 
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/utils/cn'
 
-const AlertDialogContext = React.createContext<{
+const AlertDialogContext = createContext<{
   open: boolean
   onOpenChange: (open: boolean) => void
 }>({
@@ -15,7 +15,7 @@ const AlertDialogContext = React.createContext<{
 })
 
 const AlertDialog = ({ children, ...props }: AlertDialogPrimitive.AlertDialogProps) => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   return (
     <AlertDialogContext.Provider value={{ open, onOpenChange: setOpen }}>

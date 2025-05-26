@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { cn } from '@/utils/cn'
 
 const Card = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (

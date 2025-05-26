@@ -2,12 +2,12 @@
 
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
-import * as React from 'react'
+import { createContext } from 'react'
 
 import { cn } from '@/utils/cn'
 
 // Select Context 생성
-const SelectContext = React.createContext<{
+const SelectContext = createContext<{
   value: string
   onValueChange: (value: string) => void
 }>({

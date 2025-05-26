@@ -1,9 +1,9 @@
 import { cva, type VariantProps } from 'class-variance-authority'
-import * as React from 'react'
+import { createContext } from 'react'
 
 import { cn } from '@/utils/cn'
 
-const AlertContext = React.createContext<{
+const AlertContext = createContext<{
   variant: 'default' | 'destructive' | null
 }>({
   variant: 'default',

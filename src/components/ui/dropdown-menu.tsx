@@ -2,12 +2,12 @@
 
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import * as React from 'react'
+import { createContext, useState } from 'react'
 
 import { cn } from '@/utils/cn'
 
 // DropdownMenu Context 생성
-const DropdownMenuContext = React.createContext<{
+const DropdownMenuContext = createContext<{
   open: boolean
   onOpenChange: (open: boolean) => void
 }>({
@@ -17,7 +17,7 @@ const DropdownMenuContext = React.createContext<{
 
 // DropdownMenu Root 컴포넌트
 const DropdownMenu = ({ children, ...props }: DropdownMenuPrimitive.DropdownMenuProps) => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   return (
     <DropdownMenuContext.Provider value={{ open, onOpenChange: setOpen }}>

@@ -2,12 +2,12 @@
 
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
-import * as React from 'react'
+import { createContext, useState } from 'react'
 
 import { cn } from '@/utils/cn'
 
 // Dialog Context 생성
-const DialogContext = React.createContext<{
+const DialogContext = createContext<{
   open: boolean
   onOpenChange: (open: boolean) => void
 }>({
@@ -17,7 +17,7 @@ const DialogContext = React.createContext<{
 
 // Dialog Root 컴포넌트
 const Dialog = ({ children, ...props }: DialogPrimitive.DialogProps) => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   return (
     <DialogContext.Provider value={{ open, onOpenChange: setOpen }}>
