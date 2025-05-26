@@ -3,7 +3,6 @@
 import { Eye, EyeOff, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import type React from 'react'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -36,9 +35,9 @@ export default function LoginPage() {
       <div className="container mx-auto flex max-w-7xl items-center justify-center px-6 sm:px-8">
         <Card className="mx-auto max-w-sm">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Login</CardTitle>
+            <CardTitle className="text-2xl font-bold">로그인</CardTitle>
             <CardDescription>
-              Enter your email and password to sign in to your account
+              로그인 진행 시, 사용자 약관과 개인정보 보호정책에 동의하는 것으로 간주됩니다.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -133,12 +132,11 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="text-center text-sm">
-              Don&apos;t have an account?{' '}
               <Link
                 href="/auth/register"
                 className="text-primary underline-offset-4 hover:underline"
               >
-                Sign up
+                회원가입
               </Link>
             </div>
           </CardFooter>
