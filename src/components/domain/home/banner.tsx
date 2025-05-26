@@ -63,7 +63,7 @@ export function Banner() {
           {bannerItems.map((item, index) => (
             <Carousel.Item
               key={item.id}
-              className="relative h-[350px] pl-4 basis-[90%] md:basis-[75%]"
+              className="relative md:h-80 pl-4 h-56 basis-[60%] md:basis-[70%]"
             >
               <Link href={item.link} className="relative block h-full w-full rounded-lg overflow-hidden">
                 <Image
@@ -85,21 +85,21 @@ export function Banner() {
         </Carousel.Content>
         <Button
           variant="outline"
-          className="absolute rounded-full left-20 top-1/2 -translate-y-1/2 bg-white opacity-80 hover:opacity-100 h-12 w-12 p-0 hidden md:inline-flex items-center justify-center"
+          className="absolute rounded-full left-4 md:left-20 top-1/2 -translate-y-1/2 bg-white opacity-80 hover:opacity-100 h-12 w-12 p-0 inline-flex items-center justify-center"
           asChild
         >
           <Carousel.Previous>
-            <ChevronLeft size={32} />
+            <ChevronLeft className="h-4 w-4 md:h-8 md:w-8" />
             <span className="sr-only">이전 슬라이드</span>
           </Carousel.Previous>
         </Button>
         <Button
           variant="outline"
-          className="absolute rounded-full right-20 top-1/2 -translate-y-1/2 bg-white opacity-80 hover:opacity-100 h-12 w-12 p-0 hidden md:inline-flex items-center justify-center"
+          className="absolute rounded-full right-4 md:right-20 top-1/2 -translate-y-1/2 bg-white opacity-80 hover:opacity-100 h-12 w-12 p-0 inline-flex items-center justify-center"
           asChild
         >
           <Carousel.Next>
-            <ChevronRight size={32} />
+            <ChevronRight className="h-4 w-4 md:h-8 md:w-8" />
             <span className="sr-only">다음 슬라이드</span>
           </Carousel.Next>
         </Button>
