@@ -6,6 +6,7 @@ import type React from 'react'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
+import { Logo } from '@/components/domain/home/logo'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,156 +18,147 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { useIsMobile } from '@/hooks/use-mobile'
 
+const NAV_ITEMS = [
+  { href: '/search/recruitments', label: '모집공고' },
+  { href: '/search/applicants', label: '지원자 풀' },
+] as const
+
+const USER_MENU_ITEMS = [
+  { href: '/profile', label: '프로필' },
+  { href: '/applications', label: '지원현황' },
+  { href: '/saved', label: '스크랩' },
+  { href: '/settings', label: '설정' },
+] as const
+
+function DesktopNav() {
+  return (
+    <nav className="hidden md:flex gap-6">
+      {NAV_ITEMS.map((item) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          className="text-sm font-medium transition-colors hover:opacity-60"
+        >
+          {item.label}
+        </Link>
+      ))}
+    </nav>
+  )
+}
+
+function UserMenu() {
+  return (
+    <>
+      <Button variant="outline" size="icon">
+        <Bell className="h-4 w-4" />
+        <span className="sr-only">알림</span>
+      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            <User className="h-4 w-4" />
+            <span className="sr-only">사용자 메뉴</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>내 계정</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {USER_MENU_ITEMS.map((item) => (
+            <DropdownMenuItem key={item.href} asChild>
+              <Link href={item.href}>{item.label}</Link>
+            </DropdownMenuItem>
+          ))}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>로그아웃</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  )
+}
+
+function AuthButtons() {
+  const isMobile = useIsMobile()
+  
+  return (
+    <>
+      {!isMobile && (
+        <Button variant="outline" asChild>
+          <Link href="/auth/login">로그인</Link>
+        </Button>
+      )}
+      <Button asChild>
+        <Link href="/auth/register">회원가입</Link>
+      </Button>
+    </>
+  )
+}
+
+function MobileMenu({ isLoggedIn }: { isLoggedIn: boolean }) {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Menu className="h-4 w-4" />
+          <span className="sr-only">메뉴 열기</span>
+        </Button>
+      </SheetTrigger>
+      <SheetContent side="right">
+        <div className="grid gap-4 py-4">
+          <Logo />
+          <div className="grid gap-2">
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex w-full items-center py-2 text-lg font-semibold hover:opacity-60"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          {!isLoggedIn ? (
+            <div className="grid gap-2">
+              <Button asChild variant="outline">
+                <Link href="/auth/login">로그인</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/auth/register">회원가입</Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="grid gap-2">
+              {USER_MENU_ITEMS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex w-full items-center py-2 text-lg font-semibold"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <Button variant="outline">로그아웃</Button>
+            </div>
+          )}
+        </div>
+      </SheetContent>
+    </Sheet>
+  )
+}
+
 export function Header() {
   const isMobile = useIsMobile()
-  const [isLoggedIn, _setIsLoggedIn] = useState(false) // This would be replaced with actual auth state
+  const [isLoggedIn, _setIsLoggedIn] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background px-4">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between">
         <div className="flex items-center gap-6 md:gap-10">
-          <Link href="/" className="flex items-center space-x-2">
-            <GraduationCapIcon className="h-6 w-6" />
-            <span className="inline-block font-bold">대학원 매칭</span>
-          </Link>
-          {!isMobile && (
-            <nav className="flex gap-6">
-              <Link
-                href="/search/recruitments"
-                className="text-sm font-medium transition-colors hover:text-primary"
-              >
-                모집공고
-              </Link>
-              <Link
-                href="/search/applicants"
-                className="text-sm font-medium transition-colors hover:text-primary"
-              >
-                지원자 풀
-              </Link>
-            </nav>
-          )}
+          <Logo />
+          <DesktopNav />
         </div>
         <div className="flex items-center gap-2">
-          {isLoggedIn ? (
-            <>
-              <Button variant="outline" size="icon">
-                <Bell className="h-4 w-4" />
-                <span className="sr-only">알림</span>
-              </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="icon">
-                    <User className="h-4 w-4" />
-                    <span className="sr-only">사용자 메뉴</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>내 계정</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/profile">프로필</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/applications">지원현황</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/saved">저장됨</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/settings">설정</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>로그아웃</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
-          ) : (
-            <>
-              {!isMobile && (
-                <Button variant="outline" asChild>
-                  <Link href="/auth/login">로그인</Link>
-                </Button>
-              )}
-              <Button asChild>
-                <Link href="/auth/register">회원가입</Link>
-              </Button>
-            </>
-          )}
-
-          {isMobile && (
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="h-4 w-4" />
-                  <span className="sr-only">메뉴 열기</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <div className="grid gap-4 py-4">
-                  <Link
-                    href="/"
-                    className="flex items-center space-x-2"
-                    onClick={() => document.body.classList.remove('overflow-hidden')}
-                  >
-                    <GraduationCapIcon className="h-6 w-6" />
-                    <span className="font-bold">대학원 매칭</span>
-                  </Link>
-                  <div className="grid gap-2">
-                    <Link
-                      href="/search/recruitments"
-                      className="flex w-full items-center py-2 text-lg font-semibold"
-                    >
-                      모집공고
-                    </Link>
-                    <Link
-                      href="/search/applicants"
-                      className="flex w-full items-center py-2 text-lg font-semibold"
-                    >
-                      지원자 검색
-                    </Link>
-                  </div>
-                  {!isLoggedIn ? (
-                    <div className="grid gap-2">
-                      <Button asChild variant="outline">
-                        <Link href="/auth/login">로그인</Link>
-                      </Button>
-                      <Button asChild>
-                        <Link href="/auth/register">회원가입</Link>
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="grid gap-2">
-                      <Link
-                        href="/profile"
-                        className="flex w-full items-center py-2 text-lg font-semibold"
-                      >
-                        프로필
-                      </Link>
-                      <Link
-                        href="/applications"
-                        className="flex w-full items-center py-2 text-lg font-semibold"
-                      >
-                        지원현황
-                      </Link>
-                      <Link
-                        href="/saved"
-                        className="flex w-full items-center py-2 text-lg font-semibold"
-                      >
-                        저장됨
-                      </Link>
-                      <Link
-                        href="/settings"
-                        className="flex w-full items-center py-2 text-lg font-semibold"
-                      >
-                        설정
-                      </Link>
-                      <Button variant="outline">로그아웃</Button>
-                    </div>
-                  )}
-                </div>
-              </SheetContent>
-            </Sheet>
-          )}
+          {isLoggedIn ? <UserMenu /> : <AuthButtons />}
+          {isMobile && <MobileMenu isLoggedIn={isLoggedIn} />}
         </div>
       </div>
     </header>

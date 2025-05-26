@@ -10,7 +10,7 @@ import { Header } from '@/components/layout/header'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: '대학원 매칭 - 한국 대학원 프로그램 매칭 플랫폼',
+  title: 'GradMatch - 한국 대학원 프로그램 매칭 플랫폼',
   description: '한국의 최고 대학교들과 연결되어 완벽한 대학원 프로그램을 찾아보세요',
   generator: 'v0.dev',
 }
