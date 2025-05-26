@@ -32,7 +32,7 @@ export function Header() {
           {!isMobile && (
             <nav className="flex gap-6">
               <Link
-                href="/search/recruitments"
+                href="/search/recruitmentsre"
                 className="text-sm font-medium transition-colors hover:text-primary"
               >
                 모집공고
