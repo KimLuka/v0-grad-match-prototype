@@ -91,7 +91,7 @@ export default function LoginPage() {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password">Password</Label>
                     <Link
-                      href="/auth/forgot-password"
+                      href="/forgot-password"
                       className="text-sm text-primary underline-offset-4 hover:underline"
                     >
                       Forgot password?
@@ -132,10 +132,7 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="flex flex-col">
             <div className="text-center text-sm">
-              <Link
-                href="/auth/register"
-                className="text-primary underline-offset-4 hover:underline"
-              >
+              <Link href="/register" className="text-primary underline-offset-4 hover:underline">
                 회원가입
               </Link>
             </div>
