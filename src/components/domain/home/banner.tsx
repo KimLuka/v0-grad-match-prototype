@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { Carousel, type CarouselApi } from '@/components/ui/carousel'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utils/cn'
+import Autoplay from 'embla-carousel-autoplay'
 
 const bannerItems = [
   {
@@ -34,6 +35,11 @@ export function Banner() {
   const [api, setApi] = useState<CarouselApi>()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
+  const autoplayOptions = {
+    delay: 4500,
+    stopOnInteraction: false,
+    stopOnMouseEnter: true,
+  }
 
   useEffect(() => {
     if (!api) return
@@ -56,6 +62,7 @@ export function Banner() {
           containScroll: 'trimSnaps',
           startIndex: 1,
         }}
+        plugins={[Autoplay(autoplayOptions)]}
         setApi={setApi}
         className={cn('transition-opacity duration-1000', isLoaded ? 'opacity-100' : 'opacity-0')}
       >
