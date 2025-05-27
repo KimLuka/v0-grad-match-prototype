@@ -49,7 +49,7 @@ export default function LoginPage() {
                 구글 계정으로 로그인
               </Button>
               <Button variant="outline" className="w-full">
-                <Image src="/images/facebook.png" alt="facebook" width={20} height={20} />
+                <Image src="/images/facebook.svg" alt="facebook" width={20} height={20} />
                 페이스북 계정으로 로그인
               </Button>
               <div className="relative">
