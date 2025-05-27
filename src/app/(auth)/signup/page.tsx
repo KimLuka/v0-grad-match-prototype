@@ -1,9 +1,8 @@
 'use client'
 
-import { Eye, EyeOff, Mail, User } from 'lucide-react'
+import { Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import type React from 'react'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -15,11 +14,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import FacebookIcon from '@/components/ui/icons/facebook-icon'
+import GoogleIcon from '@/components/ui/icons/google-icon'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
-export default function RegisterPage() {
+export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
     firstName: '',
@@ -47,81 +47,39 @@ export default function RegisterPage() {
       <div className="container mx-auto flex max-w-7xl items-center justify-center px-6 sm:px-8">
         <Card className="mx-auto max-w-sm">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
+            <CardTitle className="text-2xl font-bold">회원가입</CardTitle>
             <CardDescription>
-              Enter your information to create your Grad Match account
+              회원가입 진행 시, 사용자 약관과 개인정보 보호정책에 동의하는 것으로 간주됩니다.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
               <Button variant="outline" className="w-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="mr-2 h-4 w-4"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <circle cx="12" cy="12" r="4" />
-                  <line x1="21.17" x2="12" y1="8" y2="8" />
-                  <line x1="3.95" x2="8.54" y1="6.06" y2="14" />
-                  <line x1="10.88" x2="15.46" y1="21.94" y2="14" />
-                </svg>
-                Sign up with Google
+                <GoogleIcon />
+                구글 계정으로 회원가입
+              </Button>
+              <Button variant="outline" className="w-full">
+                <FacebookIcon />
+                페이스북 계정으로 회원가입
               </Button>
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                  <span className="bg-background px-2 text-muted-foreground">또는</span>
                 </div>
               </div>
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">First name</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="firstName"
-                        name="firstName"
-                        placeholder="John"
-                        className="pl-9"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Last name</Label>
-                    <Input
-                      id="lastName"
-                      name="lastName"
-                      placeholder="Doe"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">이메일</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="email"
                       name="email"
                       type="email"
-                      placeholder="m@example.com"
+                      placeholder="이메일"
                       className="pl-9"
                       value={formData.email}
                       onChange={handleChange}
@@ -131,13 +89,15 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">비밀번호</Label>
                   <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="password"
                       name="password"
+                      className="pl-9"
                       type={showPassword ? 'text' : 'password'}
-                      placeholder="••••••••"
+                      placeholder="비밀번호"
                       value={formData.password}
                       onChange={handleChange}
                       required
@@ -162,6 +122,39 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="password">비밀번호 확인</Label>
+                  <div className="relative">
+                    <ShieldCheck className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="password"
+                      name="password"
+                      className="pl-9"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="비밀번호 확인"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute right-0 top-0 h-full px-3 py-2"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                      ) : (
+                        <Eye className="h-4 w-4 text-muted-foreground" />
+                      )}
+                      <span className="sr-only">
+                        {showPassword ? 'Hide password' : 'Show password'}
+                      </span>
+                    </Button>
+                  </div>
+                </div>
+
+                {/* <div className="space-y-2">
                   <Label>I am a:</Label>
                   <RadioGroup
                     defaultValue="applicant"
@@ -181,19 +174,25 @@ export default function RegisterPage() {
                       </Label>
                     </div>
                   </RadioGroup>
-                </div>
+                </div> */}
 
                 <Button type="submit" className="w-full">
-                  Create Account
+                  계정 만들기
                 </Button>
               </form>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
-            <div className="text-center text-sm">
-              Already have an account?{' '}
-              <Link href="/auth/login" className="text-primary underline-offset-4 hover:underline">
-                Sign in
+            <div className="flex gap-2 text-center text-sm">
+              <Link href="/login" className="text-primary underline-offset-4 hover:underline">
+                로그인
+              </Link>
+              <span className="text-muted-foreground">|</span>
+              <Link
+                href="/reset-password"
+                className="text-primary underline-offset-4 hover:underline"
+              >
+                비밀번호 찾기
               </Link>
             </div>
           </CardFooter>

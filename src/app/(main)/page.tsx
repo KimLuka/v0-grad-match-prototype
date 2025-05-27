@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <div className="container mx-auto max-w-7xl px-6 py-16">
+      <div className="container mx-auto max-w-7xl py-16">
         <Banner />
 
         <div className="mb-16 space-y-6 text-center">
