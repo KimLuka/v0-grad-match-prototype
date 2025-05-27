@@ -84,11 +84,11 @@ export function Header() {
             <>
               {!isMobile && (
                 <Button variant="outline" asChild>
-                  <Link href="/auth/login">로그인</Link>
+                  <Link href="/login">로그인</Link>
                 </Button>
               )}
               <Button asChild>
-                <Link href="/auth/register">회원가입</Link>
+                <Link href="/signUp">회원가입</Link>
               </Button>
             </>
           )}
