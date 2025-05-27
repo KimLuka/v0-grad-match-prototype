@@ -72,6 +72,9 @@ export function Banner() {
             delay: 4500,
             stopOnInteraction: false,
             stopOnMouseEnter: true,
+            stopOnFocusIn: false,
+            playOnInit: true,
+            rootNode: (emblaRoot) => emblaRoot.parentElement,
           }),
           WheelGesturesPlugin(),
         ]}
