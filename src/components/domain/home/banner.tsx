@@ -1,32 +1,36 @@
 'use client'
 
+import Autoplay from 'embla-carousel-autoplay'
+import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-import { Carousel, type CarouselApi } from '@/components/ui/carousel'
 import { Button } from '@/components/ui/button'
+import { Carousel, type CarouselApi } from '@/components/ui/carousel'
 import { cn } from '@/utils/cn'
-import Autoplay from 'embla-carousel-autoplay'
 
 const bannerItems = [
   {
     id: 1,
     title: '지원자 풀',
-    image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    image:
+      'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1920',
     link: '/search/applicants',
   },
   {
     id: 2,
     title: '마이페이지',
-    image: 'https://images.pexels.com/photos/3182759/pexels-photo-3182759.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    image:
+      'https://images.pexels.com/photos/3182759/pexels-photo-3182759.jpeg?auto=compress&cs=tinysrgb&w=1920',
     link: '/profile',
   },
   {
     id: 3,
     title: '모집 공고',
-    image: 'https://images.pexels.com/photos/2982449/pexels-photo-2982449.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    image:
+      'https://images.pexels.com/photos/2982449/pexels-photo-2982449.jpeg?auto=compress&cs=tinysrgb&w=1920',
     link: '/search/recruitments',
   },
 ]
@@ -35,11 +39,6 @@ export function Banner() {
   const [api, setApi] = useState<CarouselApi>()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
-  const autoplayOptions = {
-    delay: 4500,
-    stopOnInteraction: false,
-    stopOnMouseEnter: true,
-  }
 
   useEffect(() => {
     if (!api) return
@@ -47,14 +46,20 @@ export function Banner() {
     setIsLoaded(true)
     setActiveIndex(api.selectedScrollSnap())
 
-    api.on('select', () => {
+    const onSelect = () => {
       setActiveIndex(api.selectedScrollSnap())
-    })
+    }
+
+    api.on('select', onSelect)
+
+    return () => {
+      api.off('select', onSelect)
+    }
   }, [api])
 
   return (
     <div className="relative mb-16 w-full overflow-hidden">
-      <div className="absolute inset-0 z-10 bg-[linear-gradient(to_right,white_0%,transparent_10%,transparent_90%,white_100%)] pointer-events-none hidden md:block" />
+      <div className="pointer-events-none absolute inset-0 z-10 hidden bg-[linear-gradient(to_right,white_0%,transparent_10%,transparent_90%,white_100%)] md:block" />
       <Carousel
         opts={{
           loop: true,
@@ -62,7 +67,14 @@ export function Banner() {
           containScroll: 'trimSnaps',
           startIndex: 1,
         }}
-        plugins={[Autoplay(autoplayOptions)]}
+        plugins={[
+          Autoplay({
+            delay: 4500,
+            stopOnInteraction: false,
+            stopOnMouseEnter: true,
+          }),
+          WheelGesturesPlugin(),
+        ]}
         setApi={setApi}
         className={cn('transition-opacity duration-1000', isLoaded ? 'opacity-100' : 'opacity-0')}
       >
@@ -70,16 +82,13 @@ export function Banner() {
           {bannerItems.map((item, index) => (
             <Carousel.Item
               key={item.id}
-              className="relative md:h-80 pl-4 h-56 basis-[60%] md:basis-[70%]"
+              className="relative h-56 basis-[60%] pl-4 md:h-80 md:basis-[70%]"
             >
-              <Link href={item.link} className="relative block h-full w-full rounded-lg overflow-hidden">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                  priority
-                />
+              <Link
+                href={item.link}
+                className="relative block h-full w-full overflow-hidden rounded-lg"
+              >
+                <Image src={item.image} alt={item.title} fill className="object-cover" priority />
                 <div
                   className={cn(
                     'absolute inset-0 transition-opacity duration-300',
@@ -92,7 +101,7 @@ export function Banner() {
         </Carousel.Content>
         <Button
           variant="outline"
-          className="absolute rounded-full left-4 md:left-20 top-1/2 -translate-y-1/2 bg-white opacity-80 hover:opacity-100 h-12 w-12 p-0 inline-flex items-center justify-center"
+          className="absolute left-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white p-0 opacity-80 hover:opacity-100 md:left-20"
           asChild
         >
           <Carousel.Previous>
@@ -102,7 +111,7 @@ export function Banner() {
         </Button>
         <Button
           variant="outline"
-          className="absolute rounded-full right-4 md:right-20 top-1/2 -translate-y-1/2 bg-white opacity-80 hover:opacity-100 h-12 w-12 p-0 inline-flex items-center justify-center"
+          className="absolute right-4 top-1/2 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white p-0 opacity-80 hover:opacity-100 md:right-20"
           asChild
         >
           <Carousel.Next>
