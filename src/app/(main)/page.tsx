@@ -63,7 +63,7 @@ export default function HomePage() {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <BookOpen className="mr-2 h-5 w-5" />
-                리소??
+                리소스
               </CardTitle>
               <CardDescription>지원 과정을 도와주는 가이드와 팁</CardDescription>
             </CardHeader>
