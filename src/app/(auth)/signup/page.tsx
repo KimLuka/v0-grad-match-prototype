@@ -1,7 +1,6 @@
 'use client'
 
 import { Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -15,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import FacebookIcon from '@/components/ui/icons/facebook-icon'
 import GoogleIcon from '@/components/ui/icons/google-icon'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -59,7 +59,7 @@ export default function SignUpPage() {
                 구글 계정으로 회원가입
               </Button>
               <Button variant="outline" className="w-full">
-                <Image src="/images/facebook.png" alt="facebook" width={20} height={20} />
+                <FacebookIcon />
                 페이스북 계정으로 회원가입
               </Button>
               <div className="relative">
