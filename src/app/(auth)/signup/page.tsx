@@ -1,10 +1,15 @@
 'use client'
 
-import { Eye, EyeOff, Lock, Mail, ShieldCheck } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
+import { Lock, Mail, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { unstable_PasswordToggleField as PasswordToggleField } from 'radix-ui'
+import { useCallback } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
 
+import { signUp } from '@/api/auth'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -14,31 +19,48 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import FacebookIcon from '@/components/ui/icons/facebook-icon'
 import GoogleIcon from '@/components/ui/icons/google-icon'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { useDebounce } from '@/hooks/useDebounce'
+import { SignUpForm, signUpSchema } from '@/schemas/signup-schema'
 
 export default function SignUpPage() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    userType: 'applicant',
-  })
   const router = useRouter()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
+  const form = useForm<SignUpForm>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    mode: 'onChange',
+  })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In a real app, you would handle registration here
-    console.info('Registration data:', formData)
+  const password = useWatch({
+    control: form.control,
+    name: 'password',
+  })
+
+  const validateConfirmPassword = useCallback(() => {
+    if (form.getValues('confirmPassword')) {
+      form.trigger('confirmPassword')
+    }
+  }, [form, password])
+
+  useDebounce(validateConfirmPassword, 300)
+
+  // 실제 데이터 연결 시 변경해야 할 로직
+  const onSubmit = async (data: SignUpForm) => {
+    await signUp(data)
     router.push('/')
   }
 
@@ -70,116 +92,96 @@ export default function SignUpPage() {
                   <span className="bg-background px-2 text-muted-foreground">또는</span>
                 </div>
               </div>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">이메일</Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      placeholder="이메일"
-                      className="pl-9"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="email">이메일</FormLabel>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <FormControl>
+                            <input
+                              {...field}
+                              type="email"
+                              id="email"
+                              placeholder="이메일"
+                              className="pl-9"
+                            />
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <div className="space-y-2">
-                  <Label htmlFor="password">비밀번호</Label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="password"
-                      name="password"
-                      className="pl-9"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="비밀번호"
-                      value={formData.password}
-                      onChange={handleChange}
-                      required
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3 py-2"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <Eye className="h-4 w-4 text-muted-foreground" />
-                      )}
-                      <span className="sr-only">
-                        {showPassword ? 'Hide password' : 'Show password'}
-                      </span>
-                    </Button>
-                  </div>
-                </div>
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="password">비밀번호</FormLabel>
+                        <PasswordToggleField.Root>
+                          <div className="relative">
+                            <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <FormControl>
+                              <PasswordToggleField.Input
+                                {...field}
+                                id="password"
+                                placeholder="비밀번호"
+                                className="pl-9"
+                              />
+                            </FormControl>
+                            <PasswordToggleField.Toggle className="absolute right-2 top-1/2 -translate-y-1/2">
+                              <PasswordToggleField.Icon
+                                visible={<EyeOpenIcon />}
+                                hidden={<EyeClosedIcon />}
+                              />
+                            </PasswordToggleField.Toggle>
+                          </div>
+                        </PasswordToggleField.Root>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <div className="space-y-2">
-                  <Label htmlFor="password">비밀번호 확인</Label>
-                  <div className="relative">
-                    <ShieldCheck className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="password"
-                      name="password"
-                      className="pl-9"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="비밀번호 확인"
-                      value={formData.password}
-                      onChange={handleChange}
-                      required
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3 py-2"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <Eye className="h-4 w-4 text-muted-foreground" />
-                      )}
-                      <span className="sr-only">
-                        {showPassword ? 'Hide password' : 'Show password'}
-                      </span>
-                    </Button>
-                  </div>
-                </div>
+                  <FormField
+                    control={form.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="confirmPassword">비밀번호 확인</FormLabel>
+                        <PasswordToggleField.Root>
+                          <div className="relative">
+                            <ShieldCheck className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <FormControl>
+                              <PasswordToggleField.Input
+                                {...field}
+                                id="confirmPassword"
+                                placeholder="비밀번호 확인"
+                                className="pl-9"
+                              />
+                            </FormControl>
+                            <PasswordToggleField.Toggle className="absolute right-2 top-1/2 -translate-y-1/2">
+                              <PasswordToggleField.Icon
+                                visible={<EyeOpenIcon />}
+                                hidden={<EyeClosedIcon />}
+                              />
+                            </PasswordToggleField.Toggle>
+                          </div>
+                        </PasswordToggleField.Root>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                {/* <div className="space-y-2">
-                  <Label>I am a:</Label>
-                  <RadioGroup
-                    defaultValue="applicant"
-                    className="flex"
-                    onValueChange={value => setFormData(prev => ({ ...prev, userType: value }))}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="applicant" id="applicant" />
-                      <Label htmlFor="applicant" className="font-normal">
-                        Student/Applicant
-                      </Label>
-                    </div>
-                    <div className="ml-4 flex items-center space-x-2">
-                      <RadioGroupItem value="professor" id="professor" />
-                      <Label htmlFor="professor" className="font-normal">
-                        Professor
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div> */}
-
-                <Button type="submit" className="w-full">
-                  계정 만들기
-                </Button>
-              </form>
+                  <Button type="submit" className="w-full">
+                    계정 만들기
+                  </Button>
+                </form>
+              </Form>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
