@@ -13,12 +13,12 @@ import DesktopNav from './desktop-nav'
 import MobileMenu from './mobile-menu'
 import UserMenu from './user-menu'
 
-const NAV_ITEMS = [
+export const NAV_ITEMS = [
   { href: '/search/recruitments', label: '모집공고' },
   { href: '/search/applicants', label: '지원자 풀' },
 ] as const
 
-const USER_MENU_ITEMS = [
+export const USER_MENU_ITEMS = [
   { href: '/profile', label: '프로필' },
   { href: '/applications', label: '지원현황' },
   { href: '/saved', label: '스크랩' },
