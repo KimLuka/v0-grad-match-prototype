@@ -9,7 +9,7 @@ import { unstable_PasswordToggleField as PasswordToggleField } from 'radix-ui'
 import { useCallback } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
-import { signUp } from '@/api/auth'
+import { signUp } from '@/api/auth/signup'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -30,7 +30,7 @@ import {
 import FacebookIcon from '@/components/ui/icons/facebook-icon'
 import GoogleIcon from '@/components/ui/icons/google-icon'
 import { useDebounce } from '@/hooks/useDebounce'
-import { SignUpForm, signUpSchema } from '@/schemas/signup-schema'
+import { SignUpForm, signUpSchema } from '@/schemas/auth/signup-schema'
 
 export default function SignUpPage() {
   const router = useRouter()

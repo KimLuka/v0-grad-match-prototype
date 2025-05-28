@@ -1,4 +1,4 @@
-import { SignUpForm } from '@/schemas/signup-schema'
+import { SignUpForm } from '@/schemas/auth/signup-schema'
 
 export async function signUp(data: SignUpForm) {
   const response = await fetch('/api/signup', {
