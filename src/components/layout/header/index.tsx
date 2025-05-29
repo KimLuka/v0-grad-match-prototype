@@ -10,6 +10,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 
 import AuthButtons from './auth-buttons'
 import DesktopNav from './desktop-nav'
+import { HeaderSearchToggle } from './header-search-toggle'
 import MobileMenu from './mobile-menu'
 import UserMenu from './user-menu'
 
@@ -39,29 +40,33 @@ export function Header() {
           <Logo />
           {!isMobile && <DesktopNav navItems={NAV_ITEMS} />}
         </div>
+
         <div className="flex items-center gap-2">
-          {(!isMobile || !isLoggedIn) && <AuthButtons />}
-          {isMobile && (
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="h-4 w-4" />
-                  <span className="sr-only">메뉴 열기</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader className="sr-only">
-                  <SheetTitle>네비게이션 메뉴</SheetTitle>
-                </SheetHeader>
-                <MobileMenu
-                  isLoggedIn={isLoggedIn}
-                  navItems={NAV_ITEMS}
-                  userMenuItems={USER_MENU_ITEMS}
-                />
-              </SheetContent>
-            </Sheet>
-          )}
+          {!isMobile && <HeaderSearchToggle />}
+          {!isMobile && !isLoggedIn && <AuthButtons />}
           {!isMobile && isLoggedIn && <UserMenu userMenuItems={USER_MENU_ITEMS} />}
+
+          {/* 모바일 버튼 */}
+          {isMobile && (
+            <>
+              <AuthButtons />
+              <HeaderSearchToggle />
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Menu className="h-4 w-4" />
+                    <span className="sr-only">메뉴 열기</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right">
+                  <SheetHeader className="sr-only">
+                    <SheetTitle>네비게이션 메뉴</SheetTitle>
+                  </SheetHeader>
+                  <MobileMenu navItems={NAV_ITEMS} />
+                </SheetContent>
+              </Sheet>
+            </>
+          )}
         </div>
       </div>
     </header>

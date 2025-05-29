@@ -58,7 +58,7 @@ export function Banner() {
   }, [api])
 
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative mb-16 w-full overflow-hidden">
       <div className="pointer-events-none absolute inset-0 z-10 hidden bg-[linear-gradient(to_right,white_0%,transparent_10%,transparent_90%,white_100%)] md:block" />
       <Carousel
         opts={{

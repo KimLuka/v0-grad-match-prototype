@@ -17,7 +17,7 @@ const SOCIAL_LINKS: SocialLink[] = [
   {
     href: 'https://unie.kr/',
     label: 'UNIE',
-    imageSrc: '/logos/unie-symbol.png',
+    imageSrc: '/symbols/unie.png',
   },
   {
     href: 'https://www.instagram.com/unie.kr/',
@@ -39,7 +39,7 @@ export function ShortCut() {
           key={social.href}
           variant="ghost"
           size="icon"
-          className="h-10 w-10 rounded-full border  transition-all duration-200 border-gray-300 bg-white text-primary"
+          className="h-10 w-10 rounded-full border border-gray-300 bg-white text-primary transition-all duration-200"
           asChild
         >
           <Link href={social.href} target="_blank" rel="noopener noreferrer">
@@ -50,14 +50,14 @@ export function ShortCut() {
                 width={20}
                 height={20}
                 className="h-5 w-5"
-                onError={(e) => {
+                onError={e => {
                   const target = e.target as HTMLElement
                   const button = target.closest('button')
                   if (button) button.style.display = 'none'
                 }}
               />
-            ) : social.icon && (
-              <social.icon className="h-5 w-5" />
+            ) : (
+              social.icon && <social.icon className="h-5 w-5" />
             )}
             <span className="sr-only">{social.label}</span>
           </Link>

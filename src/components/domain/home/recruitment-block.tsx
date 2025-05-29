@@ -22,10 +22,10 @@ export function RecruitmentBlock({ recruitment }: RecruitmentBlockProps) {
     <Link href={`/recruitments/${id}`}>
       <Card className="group h-full transition-colors hover:border-primary">
         <CardHeader>
-          <div className="flex items-center gap-6 truncate">
+          <div className="flex items-center gap-5 truncate">
             <div className="flex flex-col items-center gap-2">
               {universityData && <UniversityLogo size="xl" university={universityData} />}
-              <span className="max-w-20 truncate text-sm">
+              <span className="w-20 truncate text-center text-sm">
                 {universityData ? universityData.label : university}
               </span>
             </div>

@@ -43,7 +43,7 @@ export function UniversityLogo({ university, size, className }: UniversityLogoPr
   return (
     <div className={cn(universityLogoVariants({ size, className }))}>
       <Image
-        src={university.logo}
+        src={university.symbol}
         alt={`${university.label} logo`}
         fill
         className="object-contain"

@@ -11,8 +11,8 @@ const FOOTER_LINKS = [
 export function Footer() {
   return (
     <footer className="w-full border-t bg-muted px-8 py-6">
-      <div className="container flex-1 flex-row items-center justify-between pb-28">
-        <div className="flex gap-16">
+      <div className="container mx-auto flex-1 flex-row items-center justify-between pb-28">
+        <div className="flex justify-end gap-8 md:gap-16">
           {FOOTER_LINKS.map(link => (
             <Link
               key={link.href}
@@ -27,8 +27,8 @@ export function Footer() {
 
       <ShortCut />
 
-      <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-        © 2025 Grad Match. All rights reserved.
+      <p className="container mx-auto mt-2 text-center text-sm leading-loose text-muted-foreground md:mt-0 md:text-left">
+        © {new Date().getFullYear()} Grad Match. All rights reserved.
       </p>
     </footer>
   )
