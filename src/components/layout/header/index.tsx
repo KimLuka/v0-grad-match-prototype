@@ -41,7 +41,7 @@ export function Header() {
           {!isMobile && <DesktopNav navItems={NAV_ITEMS} />}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           {!isMobile && <HeaderSearchToggle />}
           {!isMobile && !isLoggedIn && <AuthButtons />}
           {!isMobile && isLoggedIn && <UserMenu userMenuItems={USER_MENU_ITEMS} />}
@@ -53,7 +53,7 @@ export function Header() {
               <HeaderSearchToggle />
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="outline" size="icon">
+                  <Button variant="ghost" size="icon">
                     <Menu className="h-4 w-4" />
                     <span className="sr-only">메뉴 열기</span>
                   </Button>
