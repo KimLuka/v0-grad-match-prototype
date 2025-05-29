@@ -177,7 +177,7 @@ export default function SignUpPage() {
                     )}
                   />
 
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="disabled={!form.formState.isValid} w-full">
                     계정 만들기
                   </Button>
                 </form>
