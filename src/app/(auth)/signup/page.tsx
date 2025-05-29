@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { Lock, Mail, ShieldCheck } from 'lucide-react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { unstable_PasswordToggleField as PasswordToggleField } from 'radix-ui'
 import { useCallback } from 'react'
@@ -11,14 +10,7 @@ import { useForm, useWatch } from 'react-hook-form'
 
 import { signUp } from '@/api/auth/signup'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -177,27 +169,13 @@ export default function SignUpPage() {
                     )}
                   />
 
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full" disabled={!form.formState.isValid}>
                     계정 만들기
                   </Button>
                 </form>
               </Form>
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col">
-            <div className="flex gap-2 text-center text-sm">
-              <Link href="/login" className="text-primary underline-offset-4 hover:underline">
-                로그인
-              </Link>
-              <span className="text-muted-foreground">|</span>
-              <Link
-                href="/reset-password"
-                className="text-primary underline-offset-4 hover:underline"
-              >
-                비밀번호 찾기
-              </Link>
-            </div>
-          </CardFooter>
         </Card>
       </div>
     </div>

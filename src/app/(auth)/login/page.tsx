@@ -130,7 +130,7 @@ export default function LoginPage() {
                     )}
                   />
 
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full" disabled={!form.formState.isValid}>
                     로그인
                   </Button>
                 </form>
