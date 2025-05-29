@@ -1,10 +1,14 @@
 'use client'
 
-import { Eye, EyeOff, Lock, Mail } from 'lucide-react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
+import { Lock, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { unstable_PasswordToggleField as PasswordToggleField } from 'radix-ui'
+import { useForm } from 'react-hook-form'
 
+import { login } from '@/api/auth/login'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -14,21 +18,32 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import FacebookIcon from '@/components/ui/icons/facebook-icon'
 import GoogleIcon from '@/components/ui/icons/google-icon'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { LoginForm, loginSchema } from '@/schemas/auth/login-schema'
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In a real app, you would handle authentication here
-    console.info('Login attempt with:', { email, password })
+  const form = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+  })
+
+  const onSubmit = async (data: LoginForm) => {
+    await login(data)
     router.push('/')
   }
 
@@ -60,59 +75,66 @@ export default function LoginPage() {
                   <span className="bg-background px-2 text-muted-foreground">또는</span>
                 </div>
               </div>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">이메일</Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="이메일"
-                      className="pl-9"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="password">비밀번호</Label>
-                  </div>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="비밀번호"
-                      className="pl-9"
-                      value={password}
-                      onChange={e => setPassword(e.target.value)}
-                      required
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3 py-2"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <Eye className="h-4 w-4 text-muted-foreground" />
-                      )}
-                      <span className="sr-only">
-                        {showPassword ? 'Hide password' : 'Show password'}
-                      </span>
-                    </Button>
-                  </div>
-                </div>
-                <Button type="submit" className="w-full">
-                  로그인
-                </Button>
-              </form>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="email">이메일</FormLabel>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                          <FormControl>
+                            <input
+                              {...field}
+                              type="email"
+                              id="email"
+                              placeholder="이메일"
+                              className="pl-9"
+                            />
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="password">비밀번호</FormLabel>
+                        <PasswordToggleField.Root>
+                          <div className="relative">
+                            <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                            <FormControl>
+                              <PasswordToggleField.Input
+                                {...field}
+                                id="password"
+                                placeholder="비밀번호"
+                                className="pl-9"
+                              />
+                            </FormControl>
+                            <PasswordToggleField.Toggle className="absolute right-2 top-1/2 -translate-y-1/2">
+                              <PasswordToggleField.Icon
+                                visible={<EyeOpenIcon />}
+                                hidden={<EyeClosedIcon />}
+                              />
+                            </PasswordToggleField.Toggle>
+                          </div>
+                        </PasswordToggleField.Root>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button type="submit" className="w-full">
+                    로그인
+                  </Button>
+                </form>
+              </Form>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
