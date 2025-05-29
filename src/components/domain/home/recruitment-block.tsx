@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { UniversityLogo } from '@/components/common/university-logo'
+import { UniversitySymbol } from '@/components/common/university-symbol'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 import type { Recruitment } from '@/types/recruitment'
@@ -24,7 +24,7 @@ export function RecruitmentBlock({ recruitment }: RecruitmentBlockProps) {
         <CardHeader>
           <div className="flex items-center gap-5 truncate">
             <div className="flex flex-col items-center gap-2">
-              {universityData && <UniversityLogo size="xl" university={universityData} />}
+              {universityData && <UniversitySymbol size="xl" university={universityData} />}
               <span className="w-20 truncate text-center text-sm">
                 {universityData ? universityData.label : university}
               </span>
