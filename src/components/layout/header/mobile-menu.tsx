@@ -1,28 +1,25 @@
 import Link from 'next/link'
 
-import { Button } from '@/components/ui/button'
-import type { NavItem, UserMenuItem } from '@/components/layout/header'
+import { NAV_ITEMS } from '@/components/layout/header'
+import { SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 
-interface MobileMenuProps {
-  isLoggedIn: boolean
-  navItems: readonly NavItem[]
-  userMenuItems: readonly UserMenuItem[]
-}
-
-export default function MobileMenu({ isLoggedIn, navItems, userMenuItems }: MobileMenuProps) {
+export default function MobileMenu() {
   return (
-    <div className="grid gap-6 pt-8">
-      <div className="grid gap-2">
-        {navItems.map(item => (
+    <SheetContent side="left">
+      <SheetHeader>
+        <SheetTitle>메뉴</SheetTitle>
+      </SheetHeader>
+      <nav className="mt-8 flex flex-col gap-4">
+        {NAV_ITEMS.map(item => (
           <Link
             key={item.href}
             href={item.href}
-            className="flex w-full items-center py-2 text-lg font-semibold text-foreground/90 transition-colors hover:text-primary"
+            className="text-lg font-medium text-muted-foreground transition-colors hover:text-primary"
           >
             {item.label}
           </Link>
         ))}
-      </div>
-    </div>
+      </nav>
+    </SheetContent>
   )
 }
