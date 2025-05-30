@@ -16,7 +16,7 @@ import {
   Users,
 } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect } from 'react'
+import { useParams } from 'next/navigation'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -24,16 +24,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-export default function RecruitmentDetailPage({ params }: { params: { id: string } }) {
-  // Scroll to top when component mounts
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+export default function RecruitmentDetailPage() {
+  const params = useParams()
+  const id = params.id as string
 
-  // In a real app, you would fetch the recruitment data based on the ID
-  // For this example, we'll use mock data
   const recruitment = {
-    id: params.id,
+    id,
     lab: '인공지능 연구실',
     university: '서울대학교',
     professor: '김민호 교수',
@@ -130,7 +126,7 @@ export default function RecruitmentDetailPage({ params }: { params: { id: string
             </Button>
             <div>
               <h1 className="text-2xl font-bold tracking-tight">{recruitment.university}</h1>
-              <p className="text-muted-foreground">{recruitment.department}</p>
+              <p className="text-muted-foreground">{recruitment.lab}</p>
             </div>
           </div>
 
