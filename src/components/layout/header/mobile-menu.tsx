@@ -1,25 +1,23 @@
 import Link from 'next/link'
 
-import { NAV_ITEMS } from '@/components/layout/header'
-import { SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
+import type { NavItem } from '@/components/layout/header'
 
-export default function MobileMenu() {
+interface MobileMenuProps {
+  navItems: readonly NavItem[]
+}
+
+export default function MobileMenu({ navItems }: MobileMenuProps) {
   return (
-    <SheetContent side="left">
-      <SheetHeader>
-        <SheetTitle>메뉴</SheetTitle>
-      </SheetHeader>
-      <nav className="mt-8 flex flex-col gap-4">
-        {NAV_ITEMS.map(item => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="text-lg font-medium text-muted-foreground transition-colors hover:text-primary"
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-    </SheetContent>
+    <nav className="flex flex-col gap-6 pt-6">
+      {navItems.map(item => (
+        <Link
+          key={item.href}
+          href={item.href}
+          className="text-lg font-medium transition-colors hover:text-primary"
+        >
+          {item.label}
+        </Link>
+      ))}
+    </nav>
   )
 }

@@ -8,12 +8,12 @@ export default function AuthButtons() {
 
   return (
     <>
-      <Button variant="outline" asChild>
+      <Button variant="ghost" size="sm" asChild>
         <Link href="/login">로그인</Link>
       </Button>
       {!isMobile && (
-        <Button asChild>
-          <Link href="/signup">회원가입</Link>
+        <Button variant="ghost" size="sm" asChild>
+          <Link href="/register">회원가입</Link>
         </Button>
       )}
     </>
