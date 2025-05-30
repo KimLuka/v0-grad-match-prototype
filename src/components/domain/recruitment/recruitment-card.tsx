@@ -1,88 +1,96 @@
-import { BookOpen, CalendarIcon, GraduationCap, MapPin, User } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 
+import { BookmarkButton } from '@/components/common/bookmark-button'
+import { UniversitySymbol } from '@/components/common/university-symbol'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { DEGREES } from '@/constants/degree'
+import { UNIVERSITIES } from '@/constants/universities'
+import { getFieldOfStudyImage } from '@/utils/getFieldOfStudyImage'
+import { Recruitment } from '@/types/recruitment'
+import { calculateDDay } from '@/utils/formatDate'
+import { getLabelByValue } from '@/utils/getLabelByValue'
 
-interface RecruitmentCardProps {
-  lab: string
-  university: string
-  professor: string
-  deadline: string
-  scholarshipAvailable: boolean
-  fieldOfStudy: string
-  location?: string
-}
+type RecruitmentCardProps = Recruitment
 
 export function RecruitmentCard({
+  id,
   lab,
   university,
+  department,
   professor,
-  deadline,
-  scholarshipAvailable,
+  applicationPeriod,
+  scholarship,
   fieldOfStudy,
-  location = '서울',
-}: RecruitmentCardProps) {
-  // Format the deadline date
-  const formattedDeadline = new Date(deadline).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
+  degree,
+}: Omit<RecruitmentCardProps, 'title' | 'status' | 'tags'>) {
+  const [imageError, setImageError] = useState(false)
 
-  // Generate a unique ID for the recruitment post (in a real app, this would come from the database)
-  const id = `${university.toLowerCase().replace(/\s+/g, '-')}-${lab.toLowerCase().replace(/\s+/g, '-')}`
+  const fieldImage = getFieldOfStudyImage(fieldOfStudy, lab)
+  const universityData = UNIVERSITIES.find(uni => uni.label === university)
+  const dDay = calculateDDay(applicationPeriod.end)
 
   return (
     <Link href={`/recruitment/${id}`} className="w-full">
-      <Card className="h-full overflow-hidden border-0 bg-white shadow-sm transition-all hover:shadow-lg">
+      <Card className="group h-full overflow-hidden border-0 bg-white shadow-sm transition-all">
         <CardHeader className="p-0">
-          <div className="relative h-32 bg-gradient-to-r from-primary/20 to-primary/10">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <GraduationCap className="h-12 w-12 text-primary/40" />
-            </div>
-            <div className="absolute bottom-0 right-6 translate-y-1/2 transform">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-background bg-background">
-                <User className="h-8 w-8 text-primary/60" />
+          <div className="relative h-32 overflow-hidden sm:h-40">
+            {!imageError ? (
+              <>
+                <Image
+                  src={fieldImage.imageUrl}
+                  alt={`${fieldImage.label} 관련 이미지`}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  onError={() => setImageError(true)}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-black/60" />
+              </>
+            ) : (
+              <div
+                className={`h-full w-full ${fieldImage.fallbackColor} flex items-center justify-center transition-transform duration-500 group-hover:scale-110`}
+              >
+                <span className="text-lg font-semibold text-gray-600">{fieldImage.label}</span>
               </div>
-            </div>
-            <div className="absolute right-3 top-3 flex flex-col gap-2">
-              {scholarshipAvailable && (
-                <Badge className="bg-green-500 text-xs hover:bg-green-600">장학금 지원</Badge>
+            )}
+            <div className="absolute left-3 top-3 flex gap-1">
+              {scholarship && (
+                <Badge variant="transparent" size="lg" className="text-primary-foreground">
+                  장학금 지원
+                </Badge>
               )}
-              <Badge variant="outline" className="bg-white text-xs">
-                {fieldOfStudy}
-              </Badge>
+              {dDay && (
+                <Badge size="lg" variant="ghost" className="text-primary-foreground">
+                  {dDay}
+                </Badge>
+              )}
+            </div>
+            <div className="absolute right-3 top-3">
+              <BookmarkButton
+                onBookmarkChange={isBookmarked => {
+                  // TODO: 북마크 상태 변경 로직 (API 호출)
+                  console.info('Bookmark changed:', isBookmarked)
+                }}
+              />
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-4 pt-10">
-          <div className="space-y-3">
-            <div>
+        <CardContent className="flex flex-col gap-3 p-4 sm:gap-4">
+          <div className="flex items-start gap-4 sm:gap-5">
+            {universityData && <UniversitySymbol university={universityData} size="lg" />}
+            <div className="flex flex-col gap-0.5">
               <h3 className="line-clamp-1 text-lg font-semibold">{lab}</h3>
-              <div className="mt-1 flex items-center text-sm text-muted-foreground">
-                <div className="mr-2 flex h-5 w-5 items-center justify-center rounded-full bg-muted">
-                  <GraduationCap className="h-3 w-3" />
-                </div>
-                <span>{university}</span>
-              </div>
+              <span className="text-base">
+                {university} {department}
+              </span>
+              <span className="text-sm text-muted-foreground">{professor}</span>
             </div>
-            <div className="flex items-center text-xs text-muted-foreground">
-              <MapPin className="mr-1 h-3 w-3" />
-              <span>{location}</span>
-            </div>
-            <div className="flex items-center text-xs text-muted-foreground">
-              <User className="mr-1 h-3 w-3" />
-              <span>{professor}</span>
-            </div>
-            <div className="flex items-center text-xs text-muted-foreground">
-              <BookOpen className="mr-1 h-3 w-3" />
-              <span>연구 분야: {fieldOfStudy}</span>
-            </div>
-            <div className="flex items-center text-xs text-muted-foreground">
-              <CalendarIcon className="mr-1 h-3 w-3" />
-              <span>마감일: {formattedDeadline}</span>
-            </div>
+          </div>
+          <div className="flex gap-2">
+            <Badge variant="outline">{getLabelByValue(DEGREES, degree)}</Badge>
+            <Badge variant="secondary">{fieldOfStudy}</Badge>
           </div>
         </CardContent>
       </Card>
