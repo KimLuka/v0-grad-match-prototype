@@ -1,16 +1,12 @@
 'use client'
 
 import {
-  ArrowLeft,
-  BookOpen,
   Building,
   Calendar,
   Clock,
-  Download,
   ExternalLink,
   GraduationCap,
   Heart,
-  Mail,
   MapPin,
   Share2,
   Users,
@@ -117,19 +113,6 @@ export default function RecruitmentDetailPage() {
     <div className="bg-gray-50 py-10">
       <div className="container mx-auto max-w-7xl px-6 sm:px-8">
         <div className="flex flex-col space-y-8">
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon" asChild>
-              <Link href="/search/recruitments">
-                <ArrowLeft className="h-4 w-4" />
-                <span className="sr-only">뒤로</span>
-              </Link>
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight">{recruitment.university}</h1>
-              <p className="text-muted-foreground">{recruitment.lab}</p>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="space-y-8 md:col-span-2">
               <Card>
@@ -308,11 +291,11 @@ export default function RecruitmentDetailPage() {
                     </div>
                   </div>
 
-                  <div className="pt-4">
+                  {/* <div className="pt-4">
                     <Button size="lg" className="w-full">
                       지금 지원하기
                     </Button>
-                  </div>
+                  </div> */}
                 </CardContent>
               </Card>
             </div>
@@ -368,18 +351,18 @@ export default function RecruitmentDetailPage() {
                     </ul>
                   </div>
 
-                  <div className="pt-2">
+                  {/* <div className="pt-2">
                     <Button variant="outline" className="w-full" asChild>
                       <Link href={`mailto:${recruitment.professorInfo.email}`}>
                         <Mail className="mr-2 h-4 w-4" />
                         교수님께 연락하기
                       </Link>
                     </Button>
-                  </div>
+                  </div> */}
                 </CardContent>
               </Card>
 
-              <Card>
+              {/* <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">지원 서류</CardTitle>
                 </CardHeader>
@@ -414,7 +397,7 @@ export default function RecruitmentDetailPage() {
                     </li>
                   </ul>
                 </CardContent>
-              </Card>
+              </Card> */}
 
               <Card>
                 <CardHeader>
