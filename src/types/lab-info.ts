@@ -5,30 +5,37 @@ export interface LabInfo {
   professor: string
   deadline: string // ISO date string
   scholarshipAvailable: boolean
-  fieldOfStudy: string
+  fieldOfStudy: [string, string?, string?, string?, string?]
   description: string
   requirements: string[]
-  benefits: string[]
+  conditions: {
+    salary?: string
+    otherBenefits?: string[]
+  }
   professorInfo: {
     name: string
     title: string
+    image?: string | null
     education: string[]
-    researchInterests: string[]
-    publications: string[]
+    researchAreas: [string, string?, string?, string?, string?]
+    publications: {
+      title: string
+      url: string
+      authors: string[]
+      year: number
+      publisher: string
+    }[]
     email: string
   }
   universityInfo: {
     name: string
     location: string
-    ranking: string
-    established: string
+    ranking?: string
+    established: number
+    website: string
     studentsCount: string
     internationalStudents: string
     facilities: string[]
     surroundings: string[]
   }
-  curriculum: {
-    name: string
-    courses: string[]
-  }[]
 }
