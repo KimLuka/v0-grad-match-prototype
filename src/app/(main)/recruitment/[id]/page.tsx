@@ -5,41 +5,38 @@ import { useParams } from 'next/navigation'
 import ProcessTimeline from '@/components/domain/recruitment/detail/process-timeline'
 import ProfessorProfile from '@/components/domain/recruitment/detail/professor-profile'
 import RecruitmentSummary from '@/components/domain/recruitment/detail/recruitment-summary'
+import { LabInfo } from '@/types/lab-info'
 
 export default function RecruitmentDetailPage() {
   const params = useParams()
   const id = params.id as string
 
-  const recruitment = {
+  const recruitment: LabInfo = {
     id,
     lab: '인공지능 연구실',
     university: '서울대학교',
     professor: '김민호',
     deadline: '2023-12-31',
     scholarshipAvailable: true,
-    fieldOfStudy: ['인공지능', '머신러닝', '컴퓨터 비전', '자연어 처리'] as [
-      string,
-      string,
-      string,
-      string,
-    ],
+    fieldOfStudy: ['인공지능', '머신러닝', '딥러닝'],
     description:
-      '서울대학교 인공지능 연구실에서는 다가오는 학년도에 의욕적인 대학원생을 모집합니다. 저희 연구실은 인공지능, 머신러닝, 컴퓨터 비전 등 최첨단 연구 기회를 제공합니다.',
+      '서울대학교 인공지능 연구실에서는 인공지능과 머신러닝 분야의 혁신적인 연구를 진행하고 있습니다. 우리 연구실은 최신 기술 트렌드를 반영한 다양한 연구 프로젝트를 통해 학생들의 전문성을 키우고 있습니다.',
     requirements: [
-      '컴퓨터공학 또는 관련 분야 학사 학위',
-      '강한 프로그래밍 능력 (Python, Java, C++)',
-      'GPA 3.5 이상',
-      'TOPIK 3급 이상 (우대)',
-      '연구 경험 (우대)',
+      '컴퓨터 공학 또는 관련 분야 학사/석사 학위',
+      '프로그래밍 경험 (Python, C++ 등)',
+      '영어 의사소통 능력',
+      '연구에 대한 열정과 창의성',
     ],
     conditions: {
-      salary: '월 120만원',
-      otherBenefits: [
-        '자격을 갖춘 지원자에게 전액 장학금 제공',
-        '교내 기숙사 이용 가능',
-        '연구조교 기회 제공',
-        '학회 참석 지원',
-      ],
+      salary: '월 120만원 연구비 지원',
+      otherBenefits: ['국제 학회 참가 지원', '연구 장비 지원', '기숙사 제공'],
+    },
+    schedule: {
+      documentReview: '2024-01-15',
+      interview: '2024-01-20',
+      resultAnnouncement: '추후 협의',
+      documentSubmission: '추후 협의',
+      startDate: '2024-03-02',
     },
     professorInfo: {
       name: '김민호',
@@ -103,20 +100,6 @@ export default function RecruitmentDetailPage() {
         '문화 명소 및 엔터테인먼트 시설과 인접',
       ],
     },
-    curriculum: [
-      {
-        name: '핵심 과목',
-        courses: ['고급 알고리즘', '머신러닝', '컴퓨터 시스템 구조', '데이터베이스 시스템'],
-      },
-      {
-        name: '선택 과목',
-        courses: ['인공지능', '컴퓨터 비전', '자연어 처리', '분산 시스템', '클라우드 컴퓨팅'],
-      },
-      {
-        name: '연구 세미나',
-        courses: ['AI 최신 동향', '연구 방법론', '컴퓨팅 윤리'],
-      },
-    ],
   }
 
   return (

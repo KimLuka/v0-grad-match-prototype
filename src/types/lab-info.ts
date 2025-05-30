@@ -3,7 +3,7 @@ export interface LabInfo {
   lab: string
   university: string
   professor: string
-  deadline: string // ISO date string
+  deadline: string | '상시 채용' // ISO date string or '상시 채용'
   scholarshipAvailable: boolean
   fieldOfStudy: [string, string?, string?, string?, string?]
   description: string
@@ -11,6 +11,13 @@ export interface LabInfo {
   conditions: {
     salary?: string
     otherBenefits?: string[]
+  }
+  schedule: {
+    documentReview: string | '추후 협의'
+    interview?: string | '추후 협의'
+    resultAnnouncement: string | '추후 협의'
+    documentSubmission: string | '추후 협의'
+    startDate: string | '추후 협의'
   }
   professorInfo: {
     name: string
