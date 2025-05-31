@@ -1,37 +1,37 @@
 'use client'
 
 import { Search } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import type React from 'react'
-import { useState } from 'react'
 
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useSearch } from '@/hooks/useSearch'
 
-export function SearchBar() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const router = useRouter()
+interface SearchBarProps {
+  onSearch?: (query: string) => void
+  placeholder?: string
+  autoFocus?: boolean
+}
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      router.push(`/search/recruitments?q=${encodeURIComponent(searchQuery)}`)
-    }
-  }
+export function SearchBar({
+  onSearch,
+  placeholder = '연구분야, 연구실, 대학 이름으로 검색',
+  autoFocus,
+}: SearchBarProps) {
+  const { searchQuery, setSearchQuery, handleSubmit } = useSearch({ onSearch })
 
   return (
-    <form onSubmit={handleSearch} className="flex w-full max-w-sm items-center space-x-2">
-      <div className="relative flex-1">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="relative">
+        <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-primary outline-none" />
         <Input
-          type="search"
-          placeholder="Search universities, programs..."
-          className="pl-8"
+          type="text"
+          placeholder={placeholder}
+          className="w-full rounded-full border-primary pl-10 focus-visible:ring-0 focus-visible:ring-offset-0"
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
+          autoFocus={autoFocus}
         />
       </div>
-      <Button type="submit">Search</Button>
     </form>
   )
 }

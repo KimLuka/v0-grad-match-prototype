@@ -8,9 +8,7 @@ assignees: ''
 
 **어떤 버그인가요?**
 
--
-
-**어떤 상황에서 발생한 버그인가요?**
+- **어떤 상황에서 발생한 버그인가요?**
 
 - Steps to reproduce the behavior:
 
@@ -23,9 +21,7 @@ assignees: ''
 
 **예상했던 정상적인 결과**
 
--
-
-**Screenshots**
+- **Screenshots**
 
 - If applicable, add screenshots to help explain your problem.
 

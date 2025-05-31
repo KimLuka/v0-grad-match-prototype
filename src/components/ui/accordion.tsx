@@ -56,4 +56,4 @@ AccordionContent.displayName = AccordionPrimitive.Content.displayName
 ;(Accordion as any).Trigger = AccordionTrigger
 ;(Accordion as any).Content = AccordionContent
 
-export { Accordion }
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger }
