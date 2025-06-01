@@ -8,9 +8,9 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { DEGREES } from '@/constants/degree'
 import { UNIVERSITIES } from '@/constants/universities'
-import { getFieldOfStudyImage } from '@/utils/getFieldOfStudyImage'
 import { Recruitment } from '@/types/recruitment'
 import { calculateDDay } from '@/utils/formatDate'
+import { getFieldOfStudyImage } from '@/utils/getFieldOfStudyImage'
 import { getLabelByValue } from '@/utils/getLabelByValue'
 
 type RecruitmentCardProps = Recruitment
@@ -25,7 +25,8 @@ export function RecruitmentCard({
   scholarship,
   fieldOfStudy,
   degree,
-}: Omit<RecruitmentCardProps, 'title' | 'status' | 'tags'>) {
+  isBookmarked = false,
+}: Omit<RecruitmentCardProps, 'title' | 'status' | 'tags'> & { isBookmarked?: boolean }) {
   const [imageError, setImageError] = useState(false)
 
   const fieldImage = getFieldOfStudyImage(fieldOfStudy, lab)
@@ -69,6 +70,7 @@ export function RecruitmentCard({
             </div>
             <div className="absolute right-3 top-3">
               <BookmarkButton
+                initialBookmarked={isBookmarked}
                 onBookmarkChange={isBookmarked => {
                   // TODO: 북마크 상태 변경 로직 (API 호출)
                   console.info('Bookmark changed:', isBookmarked)
