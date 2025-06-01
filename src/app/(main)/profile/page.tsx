@@ -23,7 +23,7 @@ import {
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { RecruitmentCard } from '@/components/domain/recruitment/recruitment-card'
+import { MyScrapList } from '@/components/domain/profile/my-scrap-list'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -110,37 +110,6 @@ export default function ProfilePage() {
       labName: 'AI & 머신러닝 연구실',
     },
   }
-
-  const savedRecruitments = [
-    {
-      id: 'rec-1',
-      lab: 'AI & 머신러닝 연구실',
-      university: '서울대학교',
-      department: '컴퓨터공학과',
-      professor: '김민호 교수',
-      applicationPeriod: {
-        start: '2024-02-01',
-        end: '2024-03-31',
-      },
-      scholarship: true,
-      fieldOfStudy: '인공지능',
-      degree: 'phd' as const,
-    },
-    {
-      id: 'rec-2',
-      lab: '로보틱스 연구실',
-      university: 'KAIST',
-      department: '기계공학과',
-      professor: '이성훈 교수',
-      applicationPeriod: {
-        start: '2024-02-15',
-        end: '2024-03-15',
-      },
-      scholarship: true,
-      fieldOfStudy: '로봇공학',
-      degree: 'master' as const,
-    },
-  ]
 
   const renderSidebar = () => (
     <Card>
@@ -712,21 +681,6 @@ export default function ProfilePage() {
     </Card>
   )
 
-  const renderSavedContent = () => (
-    <Card>
-      <CardHeader>
-        <CardTitle>스크랩</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {savedRecruitments.map(recruitment => (
-            <RecruitmentCard key={recruitment.id} {...recruitment} isBookmarked={true} />
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  )
-
   const renderSettingsContent = () => (
     <div className="space-y-6">
       <Card>
@@ -865,7 +819,6 @@ export default function ProfilePage() {
   )
 
   const renderApplicantApplicationsContent = () => {
-    // Mock application data
     const applications = [
       {
         id: 'app-1',
@@ -1082,7 +1035,6 @@ export default function ProfilePage() {
   }
 
   const renderProfessorEvaluationsContent = () => {
-    // Mock applicant data for professor evaluations
     const applicants = [
       {
         id: 'app-1',
@@ -1318,22 +1270,20 @@ export default function ProfilePage() {
   return (
     <div className="bg-gray-50 py-10">
       <div className="container mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="flex flex-col space-y-8">
-          <div className="flex flex-col gap-8 md:flex-row">
-            <div className="md:w-1/4">{renderSidebar()}</div>
+        <div className="flex flex-col gap-8 md:flex-row">
+          <section className="md:w-1/4">{renderSidebar()}</section>
 
-            <div className="md:w-3/4">
-              {activeTab === 'profile' && renderProfileContent()}
-              {activeTab === 'applications' &&
-                userRole === 'applicant' &&
-                renderApplicantApplicationsContent()}
-              {activeTab === 'applications' &&
-                userRole === 'professor' &&
-                renderProfessorEvaluationsContent()}
-              {activeTab === 'saved' && renderSavedContent()}
-              {activeTab === 'settings' && renderSettingsContent()}
-            </div>
-          </div>
+          <section className="md:w-3/4">
+            {activeTab === 'profile' && renderProfileContent()}
+            {activeTab === 'applications' &&
+              userRole === 'applicant' &&
+              renderApplicantApplicationsContent()}
+            {activeTab === 'applications' &&
+              userRole === 'professor' &&
+              renderProfessorEvaluationsContent()}
+            {activeTab === 'saved' && <MyScrapList />}
+            {activeTab === 'settings' && renderSettingsContent()}
+          </section>
         </div>
       </div>
     </div>
