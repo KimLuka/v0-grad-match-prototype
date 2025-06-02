@@ -2,6 +2,7 @@ export interface Recruitment {
   id: string
   title: string
   university: string
+  department: string
   lab: string
   status: 'open' | 'closed' | 'draft'
   professor: string
@@ -12,4 +13,6 @@ export interface Recruitment {
     end: string
   }
   scholarship: boolean
+  fieldOfStudy: string
+  location?: string
 }
