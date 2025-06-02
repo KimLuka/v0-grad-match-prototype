@@ -9,6 +9,8 @@ interface BookmarkButtonProps {
   iconSize?: number
   onBookmarkChange?: (isBookmarked: boolean) => void
   initialBookmarked?: boolean
+  variant?: 'link' | 'outline' | 'default' | 'ghost' | 'outlinePrimary' | 'secondary'
+  size?: 'icon' | 'default' | 'sm' | 'lg' | 'icon'
 }
 
 export function BookmarkButton({
@@ -17,6 +19,8 @@ export function BookmarkButton({
   iconSize = 24,
   onBookmarkChange,
   initialBookmarked = false,
+  variant,
+  size,
 }: BookmarkButtonProps) {
   const [isBookmarked, setIsBookmarked] = useState(initialBookmarked)
 
@@ -29,13 +33,14 @@ export function BookmarkButton({
   }
 
   return (
-    <Button variant="link" size="icon" onClick={handleClick}>
+    <Button variant={variant} size={size} onClick={handleClick}>
       <Bookmark
         className={iconClassName}
         fill={isBookmarked ? fillColor : 'none'}
         size={iconSize}
         style={{ width: `${iconSize}px`, height: `${iconSize}px` }}
       />
+      <span className="sr-only">저장</span>
     </Button>
   )
 }

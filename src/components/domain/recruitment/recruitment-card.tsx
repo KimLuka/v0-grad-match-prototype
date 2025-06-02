@@ -70,6 +70,8 @@ export function RecruitmentCard({
             </div>
             <div className="absolute right-3 top-3">
               <BookmarkButton
+                variant="link"
+                size="icon"
                 initialBookmarked={isBookmarked}
                 onBookmarkChange={isBookmarked => {
                   // TODO: 북마크 상태 변경 로직 (API 호출)

@@ -1,5 +1,6 @@
-import { Calendar, Heart, Share2 } from 'lucide-react'
+import { Calendar, Share2 } from 'lucide-react'
 
+import { BookmarkButton } from '@/components/common/bookmark-button'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -23,10 +24,13 @@ export default function RecruitmentSummary({ recruitment }: { recruitment: LabIn
             <CardDescription className="mt-2">{recruitment.university}</CardDescription>
           </div>
           <div className="flex space-x-2">
-            <Button variant="outline" size="icon">
-              <Heart className="h-4 w-4" />
-              <span className="sr-only">저장</span>
-            </Button>
+            <BookmarkButton
+              variant="outline"
+              size="icon"
+              iconClassName="h-4 w-4"
+              iconSize={16}
+              fillColor="black"
+            />
             <Button variant="outline" size="icon">
               <Share2 className="h-4 w-4" />
               <span className="sr-only">공유</span>
