@@ -4,33 +4,31 @@ interface ValueLabelPair {
 }
 
 /**
- * value-label 쌍의 배열에서 value에 해당하는 label을 찾아 반환
+ * value-label 쌍의 배열에서 키-값 매핑을 수행하는 유틸함수
  * @param items value-label 쌍의 배열
- * @param value 찾고자 하는 value
- * @param fallback value를 찾지 못했을 때 반환할 기본값 (기본값: value 자체)
- * @returns 해당하는 label 또는 fallback 값
+ * @param searchValue 찾을 값
+ * @param searchKey 검색할 키
+ * @param returnKey 반환할 키
+ * @param fallback 기본값 (기본: searchValue)
  */
-export function getLabelByValue<T extends ValueLabelPair>(
+export function mapPairValue<T extends ValueLabelPair>(
+  items: readonly T[],
+  searchValue: string,
+  searchKey: keyof ValueLabelPair,
+  returnKey: keyof ValueLabelPair,
+  fallback = searchValue
+): string {
+  return items.find(item => item[searchKey] === searchValue)?.[returnKey] ?? fallback
+}
+
+export const getLabelByValue = <T extends ValueLabelPair>(
   items: readonly T[],
   value: string,
   fallback?: string
-): string {
-  const item = items.find(item => item.value === value)
-  return item?.label ?? fallback ?? value
-}
+) => mapPairValue(items, value, 'value', 'label', fallback)
 
-/**
- * value-label 쌍의 배열에서 label에 해당하는 value를 찾아 반환하는 유틸함수
- * @param items value-label 쌍의 배열
- * @param label 찾고자 하는 label
- * @param fallback label을 찾지 못했을 때 반환할 기본값 (기본값: label 자체)
- * @returns 해당하는 value 또는 fallback 값
- */
-export function getValueByLabel<T extends ValueLabelPair>(
+export const getValueByLabel = <T extends ValueLabelPair>(
   items: readonly T[],
   label: string,
   fallback?: string
-): string {
-  const item = items.find(item => item.label === label)
-  return item?.value ?? fallback ?? label
-}
+) => mapPairValue(items, label, 'label', 'value', fallback)
