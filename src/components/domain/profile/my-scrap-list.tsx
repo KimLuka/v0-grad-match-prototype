@@ -32,7 +32,7 @@ const savedRecruitments = [
   },
 ]
 
-export function MyScrapList() {
+export default function MyScrapList() {
   return (
     <Card>
       <CardHeader>
