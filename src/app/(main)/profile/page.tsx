@@ -10,30 +10,25 @@ import {
   Edit,
   Eye,
   FileText,
-  Globe,
   GraduationCap,
   Heart,
   LayoutDashboard,
   LogOut,
   MapPin,
   Settings,
-  Shield,
   Trash2,
   User,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import AccountSettings from '@/components/domain/profile/account-settings'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Textarea } from '@/components/ui/textarea'
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState('profile')
@@ -749,143 +744,6 @@ export default function ProfilePage() {
     </Card>
   )
 
-  const renderSettingsContent = () => (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>계정 설정</CardTitle>
-          <CardDescription>계정 환경설정 및 보안 관리</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="firstName">이름</Label>
-                <Input id="firstName" defaultValue={userRole === 'applicant' ? '사라' : '민호'} />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastName">성</Label>
-                <Input id="lastName" defaultValue="김" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">이메일</Label>
-              <Input id="email" type="email" defaultValue={user.email} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="bio">자기소개</Label>
-              <Textarea id="bio" placeholder="자신에 대해 알려주세요..." />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>개인정보 설정</CardTitle>
-          <CardDescription>내 정보를 볼 수 있는 사람 관리</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>프로필 공개 여부</Label>
-              <p className="text-sm text-muted-foreground">
-                {userRole === 'applicant'
-                  ? '교수님들에게 프로필 공개하기'
-                  : '지원자들에게 프로필 공개하기'}
-              </p>
-            </div>
-            <Switch defaultChecked />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>연락처 표시</Label>
-              <p className="text-sm text-muted-foreground">
-                {userRole === 'applicant'
-                  ? '교수님들에게 이메일 공개하기'
-                  : '지원자들에게 이메일 공개하기'}
-              </p>
-            </div>
-            <Switch defaultChecked />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>서류 표시</Label>
-              <p className="text-sm text-muted-foreground">
-                {userRole === 'applicant'
-                  ? '교수님들이 내 서류를 다운로드할 수 있도록 허용'
-                  : '지원자들이 내 논문을 다운로드할 수 있도록 허용'}
-              </p>
-            </div>
-            <Switch />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>알림 설정</CardTitle>
-          <CardDescription>받고 싶은 알림 선택</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>이메일 알림</Label>
-              <p className="text-sm text-muted-foreground">이메일로 업데이트 받기</p>
-            </div>
-            <Switch defaultChecked />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>{userRole === 'applicant' ? '지원 현황 업데이트' : '새 지원자'}</Label>
-              <p className="text-sm text-muted-foreground">
-                {userRole === 'applicant'
-                  ? '지원 상태 변경 알림 받기'
-                  : '내 공고에 새 지원자가 있을 때 알림 받기'}
-              </p>
-            </div>
-            <Switch defaultChecked />
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>{userRole === 'applicant' ? '새 기회' : '플랫폼 업데이트'}</Label>
-              <p className="text-sm text-muted-foreground">
-                {userRole === 'applicant'
-                  ? '새 모집공고 알림 받기'
-                  : '플랫폼 업데이트 및 새 기능 알림 받기'}
-              </p>
-            </div>
-            <Switch />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>보안</CardTitle>
-          <CardDescription>계정 보안 관리</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Button variant="outline" className="w-full justify-start">
-            <Shield className="mr-2 h-4 w-4" />
-            비밀번호 변경
-          </Button>
-          <Button variant="outline" className="w-full justify-start">
-            <Globe className="mr-2 h-4 w-4" />
-            이중 인증
-          </Button>
-          <Button variant="outline" className="w-full justify-start">
-            <Download className="mr-2 h-4 w-4" />내 데이터 다운로드
-          </Button>
-        </CardContent>
-      </Card>
-
-      <div className="flex justify-end">
-        <Button>변경사항 저장</Button>
-      </div>
-    </div>
-  )
-
   const renderApplicantApplicationsContent = () => {
     // Mock application data
     const applications = [
@@ -1353,7 +1211,7 @@ export default function ProfilePage() {
                 userRole === 'professor' &&
                 renderProfessorEvaluationsContent()}
               {activeTab === 'saved' && renderSavedContent()}
-              {activeTab === 'settings' && renderSettingsContent()}
+              {activeTab === 'settings' && <AccountSettings userEmail={user.email} />}
             </div>
           </div>
         </div>
