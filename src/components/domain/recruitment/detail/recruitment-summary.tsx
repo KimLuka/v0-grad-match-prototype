@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { useToast } from '@/hooks/useToast'
 import { LabInfo } from '@/types/lab-info'
 import { formatKoreanDate } from '@/utils/formatDate'
 
@@ -13,6 +14,24 @@ import RequirementsSection from './requirements-section'
 import UniversityOverview from './university-overview-section'
 
 export default function RecruitmentSummary({ recruitment }: { recruitment: LabInfo }) {
+  const { toast } = useToast()
+
+  const handleClick = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      toast({
+        title: '공유 링크가 복사되었습니다.',
+        description: '클립보드에 링크가 복사되었습니다.',
+      })
+    } catch {
+      toast({
+        title: '복사 실패',
+        description: '링크 복사에 실패했습니다.',
+        variant: 'destructive',
+      })
+    }
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -31,7 +50,8 @@ export default function RecruitmentSummary({ recruitment }: { recruitment: LabIn
               iconSize={16}
               fillColor="black"
             />
-            <Button variant="outline" size="icon">
+
+            <Button variant="outline" size="icon" onClick={handleClick}>
               <Share2 className="h-4 w-4" />
               <span className="sr-only">공유</span>
             </Button>
