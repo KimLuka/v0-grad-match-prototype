@@ -7,6 +7,7 @@ import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Calendar as CalendarComponent } from '@/components/ui/calendar'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,36 +15,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { DEGREES } from '@/constants/degree'
+import { FIELD_OF_STUDY } from '@/constants/field-of-study'
+import { UNIVERSITIES } from '@/constants/universities'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 import SortDropdown, { type SortOption } from './sort-dropdown'
 
-const RESEARCH_FIELDS = [
-  '인공지능',
-  '빅데이터',
-  '컴퓨터비전',
-  '자연어처리',
-  '로보틱스',
-  '사이버보안',
-] as const
-
-const UNIVERSITIES = [
-  '서울대학교',
-  '연세대학교',
-  '고려대학교',
-  '한양대학교',
-  '성균관대학교',
-  '서강대학교',
-] as const
-
-const DEGREES = ['석사', '박사', '석박사통합'] as const
+type ResearchField = (typeof FIELD_OF_STUDY)[number]['value']
+type University = (typeof UNIVERSITIES)[number]['value']
+type Degree = (typeof DEGREES)[number]['value']
 
 export default function FilterBar() {
   const [date, setDate] = useState<Date>()
-  const [selectedField, setSelectedField] = useState<string>()
-  const [selectedUniversity, setSelectedUniversity] = useState<string>()
-  const [selectedDegree, setSelectedDegree] = useState<string>()
+  const [selectedField, setSelectedField] = useState<ResearchField>()
+  const [selectedUniversity, setSelectedUniversity] = useState<University>()
+  const [selectedDegree, setSelectedDegree] = useState<Degree>()
   const [selectedSort, setSelectedSort] = useState<SortOption>('latest')
+  const [hasScholarship, setHasScholarship] = useState(false)
   const [_isOpen, _setIsOpen] = useState(false)
   const [_selectedFilters, _setSelectedFilters] = useState<string[]>([])
   const _isMobile = useIsMobile()
@@ -70,18 +59,27 @@ export default function FilterBar() {
                         variant="outline"
                         className="whitespace-nowrap data-[state=open]:bg-gray-100"
                       >
-                        {selectedField || '연구 분야'}
+                        {selectedField
+                          ? FIELD_OF_STUDY.find(field => field.value === selectedField)?.label
+                          : '연구 분야'}
                         <ChevronDown className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      {RESEARCH_FIELDS.map(field => (
+                    <DropdownMenuContent
+                      align="start"
+                      className="max-h-80 max-w-60 overflow-y-auto"
+                    >
+                      {FIELD_OF_STUDY.map(field => (
                         <DropdownMenuItem
-                          key={field}
-                          onClick={() => setSelectedField(field)}
-                          className={selectedField === field ? 'bg-gray-100' : ''}
+                          key={field.value}
+                          onClick={() => setSelectedField(field.value)}
+                          className="flex items-center gap-2 px-2 py-1.5"
                         >
-                          {field}
+                          <Checkbox
+                            checked={selectedField === field.value}
+                            className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600"
+                          />
+                          <span className="truncate">{field.label}</span>
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
@@ -94,18 +92,27 @@ export default function FilterBar() {
                         variant="outline"
                         className="whitespace-nowrap data-[state=open]:bg-gray-100"
                       >
-                        {selectedUniversity || '학교'}
+                        {selectedUniversity
+                          ? UNIVERSITIES.find(uni => uni.value === selectedUniversity)?.label
+                          : '학교'}
                         <ChevronDown className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
+                    <DropdownMenuContent
+                      align="start"
+                      className="max-h-80 max-w-60 overflow-y-auto"
+                    >
                       {UNIVERSITIES.map(university => (
                         <DropdownMenuItem
-                          key={university}
-                          onClick={() => setSelectedUniversity(university)}
-                          className={selectedUniversity === university ? 'bg-gray-100' : ''}
+                          key={university.value}
+                          onClick={() => setSelectedUniversity(university.value)}
+                          className="flex items-center gap-2 px-2 py-1.5"
                         >
-                          {university}
+                          <Checkbox
+                            checked={selectedUniversity === university.value}
+                            className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600"
+                          />
+                          <span className="truncate">{university.label}</span>
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
@@ -118,18 +125,24 @@ export default function FilterBar() {
                         variant="outline"
                         className="whitespace-nowrap data-[state=open]:bg-gray-100"
                       >
-                        {selectedDegree || '학위'}
+                        {selectedDegree
+                          ? DEGREES.find(deg => deg.value === selectedDegree)?.label
+                          : '학위'}
                         <ChevronDown className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
+                    <DropdownMenuContent align="start" className="max-w-60">
                       {DEGREES.map(degree => (
                         <DropdownMenuItem
-                          key={degree}
-                          onClick={() => setSelectedDegree(degree)}
-                          className={selectedDegree === degree ? 'bg-gray-100' : ''}
+                          key={degree.value}
+                          onClick={() => setSelectedDegree(degree.value)}
+                          className="flex items-center gap-2 px-2 py-1.5"
                         >
-                          {degree}
+                          <Checkbox
+                            checked={selectedDegree === degree.value}
+                            className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600"
+                          />
+                          <span className="truncate">{degree.label}</span>
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>
@@ -162,8 +175,9 @@ export default function FilterBar() {
 
           <div className="flex flex-shrink-0 items-center gap-1">
             <Button
-              variant="outline"
-              className="rounded-full data-[state=open]:bg-gray-700 data-[state=open]:text-white"
+              variant={hasScholarship ? 'default' : 'outlinePrimary'}
+              className="rounded-full transition-colors"
+              onClick={() => setHasScholarship(!hasScholarship)}
             >
               장학금
             </Button>
