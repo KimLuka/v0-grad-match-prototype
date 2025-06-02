@@ -20,8 +20,8 @@ export default function RecruitmentSummary({ recruitment }: { recruitment: LabIn
     try {
       await navigator.clipboard.writeText(window.location.href)
       toast({
-        title: '공유 링크가 복사되었습니다.',
-        description: '클립보드에 링크가 복사되었습니다.',
+        title: '클립보드에 공유 링크가 복사되었습니다.',
+        description: '주변 사람들에게 공유해보세요!',
       })
     } catch {
       toast({
