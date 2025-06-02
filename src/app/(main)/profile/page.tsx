@@ -18,12 +18,12 @@ import {
   MapPin,
   Settings,
   Shield,
-  Trash2,
   User,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import { MyScrapList } from '@/components/domain/profile/my-scrap-list'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -110,31 +110,6 @@ export default function ProfilePage() {
       labName: 'AI & 머신러닝 연구실',
     },
   }
-
-  // Mock saved items
-  const savedItems = [
-    {
-      id: '1',
-      type: 'recruitment',
-      title: '서울대학교 - 컴퓨터공학과',
-      professor: '김민호 교수',
-      savedDate: '2023-10-15',
-    },
-    {
-      id: '2',
-      type: 'recruitment',
-      title: 'KAIST - 인공지능학과',
-      professor: '이성훈 교수',
-      savedDate: '2023-10-12',
-    },
-    {
-      id: '3',
-      type: 'applicant',
-      title: '아흐메드 하산',
-      description: '로봇공학 박사과정 후보',
-      savedDate: '2023-10-10',
-    },
-  ]
 
   const renderSidebar = () => (
     <Card>
@@ -706,49 +681,6 @@ export default function ProfilePage() {
     </Card>
   )
 
-  const renderSavedContent = () => (
-    <Card>
-      <CardHeader>
-        <CardTitle>저장된 항목</CardTitle>
-        <CardDescription>북마크한 모집공고와 지원자 프로필</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          {savedItems.map(item => (
-            <div key={item.id} className="flex items-center justify-between rounded-lg border p-4">
-              <div className="flex items-center space-x-4">
-                <div className="rounded-full bg-muted p-2">
-                  {item.type === 'recruitment' ? (
-                    <GraduationCap className="h-4 w-4" />
-                  ) : (
-                    <User className="h-4 w-4" />
-                  )}
-                </div>
-                <div>
-                  <h4 className="font-medium">{item.title}</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {item.type === 'recruitment' ? item.professor : item.description}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {new Date(item.savedDate).toLocaleDateString('ko-KR')}에 저장됨
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm">
-                  보기
-                </Button>
-                <Button variant="ghost" size="sm">
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
-  )
-
   const renderSettingsContent = () => (
     <div className="space-y-6">
       <Card>
@@ -887,7 +819,6 @@ export default function ProfilePage() {
   )
 
   const renderApplicantApplicationsContent = () => {
-    // Mock application data
     const applications = [
       {
         id: 'app-1',
@@ -1104,7 +1035,6 @@ export default function ProfilePage() {
   }
 
   const renderProfessorEvaluationsContent = () => {
-    // Mock applicant data for professor evaluations
     const applicants = [
       {
         id: 'app-1',
@@ -1340,22 +1270,20 @@ export default function ProfilePage() {
   return (
     <div className="bg-gray-50 py-10">
       <div className="container mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="flex flex-col space-y-8">
-          <div className="flex flex-col gap-8 md:flex-row">
-            <div className="md:w-1/4">{renderSidebar()}</div>
+        <div className="flex flex-col gap-8 md:flex-row">
+          <section className="md:w-1/4">{renderSidebar()}</section>
 
-            <div className="md:w-3/4">
-              {activeTab === 'profile' && renderProfileContent()}
-              {activeTab === 'applications' &&
-                userRole === 'applicant' &&
-                renderApplicantApplicationsContent()}
-              {activeTab === 'applications' &&
-                userRole === 'professor' &&
-                renderProfessorEvaluationsContent()}
-              {activeTab === 'saved' && renderSavedContent()}
-              {activeTab === 'settings' && renderSettingsContent()}
-            </div>
-          </div>
+          <section className="md:w-3/4">
+            {activeTab === 'profile' && renderProfileContent()}
+            {activeTab === 'applications' &&
+              userRole === 'applicant' &&
+              renderApplicantApplicationsContent()}
+            {activeTab === 'applications' &&
+              userRole === 'professor' &&
+              renderProfessorEvaluationsContent()}
+            {activeTab === 'saved' && <MyScrapList />}
+            {activeTab === 'settings' && renderSettingsContent()}
+          </section>
         </div>
       </div>
     </div>
