@@ -1,23 +1,37 @@
-import {
-  Building,
-  Calendar,
-  ExternalLink,
-  GraduationCap,
-  Heart,
-  MapPin,
-  Share2,
-  Users,
-} from 'lucide-react'
-import Link from 'next/link'
+import { Calendar, Share2 } from 'lucide-react'
 
+import { BookmarkButton } from '@/components/common/bookmark-button'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Separator } from '@/components/ui/separator'
+import { useToast } from '@/hooks/useToast'
 import { LabInfo } from '@/types/lab-info'
 import { formatKoreanDate } from '@/utils/formatDate'
 
+import BenefitsSection from './benefits-section'
+import RequirementsSection from './requirements-section'
+import UniversityOverview from './university-overview-section'
+
 export default function RecruitmentSummary({ recruitment }: { recruitment: LabInfo }) {
+  const { toast } = useToast()
+
+  const handleClick = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      toast({
+        title: '클립보드에 공유 링크가 복사되었습니다.',
+        description: '주변 사람들에게 공유해보세요!',
+      })
+    } catch {
+      toast({
+        title: '복사 실패',
+        description: '링크 복사에 실패했습니다.',
+        variant: 'destructive',
+      })
+    }
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -29,11 +43,15 @@ export default function RecruitmentSummary({ recruitment }: { recruitment: LabIn
             <CardDescription className="mt-2">{recruitment.university}</CardDescription>
           </div>
           <div className="flex space-x-2">
-            <Button variant="outline" size="icon">
-              <Heart className="h-4 w-4" />
-              <span className="sr-only">저장</span>
-            </Button>
-            <Button variant="outline" size="icon">
+            <BookmarkButton
+              variant="outline"
+              size="icon"
+              iconClassName="h-4 w-4"
+              iconSize={16}
+              fillColor="black"
+            />
+
+            <Button variant="outline" size="icon" onClick={handleClick}>
               <Share2 className="h-4 w-4" />
               <span className="sr-only">공유</span>
             </Button>
@@ -54,125 +72,13 @@ export default function RecruitmentSummary({ recruitment }: { recruitment: LabIn
           </div>
         </div>
 
-        <div>
-          <h3 className="mb-2 font-medium">설명</h3>
-          <p className="text-muted-foreground">{recruitment.description}</p>
-        </div>
+        <UniversityOverview recruitment={recruitment} />
 
-        <Tabs defaultValue="introduction">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="introduction">소개</TabsTrigger>
-            <TabsTrigger value="fields of study">연구 분야</TabsTrigger>
-            <TabsTrigger value="requirements">지원 요건</TabsTrigger>
-            <TabsTrigger value="conditions">대우 조건</TabsTrigger>
-          </TabsList>
-          <TabsContent value="introduction" className="space-y-4">
-            <h3 className="mt-4 font-medium">대학교 정보</h3>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div className="space-y-2">
-                <div className="flex items-center text-sm">
-                  <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <span>{recruitment.universityInfo.location}</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <Building className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <span>설립: {recruitment.universityInfo.established}년</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <Users className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <span>학생 수: {recruitment.universityInfo.studentsCount}명</span>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center text-sm">
-                  <GraduationCap className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <span>순위: {recruitment.universityInfo.ranking}위</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <Users className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <span>유학생 수: {recruitment.universityInfo.internationalStudents}명</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <ExternalLink className="mr-2 h-4 w-4 text-muted-foreground" />
-                  <Link
-                    href={recruitment.universityInfo.website}
-                    className="text-primary hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    대학교 웹사이트 방문
-                  </Link>
-                </div>
-              </div>
-            </div>
+        <Separator />
 
-            <div className="flex flex-col gap-6">
-              <div>
-                <h3 className="mb-2 font-medium">시설</h3>
-                <ul className="space-y-2">
-                  {recruitment.universityInfo.facilities.map((facility, index) => (
-                    <li key={index} className="flex items-center">
-                      <div className="mr-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                      <span className="text-muted-foreground">{facility}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 className="mb-2 font-medium">주변 환경</h3>
-                <ul className="space-y-2">
-                  {recruitment.universityInfo.surroundings.map((surrounding, index) => (
-                    <li key={index} className="flex items-center">
-                      <div className="mr-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                      <span className="text-muted-foreground">{surrounding}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </TabsContent>
-          <TabsContent value="fields of study" className="space-y-4">
-            <h3 className="mt-4 font-medium">연구 분야</h3>
-            <div className="space-y-4">
-              <ul className="space-y-2">
-                {recruitment.fieldOfStudy.map((field, index) => (
-                  <li key={index} className="flex items-center">
-                    <div className="mr-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                    <span className="text-muted-foreground">{field}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </TabsContent>
-          <TabsContent value="requirements" className="space-y-4">
-            <h3 className="mt-4 font-medium">자격 요건</h3>
-            <ul className="space-y-2">
-              {recruitment.requirements.map((requirement, index) => (
-                <li key={index} className="flex items-center">
-                  <div className="mr-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                  <span className="text-muted-foreground">{requirement}</span>
-                </li>
-              ))}
-            </ul>
-          </TabsContent>
-          <TabsContent value="conditions" className="space-y-4">
-            <h3 className="mt-4 font-medium">장학금 및 혜택</h3>
-            <ul className="space-y-2">
-              {recruitment.conditions.salary && (
-                <li className="flex items-center">
-                  <div className="mr-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                  <span className="text-muted-foreground">{recruitment.conditions.salary}</span>
-                </li>
-              )}
-              {recruitment.conditions.otherBenefits?.map((benefit, index) => (
-                <li key={index} className="flex items-center">
-                  <div className="mr-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                  <span className="text-muted-foreground">{benefit}</span>
-                </li>
-              ))}
-            </ul>
-          </TabsContent>
-        </Tabs>
+        <RequirementsSection recruitment={recruitment} />
+
+        <BenefitsSection recruitment={recruitment} />
       </CardContent>
     </Card>
   )
