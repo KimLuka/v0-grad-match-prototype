@@ -1,5 +1,4 @@
 import { SortDesc } from 'lucide-react'
-import { type Dispatch, type SetStateAction } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -18,7 +17,7 @@ export type SortOption = (typeof SORT_OPTIONS)[number]['value']
 
 interface SortDropdownProps {
   selectedSort: SortOption
-  setSelectedSort: Dispatch<SetStateAction<SortOption>>
+  setSelectedSort: (value: SortOption) => void
 }
 
 export default function SortDropdown({ selectedSort, setSelectedSort }: SortDropdownProps) {

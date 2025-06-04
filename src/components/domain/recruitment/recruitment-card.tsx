@@ -7,9 +7,10 @@ import { UniversitySymbol } from '@/components/common/university-symbol'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { DEGREES } from '@/constants/degree'
-import { UNIVERSITIES } from '@/constants/universities'
+import { FIELD_OF_STUDY } from '@/constants/field-of-study'
 import { Recruitment } from '@/types/recruitment'
 import { calculateDDay } from '@/utils/formatDate'
+import { findUniversity } from '@/utils/findUniversity'
 import { getFieldOfStudyImage } from '@/utils/getFieldOfStudyImage'
 import { getLabelByValue } from '@/utils/getLabelByValue'
 
@@ -30,7 +31,8 @@ export function RecruitmentCard({
   const [imageError, setImageError] = useState(false)
 
   const fieldImage = getFieldOfStudyImage(fieldOfStudy, lab)
-  const universityData = UNIVERSITIES.find(uni => uni.label === university)
+  const universityData = findUniversity(university)
+  const fieldOfStudyData = FIELD_OF_STUDY.find(field => field.value === fieldOfStudy)
   const dDay = calculateDDay(applicationPeriod.end)
 
   return (
@@ -87,14 +89,16 @@ export function RecruitmentCard({
             <div className="flex flex-col gap-0.5">
               <h3 className="line-clamp-1 text-lg font-semibold">{lab}</h3>
               <span className="text-base">
-                {university} {department}
+                {universityData ? universityData.label : university} {department}
               </span>
               <span className="text-sm text-muted-foreground">{professor}</span>
             </div>
           </div>
           <div className="flex gap-2">
             <Badge variant="outline">{getLabelByValue(DEGREES, degree)}</Badge>
-            <Badge variant="secondary">{fieldOfStudy}</Badge>
+            <Badge variant="secondary">
+              {fieldOfStudyData ? fieldOfStudyData.label : fieldOfStudy}
+            </Badge>
           </div>
         </CardContent>
       </Card>

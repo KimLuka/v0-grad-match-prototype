@@ -11,7 +11,7 @@ const FOOTER_LINKS = [
 export function Footer() {
   return (
     <footer className="w-full border-t bg-muted px-8 py-6">
-      <div className="container mx-auto flex-1 flex-row items-center justify-between pb-28">
+      <div className="container mx-auto flex-1 flex-row items-center justify-between pb-14">
         <div className="flex justify-end gap-8 md:gap-16">
           {FOOTER_LINKS.map(link => (
             <Link

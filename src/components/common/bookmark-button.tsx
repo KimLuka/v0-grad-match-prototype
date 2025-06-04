@@ -2,6 +2,7 @@ import { Bookmark } from 'lucide-react'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
+import { useToast } from '@/hooks/useToast'
 
 interface BookmarkButtonProps {
   iconClassName?: string
@@ -23,6 +24,7 @@ export function BookmarkButton({
   size,
 }: BookmarkButtonProps) {
   const [isBookmarked, setIsBookmarked] = useState(initialBookmarked)
+  const { toast } = useToast()
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -30,6 +32,14 @@ export function BookmarkButton({
     const newBookmarked = !isBookmarked
     setIsBookmarked(newBookmarked)
     onBookmarkChange?.(newBookmarked)
+
+    // Toast 메시지 표시
+    toast({
+      title: newBookmarked ? '북마크에 추가했습니다' : '북마크에서 제거했습니다',
+      description: newBookmarked
+        ? '마이페이지에서 확인할 수 있습니다.'
+        : '언제든지 다시 추가할 수 있습니다.',
+    })
   }
 
   return (

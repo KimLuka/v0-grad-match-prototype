@@ -8,6 +8,12 @@ export interface University {
 
 export const UNIVERSITIES: University[] = [
   {
+    value: 'seoultech',
+    label: '서울과학기술대학교',
+    englishName: 'Seoul National University of Science and Technology',
+    symbol: '/symbols/seoultech.png',
+  },
+  {
     value: 'ajou',
     label: '아주대학교',
     englishName: 'Ajou University',
@@ -66,12 +72,6 @@ export const UNIVERSITIES: University[] = [
     label: '서경대학교',
     englishName: 'Seokyeong University',
     symbol: '/symbols/seokyeong.png',
-  },
-  {
-    value: 'seoultech',
-    label: '서울과학기술대학교',
-    englishName: 'Seoul National University of Science and Technology',
-    symbol: '/symbols/seoultech.png',
   },
   {
     value: 'sejong',

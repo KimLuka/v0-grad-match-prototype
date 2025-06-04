@@ -11,12 +11,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useToast } from '@/hooks/useToast'
 
 interface UserMenuProps {
   userMenuItems: readonly UserMenuItem[]
 }
 
 export default function UserMenu({ userMenuItems }: UserMenuProps) {
+  const { toast } = useToast()
+
+  const handleLogout = () => {
+    // 로그아웃 로직 (실제로는 API 호출)
+    toast({
+      title: '로그아웃되었습니다',
+      description: '안전하게 로그아웃되었습니다.',
+    })
+  }
+
+  const handleDeleteAccount = () => {
+    // 회원탈퇴 로직 (실제로는 확인 다이얼로그 후 API 호출)
+    toast({
+      title: '회원탈퇴가 완료되었습니다',
+      description: '그동안 이용해주셔서 감사합니다.',
+      variant: 'destructive',
+    })
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -34,7 +54,14 @@ export default function UserMenu({ userMenuItems }: UserMenuProps) {
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
-        <DropdownMenuItem>로그아웃</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>로그아웃</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={handleDeleteAccount}
+          className="text-destructive focus:bg-destructive/10 focus:text-destructive"
+        >
+          회원탈퇴
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

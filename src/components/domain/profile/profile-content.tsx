@@ -1,9 +1,96 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Separator } from '@/components/ui/separator'
+'use client'
+
+import { useState } from 'react'
+import { Plus, Trash2, Upload, X, Edit, Save } from 'lucide-react'
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Edit, GraduationCap, MapPin, Calendar, BookOpen, FileText, Download } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
+import { useToast } from '@/hooks/useToast'
+
+interface BasicInfo {
+  name: string
+  email: string
+  nationality: string
+  birthYear: string
+  koreanProficiency: {
+    type: 'topik' | 'sejong' | 'language_institute' | 'none'
+    level?: string
+    university?: string
+  }
+  englishProficiency: {
+    type: 'ielts' | 'toefl' | 'new_teps' | 'teps' | 'other' | 'none'
+    score?: string
+  }
+}
+
+interface ResearchInterest {
+  tags: string[]
+  fieldOfStudy:
+    | 'humanities'
+    | 'education'
+    | 'natural-sciences'
+    | 'engineering'
+    | 'medicine'
+    | 'arts'
+  major: string
+  desiredDegree: 'bachelor' | 'master' | 'phd' | 'integrated'
+}
+
+interface Education {
+  id: string
+  university: string
+  major: string
+  degree: 'bachelor' | 'master' | 'phd' | 'none'
+  startYear: string
+  endYear: string
+}
+
+interface Experience {
+  id: string
+  company: string
+  position: string
+  startYear: string
+  endYear: string
+  description: string
+}
+
+interface Publication {
+  id: string
+  title: string
+  subtitle: string
+  authors: string
+  year: string
+  link: string
+  description: string
+}
+
+interface Project {
+  id: string
+  title: string
+  year: string
+  link: string
+  description: string
+}
+
+interface FileItem {
+  id: string
+  title: string
+  uploadDate: string
+  file: File | null
+}
 
 interface User {
   name: string
@@ -55,479 +142,1069 @@ interface ProfileContentProps {
 }
 
 export default function ProfileContent({ userRole, user }: ProfileContentProps) {
+  const { toast } = useToast()
+  const [isEditing, setIsEditing] = useState(false)
+  const [newTag, setNewTag] = useState('')
+
+  // 기본 정보
+  const [basicInfo, setBasicInfo] = useState<BasicInfo>({
+    name: user.name || '김사라',
+    email: user.email || 'sarah.kim@example.com',
+    nationality: user.nationality || '미국',
+    birthYear: user.birthYear || '1998',
+    koreanProficiency: {
+      type: 'topik',
+      level: user.topikLevel || '3급',
+    },
+    englishProficiency: {
+      type: 'toefl',
+      score: '95',
+    },
+  })
+
+  // 연구 관심 분야
+  const [researchInterest, setResearchInterest] = useState<ResearchInterest>({
+    tags: user.interests || ['인공지능', '머신러닝', '컴퓨터 비전'],
+    fieldOfStudy: 'engineering',
+    major: '컴퓨터공학',
+    desiredDegree:
+      user.desiredDegree === '박사과정'
+        ? 'phd'
+        : user.desiredDegree === '석사과정'
+          ? 'master'
+          : user.desiredDegree === '학사과정'
+            ? 'bachelor'
+            : 'phd',
+  })
+
+  // 소개 및 학업 계획
+  const [introduction, setIntroduction] = useState(
+    user.introduction || '저는 인공지능과 머신러닝에 강한 관심을 가진 컴퓨터공학 졸업생입니다.'
+  )
+  const [studyPlan, setStudyPlan] = useState(
+    user.studyPlan ||
+      '제 연구 계획은 컴퓨터 비전 응용을 위한 새로운 딥러닝 아키텍처 개발에 중점을 두고 있습니다.'
+  )
+
+  // 학력
+  const [educations, setEducations] = useState<Education[]>(
+    user.education?.map((edu, index) => ({
+      id: index.toString(),
+      university: edu.institution,
+      major: '컴퓨터공학',
+      degree:
+        edu.degree === '컴퓨터공학 석사'
+          ? 'master'
+          : edu.degree === '컴퓨터공학 학사'
+            ? 'bachelor'
+            : 'bachelor',
+      startYear: edu.year.split('-')[0] || '',
+      endYear: edu.year.split('-')[1] || '',
+    })) || [
+      {
+        id: '1',
+        university: '워싱턴 대학교',
+        major: '컴퓨터공학',
+        degree: 'master',
+        startYear: '2020',
+        endYear: '2022',
+      },
+    ]
+  )
+
+  // 경력
+  const [experiences, setExperiences] = useState<Experience[]>(
+    user.experience?.map((exp, index) => ({
+      id: index.toString(),
+      company: exp.company,
+      position: exp.title,
+      startYear: exp.year.split('-')[0] || '',
+      endYear: exp.year.split('-')[1] || '',
+      description: exp.description,
+    })) || [
+      {
+        id: '1',
+        company: '워싱턴 대학교 AI 연구실',
+        position: '연구조교',
+        startYear: '2021',
+        endYear: '2022',
+        description: '컴퓨터 비전 응용을 위한 딥러닝 모델 연구를 수행했습니다.',
+      },
+    ]
+  )
+
+  // 논문
+  const [publications, setPublications] = useState<Publication[]>(
+    user.publications?.map((pub, index) => ({
+      id: index.toString(),
+      title: pub.title,
+      subtitle: '',
+      authors: '김사라, 이민수',
+      year: pub.year,
+      link: '',
+      description: '',
+    })) || [
+      {
+        id: '1',
+        title: '딥러닝을 이용한 이미지 인식의 새로운 접근법',
+        subtitle: '',
+        authors: '김사라, 이민수',
+        year: '2022',
+        link: '',
+        description: '',
+      },
+    ]
+  )
+
+  // 프로젝트
+  const [projects, setProjects] = useState<Project[]>(
+    user.projects?.map((proj, index) => ({
+      id: index.toString(),
+      title: proj.title,
+      year: proj.year,
+      link: '',
+      description: proj.description,
+    })) || [
+      {
+        id: '1',
+        title: '자동 이미지 분류 시스템',
+        year: '2021',
+        link: '',
+        description: '딥러닝 기법을 사용하여 이미지를 자동으로 분류하는 시스템을 개발했습니다.',
+      },
+    ]
+  )
+
+  // 파일들
+  const [resumes, setResumes] = useState<FileItem[]>([])
+  const [researchPlans, setResearchPlans] = useState<FileItem[]>([])
+  const [certificates, setCertificates] = useState<FileItem[]>([])
+
+  // 태그 추가
+  const addTag = () => {
+    if (newTag && !researchInterest.tags.includes(newTag)) {
+      setResearchInterest(prev => ({
+        ...prev,
+        tags: [...prev.tags, newTag],
+      }))
+      setNewTag('')
+    }
+  }
+
+  // 태그 제거
+  const removeTag = (tagToRemove: string) => {
+    setResearchInterest(prev => ({
+      ...prev,
+      tags: prev.tags.filter(tag => tag !== tagToRemove),
+    }))
+  }
+
+  // 항목 추가/삭제 함수들
+  const addEducation = () => {
+    const newEducation: Education = {
+      id: Date.now().toString(),
+      university: '',
+      major: '',
+      degree: 'bachelor',
+      startYear: '',
+      endYear: '',
+    }
+    setEducations(prev => [...prev, newEducation])
+  }
+
+  const removeEducation = (id: string) => {
+    setEducations(prev => prev.filter(edu => edu.id !== id))
+  }
+
+  const updateEducation = (id: string, field: keyof Education, value: string) => {
+    setEducations(prev => prev.map(edu => (edu.id === id ? { ...edu, [field]: value } : edu)))
+  }
+
+  const addExperience = () => {
+    const newExperience: Experience = {
+      id: Date.now().toString(),
+      company: '',
+      position: '',
+      startYear: '',
+      endYear: '',
+      description: '',
+    }
+    setExperiences(prev => [...prev, newExperience])
+  }
+
+  const removeExperience = (id: string) => {
+    setExperiences(prev => prev.filter(exp => exp.id !== id))
+  }
+
+  const updateExperience = (id: string, field: keyof Experience, value: string) => {
+    setExperiences(prev => prev.map(exp => (exp.id === id ? { ...exp, [field]: value } : exp)))
+  }
+
+  const addPublication = () => {
+    const newPublication: Publication = {
+      id: Date.now().toString(),
+      title: '',
+      subtitle: '',
+      authors: '',
+      year: '',
+      link: '',
+      description: '',
+    }
+    setPublications(prev => [...prev, newPublication])
+  }
+
+  const removePublication = (id: string) => {
+    setPublications(prev => prev.filter(pub => pub.id !== id))
+  }
+
+  const updatePublication = (id: string, field: keyof Publication, value: string) => {
+    setPublications(prev => prev.map(pub => (pub.id === id ? { ...pub, [field]: value } : pub)))
+  }
+
+  const addProject = () => {
+    const newProject: Project = {
+      id: Date.now().toString(),
+      title: '',
+      year: '',
+      link: '',
+      description: '',
+    }
+    setProjects(prev => [...prev, newProject])
+  }
+
+  const removeProject = (id: string) => {
+    setProjects(prev => prev.filter(proj => proj.id !== id))
+  }
+
+  const updateProject = (id: string, field: keyof Project, value: string) => {
+    setProjects(prev => prev.map(proj => (proj.id === id ? { ...proj, [field]: value } : proj)))
+  }
+
+  const handleEdit = () => {
+    setIsEditing(true)
+  }
+
+  const handleCancel = () => {
+    setIsEditing(false)
+    // Reset all state to original values
+    setBasicInfo({
+      name: user.name || '김사라',
+      email: user.email || 'sarah.kim@example.com',
+      nationality: user.nationality || '미국',
+      birthYear: user.birthYear || '1998',
+      koreanProficiency: {
+        type: 'topik',
+        level: user.topikLevel || '3급',
+      },
+      englishProficiency: {
+        type: 'toefl',
+        score: '95',
+      },
+    })
+    // Reset other states as needed...
+  }
+
+  const handleSave = () => {
+    setIsEditing(false)
+    toast({
+      title: '프로필 저장 완료',
+      description: '모든 정보가 성공적으로 저장되었습니다.',
+    })
+  }
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>프로필 정보</CardTitle>
-        <CardDescription>
-          {userRole === 'applicant'
-            ? '대학교와 교수님들에게 보이는 개인 및 학업 정보'
-            : '지원자와 다른 학계 인사들에게 보이는 전문 정보'}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="p-6">
-        {userRole === 'applicant' ? (
-          <Tabs defaultValue="overview">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="overview">개요</TabsTrigger>
-              <TabsTrigger value="education">학력 및 경력</TabsTrigger>
-              <TabsTrigger value="research">연구</TabsTrigger>
-              <TabsTrigger value="documents">서류</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="overview" className="space-y-6 pt-6">
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-lg font-medium">개인 정보</h3>
-                    <Separator className="my-2" />
-                    <dl className="space-y-2">
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">국적:</dt>
-                        <dd className="w-2/3 text-sm">{user.nationality}</dd>
-                      </div>
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">
-                          출생년도:
-                        </dt>
-                        <dd className="w-2/3 text-sm">{user.birthYear}</dd>
-                      </div>
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">
-                          토픽 레벨:
-                        </dt>
-                        <dd className="w-2/3 text-sm">{user.topikLevel}</dd>
-                      </div>
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">
-                          ST 얼라이언스:
-                        </dt>
-                        <dd className="w-2/3 text-sm">{user.stAlliance ? '예' : '아니오'}</dd>
-                      </div>
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">
-                          희망 학위:
-                        </dt>
-                        <dd className="w-2/3 text-sm">{user.desiredDegree}</dd>
-                      </div>
-                    </dl>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium">연구 관심 분야</h3>
-                    <Separator className="my-2" />
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {user.interests?.map((interest, index) => (
-                        <Badge key={index} variant="secondary">
-                          {interest}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
+    <div className="space-y-8">
+      {userRole === 'applicant' ? (
+        <>
+          {/* 내 정보 */}
+          <Card>
+            <CardHeader>
+              <CardTitle>내 정보</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <Label>국적</Label>
+                  {isEditing ? (
+                    <Input
+                      value={basicInfo.nationality}
+                      onChange={e =>
+                        setBasicInfo(prev => ({ ...prev, nationality: e.target.value }))
+                      }
+                    />
+                  ) : (
+                    <p className="mt-1 text-sm">{basicInfo.nationality}</p>
+                  )}
                 </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-lg font-medium">소개</h3>
-                    <Separator className="my-2" />
-                    <p className="text-sm text-muted-foreground">{user.introduction}</p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium">학업 계획</h3>
-                    <Separator className="my-2" />
-                    <p className="text-sm text-muted-foreground">{user.studyPlan}</p>
-                  </div>
+                <div>
+                  <Label>출생년도</Label>
+                  {isEditing ? (
+                    <Input
+                      value={basicInfo.birthYear}
+                      onChange={e => setBasicInfo(prev => ({ ...prev, birthYear: e.target.value }))}
+                    />
+                  ) : (
+                    <p className="mt-1 text-sm">{basicInfo.birthYear}</p>
+                  )}
                 </div>
               </div>
 
-              <div className="flex justify-end">
-                <Button variant="outline">
-                  <Edit className="mr-2 h-4 w-4" />
-                  정보 수정
-                </Button>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="education" className="space-y-6 pt-6">
+              {/* 한국어 성적 */}
               <div>
-                <h3 className="text-lg font-medium">학력</h3>
-                <Separator className="my-2" />
-                <div className="space-y-4 pt-2">
-                  {user.education?.map((edu, index) => (
-                    <div key={index} className="flex items-start space-x-4">
-                      <div className="mt-0.5">
-                        <GraduationCap className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div className="space-y-1">
-                        <h4 className="font-medium">{edu.degree}</h4>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <MapPin className="mr-1 h-3 w-3" />
-                          <span>{edu.institution}</span>
-                        </div>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <Calendar className="mr-1 h-3 w-3" />
-                          <span>{edu.year}</span>
-                        </div>
-                      </div>
-                    </div>
+                <Label>한국어 성적</Label>
+                {isEditing ? (
+                  <div className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <Select
+                      value={basicInfo.koreanProficiency.type}
+                      onValueChange={(value: any) =>
+                        setBasicInfo(prev => ({
+                          ...prev,
+                          koreanProficiency: { ...prev.koreanProficiency, type: value },
+                        }))
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="topik">TOPIK</SelectItem>
+                        <SelectItem value="sejong">세종학당 중급 2 이상 수료자</SelectItem>
+                        <SelectItem value="language_institute">한국대학 어학원 재학 중</SelectItem>
+                        <SelectItem value="none">없음</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    {basicInfo.koreanProficiency.type === 'topik' && (
+                      <Select
+                        value={basicInfo.koreanProficiency.level}
+                        onValueChange={value =>
+                          setBasicInfo(prev => ({
+                            ...prev,
+                            koreanProficiency: { ...prev.koreanProficiency, level: value },
+                          }))
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="등급 선택" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1급">1급</SelectItem>
+                          <SelectItem value="2급">2급</SelectItem>
+                          <SelectItem value="3급">3급</SelectItem>
+                          <SelectItem value="4급">4급</SelectItem>
+                          <SelectItem value="5급">5급</SelectItem>
+                          <SelectItem value="6급">6급</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+
+                    {basicInfo.koreanProficiency.type === 'language_institute' && (
+                      <Input
+                        placeholder="대학명 입력"
+                        value={basicInfo.koreanProficiency.university || ''}
+                        onChange={e =>
+                          setBasicInfo(prev => ({
+                            ...prev,
+                            koreanProficiency: {
+                              ...prev.koreanProficiency,
+                              university: e.target.value,
+                            },
+                          }))
+                        }
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <div className="mt-2">
+                    <p className="text-sm">
+                      {basicInfo.koreanProficiency.type === 'topik' &&
+                        `TOPIK ${basicInfo.koreanProficiency.level}`}
+                      {basicInfo.koreanProficiency.type === 'sejong' &&
+                        '세종학당 중급 2 이상 수료자'}
+                      {basicInfo.koreanProficiency.type === 'language_institute' &&
+                        `한국대학 어학원 재학 중 (${basicInfo.koreanProficiency.university})`}
+                      {basicInfo.koreanProficiency.type === 'none' && '없음'}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* 영어 성적 */}
+              <div>
+                <Label>영어 성적</Label>
+                {isEditing ? (
+                  <div className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <Select
+                      value={basicInfo.englishProficiency.type}
+                      onValueChange={(value: any) =>
+                        setBasicInfo(prev => ({
+                          ...prev,
+                          englishProficiency: { ...prev.englishProficiency, type: value },
+                        }))
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ielts">IELTS</SelectItem>
+                        <SelectItem value="toefl">TOEFL</SelectItem>
+                        <SelectItem value="new_teps">NEW TEPS</SelectItem>
+                        <SelectItem value="teps">TEPS</SelectItem>
+                        <SelectItem value="other">기타 (직접 입력)</SelectItem>
+                        <SelectItem value="none">없음</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    {basicInfo.englishProficiency.type !== 'none' && (
+                      <Input
+                        placeholder="점수 입력"
+                        value={basicInfo.englishProficiency.score || ''}
+                        onChange={e =>
+                          setBasicInfo(prev => ({
+                            ...prev,
+                            englishProficiency: {
+                              ...prev.englishProficiency,
+                              score: e.target.value,
+                            },
+                          }))
+                        }
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <div className="mt-2">
+                    <p className="text-sm">
+                      {basicInfo.englishProficiency.type !== 'none'
+                        ? `${basicInfo.englishProficiency.type.toUpperCase()} ${basicInfo.englishProficiency.score}`
+                        : '없음'}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* 연구 관심 분야 */}
+          <Card>
+            <CardHeader>
+              <CardTitle>연구 관심 분야</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* 태그 */}
+              <div>
+                <Label>관심 분야 태그</Label>
+                <div className="mb-2 mt-2 flex flex-wrap gap-2">
+                  {researchInterest.tags.map((tag, index) => (
+                    <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                      {tag}
+                      {isEditing && (
+                        <X className="h-3 w-3 cursor-pointer" onClick={() => removeTag(tag)} />
+                      )}
+                    </Badge>
                   ))}
                 </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium">경력</h3>
-                <Separator className="my-2" />
-                <div className="space-y-4 pt-2">
-                  {user.experience?.map((exp, index) => (
-                    <div key={index} className="flex items-start space-x-4">
-                      <div className="mt-0.5">
-                        <BookOpen className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div className="space-y-1">
-                        <h4 className="font-medium">{exp.title}</h4>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <MapPin className="mr-1 h-3 w-3" />
-                          <span>{exp.company}</span>
-                        </div>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <Calendar className="mr-1 h-3 w-3" />
-                          <span>{exp.year}</span>
-                        </div>
-                        <p className="pt-1 text-sm text-muted-foreground">{exp.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="research" className="space-y-6 pt-6">
-              <div>
-                <h3 className="text-lg font-medium">논문</h3>
-                <Separator className="my-2" />
-                <div className="space-y-4 pt-2">
-                  {user.publications?.map((pub, index) => (
-                    <div key={index} className="flex items-start space-x-4">
-                      <div className="mt-0.5">
-                        <FileText className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div className="space-y-1">
-                        <h4 className="font-medium">{pub.title}</h4>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <BookOpen className="mr-1 h-3 w-3" />
-                          <span>{pub.journal}</span>
-                        </div>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <Calendar className="mr-1 h-3 w-3" />
-                          <span>{pub.year}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium">프로젝트</h3>
-                <Separator className="my-2" />
-                <div className="space-y-4 pt-2">
-                  {user.projects?.map((project, index) => (
-                    <div key={index} className="flex items-start space-x-4">
-                      <div className="mt-0.5">
-                        <BookOpen className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div className="space-y-1">
-                        <h4 className="font-medium">{project.title}</h4>
-                        <div className="flex items-center text-sm text-muted-foreground">
-                          <Calendar className="mr-1 h-3 w-3" />
-                          <span>{project.year}</span>
-                        </div>
-                        <p className="pt-1 text-sm text-muted-foreground">{project.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="documents" className="space-y-6 pt-6">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium">이력서/CV</h3>
-                  <Button variant="outline" size="sm">
-                    <FileText className="mr-2 h-4 w-4" />
-                    업로드
-                  </Button>
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between rounded-md border p-4">
-                  <div className="flex items-center">
-                    <FileText className="mr-4 h-8 w-8 text-muted-foreground" />
-                    <div>
-                      <p className="font-medium">김사라_이력서.pdf</p>
-                      <p className="text-sm text-muted-foreground">2023년 10월 15일에 업로드됨</p>
-                    </div>
+                {isEditing && (
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder="새 태그 입력"
+                      value={newTag}
+                      onChange={e => setNewTag(e.target.value)}
+                      onKeyPress={e => e.key === 'Enter' && addTag()}
+                    />
+                    <Button type="button" onClick={addTag}>
+                      추가
+                    </Button>
                   </div>
-                  <Button variant="ghost" size="sm">
-                    <Download className="h-4 w-4" />
-                    <span className="sr-only">다운로드</span>
-                  </Button>
-                </div>
+                )}
               </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium">연구 계획서</h3>
-                  <Button variant="outline" size="sm">
-                    <FileText className="mr-2 h-4 w-4" />
-                    업로드
-                  </Button>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div>
+                  <Label>관심 계열</Label>
+                  {isEditing ? (
+                    <Select
+                      value={researchInterest.fieldOfStudy}
+                      onValueChange={(value: any) =>
+                        setResearchInterest(prev => ({ ...prev, fieldOfStudy: value }))
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="humanities">인문사회</SelectItem>
+                        <SelectItem value="education">교육</SelectItem>
+                        <SelectItem value="natural-sciences">자연과학</SelectItem>
+                        <SelectItem value="engineering">공학</SelectItem>
+                        <SelectItem value="medicine">의학</SelectItem>
+                        <SelectItem value="arts">예술</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <p className="mt-1 text-sm">
+                      {researchInterest.fieldOfStudy === 'humanities' && '인문사회'}
+                      {researchInterest.fieldOfStudy === 'education' && '교육'}
+                      {researchInterest.fieldOfStudy === 'natural-sciences' && '자연과학'}
+                      {researchInterest.fieldOfStudy === 'engineering' && '공학'}
+                      {researchInterest.fieldOfStudy === 'medicine' && '의학'}
+                      {researchInterest.fieldOfStudy === 'arts' && '예술'}
+                    </p>
+                  )}
                 </div>
-                <Separator />
-                <div className="flex items-center justify-between rounded-md border p-4">
-                  <div className="flex items-center">
-                    <FileText className="mr-4 h-8 w-8 text-muted-foreground" />
-                    <div>
-                      <p className="font-medium">연구계획서_AI.pdf</p>
-                      <p className="text-sm text-muted-foreground">2023년 10월 20일에 업로드됨</p>
-                    </div>
-                  </div>
-                  <Button variant="ghost" size="sm">
-                    <Download className="h-4 w-4" />
-                    <span className="sr-only">다운로드</span>
-                  </Button>
+                <div>
+                  <Label>관심 학과</Label>
+                  {isEditing ? (
+                    <Input
+                      value={researchInterest.major}
+                      onChange={e =>
+                        setResearchInterest(prev => ({ ...prev, major: e.target.value }))
+                      }
+                    />
+                  ) : (
+                    <p className="mt-1 text-sm">{researchInterest.major}</p>
+                  )}
+                </div>
+                <div>
+                  <Label>희망 학위</Label>
+                  {isEditing ? (
+                    <Select
+                      value={researchInterest.desiredDegree}
+                      onValueChange={(value: any) =>
+                        setResearchInterest(prev => ({ ...prev, desiredDegree: value }))
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="bachelor">학사</SelectItem>
+                        <SelectItem value="master">석사</SelectItem>
+                        <SelectItem value="phd">박사</SelectItem>
+                        <SelectItem value="integrated">석박사통합</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <p className="mt-1 text-sm">
+                      {researchInterest.desiredDegree === 'bachelor' && '학사'}
+                      {researchInterest.desiredDegree === 'master' && '석사'}
+                      {researchInterest.desiredDegree === 'phd' && '박사'}
+                      {researchInterest.desiredDegree === 'integrated' && '석박사통합'}
+                    </p>
+                  )}
                 </div>
               </div>
+            </CardContent>
+          </Card>
 
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium">증명서</h3>
-                  <Button variant="outline" size="sm">
-                    <FileText className="mr-2 h-4 w-4" />
-                    업로드
+          {/* 소개 */}
+          <Card>
+            <CardHeader>
+              <CardTitle>소개</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isEditing ? (
+                <Textarea
+                  placeholder="자기소개를 입력하세요"
+                  value={introduction}
+                  onChange={e => setIntroduction(e.target.value)}
+                  rows={4}
+                />
+              ) : (
+                <p className="whitespace-pre-wrap text-sm text-muted-foreground">{introduction}</p>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* 학업 계획 */}
+          <Card>
+            <CardHeader>
+              <CardTitle>학업 계획</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {isEditing ? (
+                <Textarea
+                  placeholder="학업 계획을 입력하세요"
+                  value={studyPlan}
+                  onChange={e => setStudyPlan(e.target.value)}
+                  rows={6}
+                />
+              ) : (
+                <p className="whitespace-pre-wrap text-sm text-muted-foreground">{studyPlan}</p>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* 학력 */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                학력
+                {isEditing && (
+                  <Button variant="outline" size="sm" onClick={addEducation}>
+                    <Plus className="mr-1 h-4 w-4" />
+                    추가
                   </Button>
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between rounded-md border p-4">
-                  <div className="flex items-center">
-                    <FileText className="mr-4 h-8 w-8 text-muted-foreground" />
-                    <div>
-                      <p className="font-medium">TOPIK_증명서.pdf</p>
-                      <p className="text-sm text-muted-foreground">2023년 9월 5일에 업로드됨</p>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {educations.map(education => (
+                <div
+                  key={education.id}
+                  className={isEditing ? 'space-y-4 rounded-lg border p-4' : 'space-y-2'}
+                >
+                  {isEditing ? (
+                    <div className="flex items-start justify-between">
+                      <div className="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
+                        <div>
+                          <Label>대학교</Label>
+                          <Input
+                            value={education.university}
+                            onChange={e =>
+                              updateEducation(education.id, 'university', e.target.value)
+                            }
+                          />
+                        </div>
+                        <div>
+                          <Label>학과</Label>
+                          <Input
+                            value={education.major}
+                            onChange={e => updateEducation(education.id, 'major', e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <Label>학위</Label>
+                          <Select
+                            value={education.degree}
+                            onValueChange={(value: any) =>
+                              updateEducation(education.id, 'degree', value)
+                            }
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="bachelor">학사</SelectItem>
+                              <SelectItem value="master">석사</SelectItem>
+                              <SelectItem value="phd">박사</SelectItem>
+                              <SelectItem value="none">없음</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <Label>입학년도</Label>
+                            <Input
+                              value={education.startYear}
+                              onChange={e =>
+                                updateEducation(education.id, 'startYear', e.target.value)
+                              }
+                            />
+                          </div>
+                          <div>
+                            <Label>졸업년도</Label>
+                            <Input
+                              value={education.endYear}
+                              onChange={e =>
+                                updateEducation(education.id, 'endYear', e.target.value)
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeEducation(education.id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </div>
-                  </div>
-                  <Button variant="ghost" size="sm">
-                    <Download className="h-4 w-4" />
-                    <span className="sr-only">다운로드</span>
-                  </Button>
+                  ) : (
+                    <div className="border-l-2 border-gray-200 pl-4">
+                      <h4 className="font-medium">
+                        {education.degree === 'bachelor' && '학사'}
+                        {education.degree === 'master' && '석사'}
+                        {education.degree === 'phd' && '박사'}
+                        {education.degree === 'none' && '기타'}
+                        {education.major && ` - ${education.major}`}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">{education.university}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {education.startYear}년 - {education.endYear}년
+                      </p>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </TabsContent>
-          </Tabs>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* 경력 */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                경력
+                {isEditing && (
+                  <Button variant="outline" size="sm" onClick={addExperience}>
+                    <Plus className="mr-1 h-4 w-4" />
+                    추가
+                  </Button>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {experiences.map(experience => (
+                <div
+                  key={experience.id}
+                  className={isEditing ? 'space-y-4 rounded-lg border p-4' : 'space-y-2'}
+                >
+                  {isEditing ? (
+                    <div className="flex items-start justify-between">
+                      <div className="grid flex-1 grid-cols-1 gap-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <div>
+                            <Label>근무처</Label>
+                            <Input
+                              value={experience.company}
+                              onChange={e =>
+                                updateExperience(experience.id, 'company', e.target.value)
+                              }
+                            />
+                          </div>
+                          <div>
+                            <Label>직책</Label>
+                            <Input
+                              value={experience.position}
+                              onChange={e =>
+                                updateExperience(experience.id, 'position', e.target.value)
+                              }
+                            />
+                          </div>
+                          <div>
+                            <Label>입사년도</Label>
+                            <Input
+                              value={experience.startYear}
+                              onChange={e =>
+                                updateExperience(experience.id, 'startYear', e.target.value)
+                              }
+                            />
+                          </div>
+                          <div>
+                            <Label>퇴사년도</Label>
+                            <Input
+                              value={experience.endYear}
+                              onChange={e =>
+                                updateExperience(experience.id, 'endYear', e.target.value)
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <Label>설명</Label>
+                          <Textarea
+                            value={experience.description}
+                            onChange={e =>
+                              updateExperience(experience.id, 'description', e.target.value)
+                            }
+                            rows={3}
+                          />
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeExperience(experience.id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-l-2 border-gray-200 pl-4">
+                      <h4 className="font-medium">{experience.position}</h4>
+                      <p className="text-sm text-muted-foreground">{experience.company}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {experience.startYear}년 - {experience.endYear}년
+                      </p>
+                      <p className="mt-1 whitespace-pre-wrap text-sm text-gray-600">
+                        {experience.description}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* 연구 - 논문 */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                논문
+                {isEditing && (
+                  <Button variant="outline" size="sm" onClick={addPublication}>
+                    <Plus className="mr-1 h-4 w-4" />
+                    추가
+                  </Button>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {publications.map(publication => (
+                <div
+                  key={publication.id}
+                  className={isEditing ? 'space-y-4 rounded-lg border p-4' : 'space-y-2'}
+                >
+                  {isEditing ? (
+                    <div className="flex items-start justify-between">
+                      <div className="grid flex-1 grid-cols-1 gap-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <div>
+                            <Label>논문 제목</Label>
+                            <Input
+                              value={publication.title}
+                              onChange={e =>
+                                updatePublication(publication.id, 'title', e.target.value)
+                              }
+                            />
+                          </div>
+                          <div>
+                            <Label>논문 부제목</Label>
+                            <Input
+                              value={publication.subtitle}
+                              onChange={e =>
+                                updatePublication(publication.id, 'subtitle', e.target.value)
+                              }
+                            />
+                          </div>
+                          <div>
+                            <Label>논문 저자</Label>
+                            <Input
+                              value={publication.authors}
+                              onChange={e =>
+                                updatePublication(publication.id, 'authors', e.target.value)
+                              }
+                            />
+                          </div>
+                          <div>
+                            <Label>논문 년도</Label>
+                            <Input
+                              value={publication.year}
+                              onChange={e =>
+                                updatePublication(publication.id, 'year', e.target.value)
+                              }
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <Label>논문 링크</Label>
+                            <Input
+                              value={publication.link}
+                              onChange={e =>
+                                updatePublication(publication.id, 'link', e.target.value)
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <Label>논문 설명</Label>
+                          <Textarea
+                            value={publication.description}
+                            onChange={e =>
+                              updatePublication(publication.id, 'description', e.target.value)
+                            }
+                            rows={3}
+                          />
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removePublication(publication.id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-l-2 border-gray-200 pl-4">
+                      <h4 className="font-medium">{publication.title}</h4>
+                      {publication.subtitle && (
+                        <p className="text-sm text-gray-600">{publication.subtitle}</p>
+                      )}
+                      <p className="text-sm text-muted-foreground">
+                        {publication.authors} ({publication.year})
+                      </p>
+                      {publication.link && (
+                        <a
+                          href={publication.link}
+                          className="text-sm text-blue-600 hover:underline"
+                        >
+                          논문 링크
+                        </a>
+                      )}
+                      {publication.description && (
+                        <p className="mt-1 whitespace-pre-wrap text-sm text-gray-600">
+                          {publication.description}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* 연구 - 프로젝트 */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center justify-between">
+                프로젝트
+                {isEditing && (
+                  <Button variant="outline" size="sm" onClick={addProject}>
+                    <Plus className="mr-1 h-4 w-4" />
+                    추가
+                  </Button>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {projects.map(project => (
+                <div
+                  key={project.id}
+                  className={isEditing ? 'space-y-4 rounded-lg border p-4' : 'space-y-2'}
+                >
+                  {isEditing ? (
+                    <div className="flex items-start justify-between">
+                      <div className="grid flex-1 grid-cols-1 gap-4">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <div>
+                            <Label>프로젝트 제목</Label>
+                            <Input
+                              value={project.title}
+                              onChange={e => updateProject(project.id, 'title', e.target.value)}
+                            />
+                          </div>
+                          <div>
+                            <Label>프로젝트 년도</Label>
+                            <Input
+                              value={project.year}
+                              onChange={e => updateProject(project.id, 'year', e.target.value)}
+                            />
+                          </div>
+                          <div className="md:col-span-2">
+                            <Label>프로젝트 참고 링크</Label>
+                            <Input
+                              value={project.link}
+                              onChange={e => updateProject(project.id, 'link', e.target.value)}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <Label>프로젝트 설명</Label>
+                          <Textarea
+                            value={project.description}
+                            onChange={e => updateProject(project.id, 'description', e.target.value)}
+                            rows={3}
+                          />
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeProject(project.id)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-l-2 border-gray-200 pl-4">
+                      <h4 className="font-medium">{project.title}</h4>
+                      <p className="text-sm text-muted-foreground">{project.year}년</p>
+                      {project.link && (
+                        <a href={project.link} className="text-sm text-blue-600 hover:underline">
+                          프로젝트 링크
+                        </a>
+                      )}
+                      {project.description && (
+                        <p className="mt-1 whitespace-pre-wrap text-sm text-gray-600">
+                          {project.description}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* 파일 업로드 섹션들 */}
+          {['이력서', '연구 계획서', '증명서'].map(fileType => (
+            <Card key={fileType}>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  {fileType}
+                  {isEditing && (
+                    <Button variant="outline" size="sm">
+                      <Upload className="mr-1 h-4 w-4" />
+                      파일 업로드
+                    </Button>
+                  )}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="py-8 text-center text-muted-foreground">
+                  업로드된 {fileType}가 없습니다.
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </>
+      ) : (
+        // Professor profile remains the same for now
+        <Card>
+          <CardHeader>
+            <CardTitle>교수 프로필</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">교수 프로필 편집 기능은 추후 구현될 예정입니다.</p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 플로팅 편집 버튼 */}
+      <div className="fixed bottom-6 right-6 z-50">
+        {!isEditing ? (
+          <Button
+            onClick={handleEdit}
+            size="lg"
+            className="h-14 w-14 rounded-full p-0 shadow-lg transition-shadow hover:shadow-xl"
+          >
+            <Edit className="h-6 w-6" />
+          </Button>
         ) : (
-          // Professor profile view
-          <Tabs defaultValue="overview">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="overview">개요</TabsTrigger>
-              <TabsTrigger value="research">연구</TabsTrigger>
-              <TabsTrigger value="publications">논문</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="overview" className="space-y-6 pt-6">
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-lg font-medium">전문 정보</h3>
-                    <Separator className="my-2" />
-                    <dl className="space-y-2">
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">직위:</dt>
-                        <dd className="w-2/3 text-sm">{user.professorInfo?.title}</dd>
-                      </div>
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">학과:</dt>
-                        <dd className="w-2/3 text-sm">{user.professorInfo?.department}</dd>
-                      </div>
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">대학교:</dt>
-                        <dd className="w-2/3 text-sm">{user.professorInfo?.university}</dd>
-                      </div>
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">연구실:</dt>
-                        <dd className="w-2/3 text-sm">{user.professorInfo?.labName}</dd>
-                      </div>
-                      <div className="flex">
-                        <dt className="w-1/3 text-sm font-medium text-muted-foreground">
-                          상담 시간:
-                        </dt>
-                        <dd className="w-2/3 text-sm">{user.professorInfo?.officeHours}</dd>
-                      </div>
-                    </dl>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium">연구 분야</h3>
-                    <Separator className="my-2" />
-                    <div className="flex flex-wrap gap-2 pt-2">
-                      {user.professorInfo?.researchAreas.map((area, index) => (
-                        <Badge key={index} variant="secondary">
-                          {area}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-lg font-medium">약력</h3>
-                    <Separator className="my-2" />
-                    <p className="text-sm text-muted-foreground">
-                      김민호 교수는 서울대학교 컴퓨터공학과 교수로, 인공지능과 머신러닝을 전문으로
-                      합니다. AI & 머신러닝 연구실을 이끌며 컴퓨터 비전과 딥러닝 아키텍처 분야의
-                      최첨단 연구에 집중하고 있습니다. 스탠포드 대학교에서 박사학위를 받았으며 최고
-                      수준의 저널과 학회에서 광범위하게 논문을 발표했습니다.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-medium">현재 프로젝트</h3>
-                    <Separator className="my-2" />
-                    <p className="text-sm text-muted-foreground">
-                      현재 컴퓨터 비전을 위한 고급 딥러닝 기법, 엣지 디바이스를 위한 효율적인 신경망
-                      아키텍처, 자연어 이해를 위한 새로운 접근법에 대한 연구 프로젝트를 이끌고
-                      있습니다. 연구실에서는 이러한 분야에 관심이 있는 의욕적인 대학원생을
-                      적극적으로 모집하고 있습니다.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-end">
-                <Button variant="outline">
-                  <Edit className="mr-2 h-4 w-4" />
-                  정보 수정
-                </Button>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="research" className="space-y-6 pt-6">
-              <div>
-                <h3 className="text-lg font-medium">연구 중점 분야</h3>
-                <Separator className="my-2" />
-                <p className="text-sm text-muted-foreground">
-                  제 연구는 컴퓨터 비전 응용을 위한 새로운 딥러닝 아키텍처 개발에 중점을 두고
-                  있으며, 특히 객체 탐지와 이미지 분할 분야에 관심이 있습니다. 이러한 기술들이 의료
-                  영상, 자율주행, 로봇공학과 같은 실제 문제에 어떻게 적용될 수 있는지 탐구하고
-                  있습니다. 또한 엣지 디바이스를 위한 효율적인 신경망 아키텍처와 자연어 이해를 위한
-                  새로운 접근법에 대한 연구도 진행하고 있습니다.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium">현재 프로젝트</h3>
-                <Separator className="my-2" />
-                <div className="space-y-4 pt-2">
-                  <div className="rounded-md border p-4">
-                    <h4 className="font-medium">의료 영상을 위한 고급 딥러닝</h4>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      MRI, CT 스캔, X-ray를 포함한 다양한 영상 모달리티에서 질병의 조기 발견에
-                      중점을 둔 의료 영상 분석을 위한 딥러닝 모델을 개발하고 있습니다.
-                    </p>
-                    <div className="mt-2 flex items-center">
-                      <Badge variant="outline">한국과학재단 지원</Badge>
-                    </div>
-                  </div>
-
-                  <div className="rounded-md border p-4">
-                    <h4 className="font-medium">엣지 디바이스를 위한 효율적인 신경망</h4>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      모델 압축, 양자화, 하드웨어 인식 신경망 아키텍처 탐색에 중점을 두고 자원이
-                      제한된 엣지 디바이스에 배포하기 위한 신경망 최적화 기법을 연구하고 있습니다.
-                    </p>
-                    <div className="mt-2 flex items-center">
-                      <Badge variant="outline">산업체 협력</Badge>
-                    </div>
-                  </div>
-
-                  <div className="rounded-md border p-4">
-                    <h4 className="font-medium">한국어 자연어 이해</h4>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      한국어 문법, 구문, 의미론의 고유한 도전과제를 다루는 한국어 이해를 위한 전문
-                      언어 모델을 개발하고 있습니다.
-                    </p>
-                    <div className="mt-2 flex items-center">
-                      <Badge variant="outline">정부 지원</Badge>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="publications" className="space-y-6 pt-6">
-              <div>
-                <h3 className="text-lg font-medium">주요 논문</h3>
-                <Separator className="my-2" />
-                <div className="space-y-4 pt-2">
-                  <div className="rounded-md border p-4">
-                    <h4 className="font-medium">"컴퓨터 비전을 위한 고급 딥러닝 기법"</h4>
-                    <p className="text-sm text-muted-foreground">
-                      IEEE 패턴 분석 및 머신 인텔리전스 논문집, 2022
-                    </p>
-                    <div className="mt-2 flex items-center gap-2">
-                      <Badge variant="outline">임팩트 팩터: 16.4</Badge>
-                      <Badge variant="outline">인용: 45회</Badge>
-                    </div>
-                  </div>
-
-                  <div className="rounded-md border p-4">
-                    <h4 className="font-medium">"자연어 이해를 위한 새로운 접근법"</h4>
-                    <p className="text-sm text-muted-foreground">ACL 2021 논문집</p>
-                    <div className="mt-2 flex items-center gap-2">
-                      <Badge variant="outline">학회: ACL</Badge>
-                      <Badge variant="outline">인용: 32회</Badge>
-                    </div>
-                  </div>
-
-                  <div className="rounded-md border p-4">
-                    <h4 className="font-medium">"엣지 디바이스를 위한 효율적인 신경망 아키텍처"</h4>
-                    <p className="text-sm text-muted-foreground">CVPR 2020 논문집</p>
-                    <div className="mt-2 flex items-center gap-2">
-                      <Badge variant="outline">학회: CVPR</Badge>
-                      <Badge variant="outline">인용: 78회</Badge>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium">저서 및 책 챕터</h3>
-                <Separator className="my-2" />
-                <div className="space-y-4 pt-2">
-                  <div className="rounded-md border p-4">
-                    <h4 className="font-medium">"딥러닝: 원리와 응용"</h4>
-                    <p className="text-sm text-muted-foreground">스프링거 출판사, 2021</p>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      다양한 도메인에서의 딥러닝 원리, 아키텍처, 응용에 대한 종합적인 교과서입니다.
-                    </p>
-                  </div>
-
-                  <div className="rounded-md border p-4">
-                    <h4 className="font-medium">"헬스케어에서의 컴퓨터 비전" (책 챕터)</h4>
-                    <p className="text-sm text-muted-foreground">
-                      "의학에서의 AI", 옥스포드 대학교 출판부, 2020
-                    </p>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      헬스케어와 의료 영상에서 컴퓨터 비전 기법의 응용에 대해 논의하는 챕터입니다.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
+          <div className="flex flex-col gap-2">
+            <Button
+              onClick={handleCancel}
+              variant="outline"
+              size="lg"
+              className="h-12 w-12 rounded-full p-0 shadow-lg transition-shadow hover:shadow-xl"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+            <Button
+              onClick={handleSave}
+              size="lg"
+              className="h-14 w-14 rounded-full p-0 shadow-lg transition-shadow hover:shadow-xl"
+            >
+              <Save className="h-6 w-6" />
+            </Button>
+          </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

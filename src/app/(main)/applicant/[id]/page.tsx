@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import type React from 'react'
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -29,10 +29,15 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useToast } from '@/hooks/useToast'
+import { MOCK_APPLICANTS } from '@/mocks/applicants'
 
-export default function ApplicantDetailPage({ params }: { params: { id: string } }) {
+export default function ApplicantDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isSaved, setIsSaved] = useState(false)
+  const { toast } = useToast()
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -48,21 +53,36 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
     }
   }, [isAuthenticated])
 
-  // Mock applicant data
+  // Get applicant data from mock data
+  const mockApplicant = MOCK_APPLICANTS.find(applicant => applicant.id === id)
+
+  // Mock applicant data with enhanced study plan
   const applicant = {
-    id: params.id,
-    name: '김사라',
-    nationality: '미국',
+    id: id,
+    name: mockApplicant?.name || '김사라',
+    nationality: mockApplicant?.nationality || '미국',
     birthYear: '1998',
     email: 'sarah.kim@example.com',
-    topikLevel: '3급',
-    stAlliance: true,
-    desiredDegree: '박사과정',
-    interests: ['인공지능', '머신러닝', '컴퓨터 비전'],
+    topikLevel: mockApplicant?.topikLevel || '3급',
+    major: mockApplicant?.major || '컴퓨터공학과',
+    desiredDegree:
+      mockApplicant?.desiredDegree === 'master'
+        ? '석사과정'
+        : mockApplicant?.desiredDegree === 'phd'
+          ? '박사과정'
+          : mockApplicant?.desiredDegree === 'integrated'
+            ? '석박사통합과정'
+            : '박사과정',
+    interests: mockApplicant?.interests || ['인공지능', '머신러닝', '컴퓨터 비전'],
     introduction:
       '저는 인공지능과 머신러닝에 강한 관심을 가진 컴퓨터공학 졸업생입니다. 한국 대학교에서 컴퓨터공학 박사과정을 통해 이 분야의 연구를 더욱 발전시키고자 합니다.',
-    studyPlan:
-      '제 연구 계획은 컴퓨터 비전 응용을 위한 새로운 딥러닝 아키텍처 개발에 중점을 두고 있으며, 특히 객체 탐지와 이미지 분할 분야에 관심이 있습니다. 이러한 기술들이 의료 영상과 자율주행과 같은 실제 문제에 어떻게 적용될 수 있는지 탐구하고 싶습니다.',
+    studyPlan: `저의 학업 계획은 크게 3단계로 구성되어 있습니다. 
+
+첫 번째 단계(1-2학기)에서는 한국어 능력 향상을 통해 TOPIK 6급 취득을 목표로 하며, 동시에 고급 인공지능 이론과 딥러닝 알고리즘에 대한 깊이 있는 이해를 위해 관련 핵심 강의를 수강할 예정입니다. 또한 지도교수님과의 정기적인 미팅을 통해 연구 방향성을 구체화하고 선행 연구들을 체계적으로 분석하겠습니다.
+
+두 번째 단계(3-4학기)에서는 컴퓨터 비전과 자연어 처리 분야의 융합 연구에 집중하여, 멀티모달 AI 시스템 개발을 위한 창의적인 접근법을 모색할 계획입니다. 특히 의료 영상 분석과 임상 데이터 해석을 결합한 실용적인 AI 솔루션 개발에 중점을 두겠습니다.
+
+마지막 단계(5-6학기)에서는 연구 성과를 국제 학술지에 게재하고 산업체와의 협력 프로젝트를 통해 연구의 실용성을 검증하며, 동시에 후배 연구자들을 지도하는 경험을 쌓아 향후 학계에 기여할 수 있는 역량을 기르겠습니다.`,
     education: [
       {
         degree: '컴퓨터공학 석사',
@@ -122,6 +142,66 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
     // Mock authentication - in real app, you would verify credentials
     setIsAuthenticated(true)
     setShowAuthModal(false)
+  }
+
+  const handleSave = () => {
+    setIsSaved(prev => !prev)
+    // Mock save functionality
+    toast({
+      title: isSaved ? '지원자 저장 취소' : '지원자 저장 완료',
+      description: isSaved
+        ? `${applicant.name} 지원자가 관심 목록에서 제거되었습니다.`
+        : `${applicant.name} 지원자가 관심 목록에 저장되었습니다.`,
+    })
+  }
+
+  const handleShare = async () => {
+    const currentUrl = window.location.href
+
+    try {
+      // 먼저 navigator.clipboard가 사용 가능한지 확인
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(currentUrl)
+        toast({
+          title: '링크 복사 완료',
+          description: '지원자 프로필 링크가 클립보드에 복사되었습니다.',
+        })
+      } else {
+        // fallback: 임시 textarea 요소를 사용
+        const textArea = document.createElement('textarea')
+        textArea.value = currentUrl
+        textArea.style.position = 'fixed'
+        textArea.style.left = '-999999px'
+        textArea.style.top = '-999999px'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+
+        try {
+          document.execCommand('copy')
+          toast({
+            title: '링크 복사 완료',
+            description: '지원자 프로필 링크가 클립보드에 복사되었습니다.',
+          })
+        } catch (fallbackError) {
+          toast({
+            title: '링크 복사 실패',
+            description:
+              '브라우저에서 자동 복사를 지원하지 않습니다. 주소창에서 직접 복사해주세요.',
+            variant: 'destructive',
+          })
+        } finally {
+          document.body.removeChild(textArea)
+        }
+      }
+    } catch (error) {
+      console.error('Clipboard error:', error)
+      toast({
+        title: '링크 복사 실패',
+        description: '링크 복사 중 오류가 발생했습니다. 주소창에서 직접 복사해주세요.',
+        variant: 'destructive',
+      })
+    }
   }
 
   if (!isAuthenticated) {
@@ -218,17 +298,20 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                       <div className="flex flex-wrap gap-2">
                         <Badge variant="secondary">{applicant.desiredDegree}</Badge>
                         <Badge variant="outline">TOPIK {applicant.topikLevel}</Badge>
-                        {applicant.stAlliance && (
-                          <Badge className="bg-blue-500">ST 얼라이언스</Badge>
-                        )}
+                        <Badge className="bg-green-500">{applicant.major}</Badge>
                       </div>
                     </div>
                     <div className="flex space-x-2">
-                      <Button variant="outline" size="icon">
-                        <Heart className="h-4 w-4" />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={handleSave}
+                        className={isSaved ? 'text-red-500 hover:text-red-600' : ''}
+                      >
+                        <Heart className={`h-4 w-4 ${isSaved ? 'fill-current' : ''}`} />
                         <span className="sr-only">저장</span>
                       </Button>
-                      <Button variant="outline" size="icon">
+                      <Button variant="outline" size="icon" onClick={handleShare}>
                         <Share2 className="h-4 w-4" />
                         <span className="sr-only">공유</span>
                       </Button>
@@ -256,7 +339,9 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                   <CardTitle>학업 계획</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{applicant.studyPlan}</p>
+                  <div className="whitespace-pre-line text-muted-foreground">
+                    {applicant.studyPlan}
+                  </div>
                 </CardContent>
               </Card>
 
@@ -453,10 +538,8 @@ export default function ApplicantDetailPage({ params }: { params: { id: string }
                     <span className="text-sm font-medium">{applicant.topikLevel}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">ST 얼라이언스</span>
-                    <span className="text-sm font-medium">
-                      {applicant.stAlliance ? '예' : '아니오'}
-                    </span>
+                    <span className="text-sm text-muted-foreground">학과</span>
+                    <span className="text-sm font-medium">{applicant.major}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm text-muted-foreground">논문</span>

@@ -118,8 +118,10 @@ export default function ProfessorEvaluations() {
       {/* Applicants List */}
       <Card>
         <CardHeader>
-          <CardTitle>지원자 평가</CardTitle>
-          <CardDescription>프로그램에 지원한 지원자를 검토하고 평가하세요</CardDescription>
+          <CardTitle className="sr-only">지원자 평가</CardTitle>
+          <CardDescription className="">
+            프로그램에 지원한 지원자를 검토하고 평가하세요
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">

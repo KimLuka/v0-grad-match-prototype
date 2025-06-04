@@ -22,14 +22,12 @@ export function findUniversityByEnglishName(englishName: string): University | u
 
 // 통합 검색 함수
 export function findUniversity(searchTerm: string): University | undefined {
-  // value로 정확히 일치하는 경우 검색
-  const valueMatch = getLabelByValue(UNIVERSITIES, searchTerm, undefined)
-  if (valueMatch !== searchTerm) {
-    return findUniversityByValue(searchTerm)
-  }
+  // value로 정확히 일치하는 경우 검색 (가장 우선)
+  let result = findUniversityByValue(searchTerm)
+  if (result) return result
 
   // 한글명으로 검색
-  let result = findUniversityByLabel(searchTerm)
+  result = findUniversityByLabel(searchTerm)
   if (result) return result
 
   // 영문명으로 검색

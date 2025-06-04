@@ -19,7 +19,7 @@ export function RecruitmentBlock({ recruitment }: RecruitmentBlockProps) {
   const dDay = calculateDDay(applicationPeriod.end)
 
   return (
-    <Link href={`/recruitments/${id}`}>
+    <Link href={`/recruitment/${id}`}>
       <Card className="group h-full transition-colors hover:border-primary">
         <CardHeader>
           <div className="flex items-center gap-5 truncate">
